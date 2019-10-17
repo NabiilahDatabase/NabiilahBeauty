@@ -1,9 +1,49 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header no-border>
+  <ion-toolbar mode="ios" no-border color="primary">
     <ion-title>
-      Tab Three
+      Akun Anda
     </ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="logOut()" color="light">
+        <ion-icon slot="icon-only" name="exit"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content fullscreen>
+  <div class="header ion-text-center">
+    <br><br>
+    <ion-avatar class="avatar">
+      <img src="../../../assets/user.svg">
+    </ion-avatar>
+    <ion-text>
+      <h2>
+        USER NAME
+      </h2>
+    </ion-text>
+    <ion-text style="font-size: 18px; color: lightgrey;">@username</ion-text>
+  </div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-card class="ion-activatable">
+          <ion-ripple-effect></ion-ripple-effect>
+          <ion-progress-bar color="tertiary" value="1"></ion-progress-bar>
+          <ion-icon style="padding:10px" color="tertiary" size="large" name="bookmarks"></ion-icon>
+          <h5><strong>Keep List</strong></h5>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card class="ion-activatable">
+          <ion-ripple-effect></ion-ripple-effect>
+          <ion-progress-bar color="primary" value="1"></ion-progress-bar>
+          <ion-icon style="padding:10px" color="primary" size="large" name="analytics"></ion-icon>
+          <h5><strong>Grafik</strong></h5>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

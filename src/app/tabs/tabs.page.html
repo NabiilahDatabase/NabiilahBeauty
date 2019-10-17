@@ -1,20 +1,21 @@
 <ion-tabs>
-
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="transaksi">
-      <ion-icon name="flash"></ion-icon>
-      <ion-label>Tab One</ion-label>
+      <ion-icon name="wallet"></ion-icon>
+      <ion-label>Transaksi</ion-label>
     </ion-tab-button>
-
     <ion-tab-button tab="shop">
-      <ion-icon name="apps"></ion-icon>
-      <ion-label>Tab Two</ion-label>
+      <ion-icon name="appstore"></ion-icon>
     </ion-tab-button>
-
     <ion-tab-button tab="akun">
-      <ion-icon name="send"></ion-icon>
-      <ion-label>Tab Three</ion-label>
+      <ion-icon name="contact"></ion-icon>
+      <ion-label>Akun Saya</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
-
 </ion-tabs>
+
+<ion-fab vertical="bottom" horizontal="center" slot="fixed">
+  <ion-fab-button (click)="route('shop')" color="primary">
+      <ion-icon name="water"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

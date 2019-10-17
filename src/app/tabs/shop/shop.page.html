@@ -1,8 +1,17 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary" mode="ios">
     <ion-title>
-      Tab Two
+      <ion-icon name="logo-slack"></ion-icon>
+      Nabiilah Beauty
     </ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="openCart()" slot="end" color="light">
+        <ion-icon slot="icon-only" name="cart"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-searchbar (click)="openSearch()" placeholder="Cari Produk" mode="ios" color="light"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 

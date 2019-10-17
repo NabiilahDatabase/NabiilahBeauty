@@ -9,4 +9,10 @@ export class ShopPage {
 
   constructor() {}
 
+  openSearch() {
+    console.log('hoso');
+  }
+  openCart() {
+    console.log('open cart');
+  }
 }
