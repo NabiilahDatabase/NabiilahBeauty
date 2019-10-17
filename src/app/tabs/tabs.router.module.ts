@@ -8,45 +8,45 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'transaksi',
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../tab1/tab1.module').then(m => m.Tab1PageModule)
+              import('./transaksi/transaksi.module').then(m => m.TransaksiPageModule)
           }
         ]
       },
       {
-        path: 'tab2',
+        path: 'shop',
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+              import('./shop/shop.module').then(m => m.ShopPageModule)
           }
         ]
       },
       {
-        path: 'tab3',
+        path: 'akun',
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+              import('./akun/akun.module').then(m => m.AkunPageModule)
           }
         ]
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/shop',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/shop',
     pathMatch: 'full'
   }
 ];
