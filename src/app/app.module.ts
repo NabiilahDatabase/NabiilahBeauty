@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -8,6 +9,9 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
+// Pages Modules
+import { VerifikasiPageModule } from 'src/app/pages/auth/verifikasi/verifikasi.module';
 
 // AngularFire Modules
 import { environment } from '../environments/environment';
@@ -17,6 +21,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
 import { FunctionsRegionToken } from '@angular/fire/functions';
 
+// Angular Material Module
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -24,10 +31,13 @@ import { FunctionsRegionToken } from '@angular/fire/functions';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
+    BrowserAnimationsModule,
+    VerifikasiPageModule,
   ],
   providers: [
     StatusBar,

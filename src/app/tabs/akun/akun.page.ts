@@ -22,7 +22,7 @@ export class AkunPage {
   }
 
   logOut() {
-    // this.userService.logout();
+    this.userService.logout();
   }
 
 }

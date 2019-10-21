@@ -1,0 +1,33 @@
+<ion-content>
+  <div class="container">
+    <ion-text color="tertiary" class="ion-text-center">
+      <h1>
+        <ion-icon name="logo-slack" color="tertiary"></ion-icon>
+        <strong>NabiilahBeauty</strong>
+      </h1>
+      <h6>Pancarkan Cantikmu</h6>
+    </ion-text>
+
+    <br>
+
+    <ion-item>
+      <ion-label position="floating">
+        <ion-icon class="icon" size="large" name="at" color="tertiary"></ion-icon>&nbsp;
+        Email
+      </ion-label>
+      <ion-input [(ngModel)]="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        <ion-icon class="icon" size="large" name="lock" color="tertiary"></ion-icon>&nbsp;
+        Password
+      </ion-label>
+      <ion-input [(ngModel)]="password" type="password"></ion-input>
+    </ion-item>
+
+    <br>
+
+    <ion-button expand="full" color="tertiary" (click)="login()">MASUK</ion-button>
+    <ion-button expand="full" fill="clear" color="dark" (click)="register()">Daftar</ion-button>
+  </div>
+</ion-content>

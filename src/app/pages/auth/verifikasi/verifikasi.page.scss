@@ -1,0 +1,18 @@
+.card {
+    padding: 15px 30px;
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 90%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+ion-item {
+    --highlight-color-focused: #654c99;
+    --highlight-color-valid: #654c99;
+}
+h6 {
+    font-size: 15px;
+    margin: -13px 0px;
+}

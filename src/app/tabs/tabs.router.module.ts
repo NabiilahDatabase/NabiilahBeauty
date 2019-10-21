@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { UserService } from '../services/user.service';
 
 const routes: Routes = [
   {
@@ -13,7 +14,7 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('./transaksi/transaksi.module').then(m => m.TransaksiPageModule)
+              import('./transaksi/transaksi.module').then(m => m.TransaksiPageModule), canActivate: [UserService]
           }
         ]
       },
@@ -33,7 +34,7 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('./akun/akun.module').then(m => m.AkunPageModule)
+              import('./akun/akun.module').then(m => m.AkunPageModule), canActivate: [UserService]
           }
         ]
       },
