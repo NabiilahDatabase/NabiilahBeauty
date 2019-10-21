@@ -14,6 +14,7 @@ export interface User {
   kec: string;
   kab: string;
   prov: string;
+  keep: number; cancel: number; success: number;
 }
 
 @Injectable({
@@ -32,12 +33,17 @@ export class UserService {
   ) {
   }
 
+  getUserInfo() {
+    return this.afs.collection('user').doc<User>(this.user.uid).valueChanges();
+  }
+
   async registerUser(data: User) {
     try {
       const userdata = await firebase.auth().createUserWithEmailAndPassword(data.email, data.password);
       await this.afs.collection('user').doc(userdata.user.uid).set({
         uid: userdata.user.uid,
         email: userdata.user.email,
+        hp: data.hp,
         nama: data.nama,
         kec: data.kec, kab: data.kab, prov: data.prov,
         keep: 0, cancel: 0, success: 0,

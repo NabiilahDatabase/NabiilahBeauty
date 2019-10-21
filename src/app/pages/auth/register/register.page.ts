@@ -80,48 +80,13 @@ export class RegisterPage {
     this.newCaptcha();
     firebase.auth().signInWithPhoneNumber(phoneNumber, this.recaptchaVerifier)
       .then(async confirmationResult => {
-        const modal = await this.modal.create({ component: VerifikasiPage, componentProps: {hp: this.registerForm.controls.hp.value} });
+        const modal = await this.modal.create({
+          component: VerifikasiPage,
+          componentProps: { registerForm: this.registerForm, confirmationResult }
+        });
         loading.dismiss();
         await modal.present();
-        const confirmationCode = await modal.onWillDismiss();
-        // console.log(confirmationCode.data);
-        if (confirmationCode) {
-          await loading.present();
-          confirmationResult.confirm(confirmationCode.data).then(
-            (success) => {
-              this.userService.registerUser({
-                nama: this.registerForm.controls.nama.value.toString().toLowerCase(),
-                email: this.registerForm.controls.email.value,
-                hp: this.registerForm.controls.hp.value,
-                password: this.registerForm.controls.password.value,
-                kec: this.registerForm.controls.kec.value.toString(),
-                kab: this.registerForm.controls.kab.value.toString(),
-                prov: this.registerForm.controls.prov.value.toString(),
-              }).then(() => {
-                loading.dismiss();
-                this.onreg = false;
-                this.tool.saveRoute('/tabs');
-                }
-              );
-            }
-          ).catch(
-            (error) => {
-              // User couldn't sign in (bad verification code?)
-              loading.dismiss();
-              this.onreg = false;
-              this.popup.showAlert('Salah', 'Kode verifikasi salah, coba kembali!');
-              this.recaptchaVerifier.verify();
-            }
-          );
-        }
-      },
-        (error) => {
-          loading.dismiss();
-          this.onreg = false;
-          this.popup.showAlert('Error', error);
-          this.tool.saveRoute('/register');
-        }
-    );
+      });
   }
 
   cari(teks: string) {

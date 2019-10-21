@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
+import { UserService, User } from 'src/app/services/user.service';
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -9,11 +9,17 @@ import { ModalController } from '@ionic/angular';
 })
 export class AkunPage {
 
+  userInfo: User; task;
+  onload = true;
+
   constructor(
     private userService: UserService,
-    private modal: ModalController,
     // private iab: InAppBrowser,
-    ) {
+  ) {
+    this.task = this.userService.getUserInfo().subscribe(res => {
+      this.onload = false;
+      this.userInfo = res;
+    });
   }
 
   daftar() {
@@ -23,6 +29,10 @@ export class AkunPage {
 
   logOut() {
     this.userService.logout();
+  }
+
+  onDestroy() {
+    this.task.unsubscribe();
   }
 
 }

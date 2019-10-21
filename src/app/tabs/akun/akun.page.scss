@@ -1,16 +1,10 @@
-.header {
-    background-color: #54388E;
-    height: 250px;
-    color: white;
-}
 .avatar {
     display: block;
     margin: 0 auto;
 }
-ion-avatar {
-    width: 100px;
-    height: 100px;
-    border: solid;
+.card {
+    margin: 0;
+    padding: 5px;
 }
 h2 {
     margin-top: 18px;
@@ -21,4 +15,17 @@ h5 {
     font-size: 18px;
     color: #424242;
     margin: 10px;
+}
+.header {
+    background-color: #54388E;
+    height: 250px;
+    color: white;
+}
+ion-avatar {
+    width: 100px;
+    height: 100px;
+    border: solid;
+}
+.numbers {
+    font-size: 22px;
 }
