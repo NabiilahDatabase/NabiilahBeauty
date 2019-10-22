@@ -15,6 +15,7 @@ export interface User {
   kab: string;
   prov: string;
   keep: number; cancel: number; success: number;
+  cart: number;
 }
 
 @Injectable({
@@ -22,7 +23,7 @@ export interface User {
 })
 export class UserService {
 
-  public user: firebase.User;
+  public user: User; task;
 
   constructor(
     private afs: AngularFirestore,
@@ -31,25 +32,64 @@ export class UserService {
     private router: Router,
     private alertController: AlertController,
   ) {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        if (!this.user) {
+          this.setUser(user.uid);
+        }
+      } else {
+        this.user = null;
+        console.log('belum login');
+      }
+    });
   }
 
+  canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
+    return new Promise((resolve) => {
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+              resolve(true); // user sudah login
+              if (!this.user) {
+                this.setUser(user.uid);
+              }
+            } else {
+              resolve(false); // user belum login
+              this.zone.run(async () => {
+                await this.router.navigate(['/login']);
+              });
+            }
+        });
+    });
+  }
+
+  setUser(userid: string) {
+    this.task = this.afs.collection('user').doc<User>(userid).valueChanges().subscribe(res => {
+      this.user = res;
+      console.log('setuser');
+    });
+  }
+  getUserId() {
+    return firebase.auth().currentUser.uid;
+  }
   getUserInfo() {
-    return this.afs.collection('user').doc<User>(this.user.uid).valueChanges();
+    console.log('getuserinfo');
+    return this.user;
   }
 
   async registerUser(data: User) {
     try {
       const userdata = await firebase.auth().createUserWithEmailAndPassword(data.email, data.password);
-      await this.afs.collection('user').doc(userdata.user.uid).set({
+      this.afs.collection('user').doc(userdata.user.uid).set({
         uid: userdata.user.uid,
         email: userdata.user.email,
         hp: data.hp,
         nama: data.nama,
         kec: data.kec, kab: data.kab, prov: data.prov,
-        keep: 0, cancel: 0, success: 0,
+        keep: 0, cancel: 0, success: 0, cart: 0,
+      }).then(() => {
+        this.setUser(userdata.user.uid);
+        this.popup.showToast('Berhasil terdaftar!', 700);
       });
-      this.setUser(userdata.user);
-      this.popup.showToast('Berhasil terdaftar!', 700);
     } catch (error) {
       this.popup.showAlert('Registrasi Error!', error);
     }
@@ -61,6 +101,7 @@ export class UserService {
       if (userdata) {
         console.log('login');
         this.popup.showToast('Berhasil masuk sebagai ' + userdata.user.email, 700);
+        this.setUser(userdata.user.uid);
         this.zone.run(async () => {
           await this.router.navigate(['/tabs']);
         });
@@ -94,24 +135,8 @@ export class UserService {
     await alert.present();
   }
 
-  setUser(user: firebase.User) {
-    this.user = user;
-  }
-
-  canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
-    return new Promise((resolve) => {
-        firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-              resolve(true); // user sudah login
-              this.setUser(user);
-            } else {
-              resolve(false); // user belum login
-              this.zone.run(async () => {
-                await this.router.navigate(['/login']);
-              });
-            }
-        });
-    });
+  onDestroy() {
+    this.task.unsubscribe();
   }
 
 }

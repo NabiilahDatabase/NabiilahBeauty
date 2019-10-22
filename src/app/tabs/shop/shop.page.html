@@ -4,15 +4,44 @@
       <ion-icon name="logo-slack"></ion-icon>
       Nabiilah Beauty
     </ion-title>
-    <ion-buttons slot="primary">
+    <ion-buttons *ngIf="userInfo" slot="primary">
       <ion-button (click)="openCart()" slot="end" color="light">
         <ion-icon slot="icon-only" name="cart"></ion-icon>
       </ion-button>
+      <ion-badge routerLink="/cart" color="light">{{ userInfo.cart }}pc</ion-badge>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar color="primary">
     <ion-searchbar (click)="openSearch()" placeholder="Cari Produk" mode="ios" color="light"></ion-searchbar>
   </ion-toolbar>
+  <ion-progress-bar *ngIf="onload" type="indeterminate"></ion-progress-bar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content *ngIf="products">
+  <div class="produk-terbaru">
+    <span class='produk-terbaru-title'>PRODUK TERBARU</span>
+    <span class='produk-terbaru-link'>Lihat semua</span>
+  </div>
+  <div class='produk-terbaru-content'>
+    <ion-grid>
+        <ion-row id="images" class="ion-align-items-center">
+          <ion-col size="6" *ngFor="let post of products">
+            <div (click)="showItem(post.id)" class="card">
+              <div id="container">
+                <div class="image-container">
+                  <ion-img src="{{ post.img[0] }}"></ion-img>
+                </div>
+              </div>
+              <div class="disk">
+                <ion-label class="nama"><strong>{{ post.nama }}</strong> {{ post.type }}</ion-label>
+                <div class="harga">
+                  <ion-label class="rp">RP</ion-label><ion-label>{{ post.hargaJual | number }}</ion-label>
+                  <span class="stock">{{ post.jumStock | sum }}pcs</span>
+                </div>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

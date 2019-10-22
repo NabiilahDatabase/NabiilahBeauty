@@ -9,10 +9,10 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-progress-bar *ngIf="onload" type="indeterminate"></ion-progress-bar>
+  <ion-progress-bar *ngIf="!userInfo" type="indeterminate"></ion-progress-bar>
 </ion-header>
 
-<ion-content *ngIf="userInfo && !onload" fullscreen>
+<ion-content *ngIf="userInfo" fullscreen>
   <div class="header ion-text-center">
     <br><br>
     <ion-avatar class="avatar">

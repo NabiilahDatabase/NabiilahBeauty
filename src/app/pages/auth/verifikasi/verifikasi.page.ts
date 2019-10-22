@@ -41,7 +41,7 @@ export class VerifikasiPage {
           kec: this.registerForm.controls.kec.value.toString(),
           kab: this.registerForm.controls.kab.value.toString(),
           prov: this.registerForm.controls.prov.value.toString(),
-          keep: 0, cancel: 0, success: 0,
+          keep: 0, cancel: 0, success: 0, cart: 0,
         }).then(() => {
           loading.dismiss();
           this.modal.dismiss();

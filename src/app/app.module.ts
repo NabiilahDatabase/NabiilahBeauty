@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 
 // Pages Modules
 import { VerifikasiPageModule } from 'src/app/pages/auth/verifikasi/verifikasi.module';
+import { ItemPageModule } from './pages/item/item.module';
 
 // AngularFire Modules
 import { environment } from '../environments/environment';
@@ -38,6 +39,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AngularFireStorageModule,
     BrowserAnimationsModule,
     VerifikasiPageModule,
+    ItemPageModule,
   ],
   providers: [
     StatusBar,

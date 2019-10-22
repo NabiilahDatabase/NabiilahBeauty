@@ -7,13 +7,14 @@ import { UserService } from './user.service';
 import { map } from 'rxjs/operators';
 
 import { Product } from './interface.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  productsCollections: AngularFirestoreCollection<Product[]>;
+  productsCollections: AngularFirestoreCollection<Product>;
   products;
 
   constructor(
@@ -26,7 +27,7 @@ export class DataService {
     this.productsCollections = this.afs.collection('produk');
   }
 
-  getProducts() {
+  getProducts(): Observable<Product[]> {
     return this.productsCollections.snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {

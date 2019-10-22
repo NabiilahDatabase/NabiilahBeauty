@@ -1,0 +1,77 @@
+.back {
+    position: fixed;
+    display: block;
+    top: 5px;
+    left: 5px;
+    z-index: 10;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50px;
+    height: 36px;
+    padding: 2px;
+}
+
+.content {
+    padding: 8px 15px;
+}
+h4 {
+    margin: 0 0 2px 0;
+}
+.harga {
+    font-size: 25px;
+    font-weight: bolder;
+}
+.chip {
+    padding: 3px 6px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: white;
+}
+.toko {
+    border: solid #54388E 1px;
+    color: #54388E;
+}
+.total-stock {
+    background-color: #54388E;
+}
+.warna {
+    font-size: 10px;
+    color: #54388E;
+}
+.thumb {
+    float: left;
+    margin-right: 10px;
+    display: block;
+    width: 25%;
+    height: auto;
+}
+.ready {
+    background-color: #54388E;
+}
+.habis {
+    background-color: red;
+}
+
+.active {
+    border: 2px solid #54388E;
+}
+
+ion-chip {
+    padding: 5px;
+}
+
+ion-toolbar {
+    --background-color: transparent;
+    --ion-color-base: transparent !important;
+}
+
+ion-slides {
+    --bullet-background: white;
+    --bullet-background-active: rgba(30, 0, 112, 0.5);
+}
+
+.sparator {
+    background-color: #eaeaea;
+    padding: 5px;
+    margin: 0;
+}

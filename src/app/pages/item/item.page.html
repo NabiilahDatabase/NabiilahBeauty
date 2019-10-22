@@ -1,0 +1,79 @@
+<ion-content fullscreen *ngIf="product">
+  <ion-slides pager="true">
+    <ion-slide *ngFor="let image of product?.img">
+      <img [src]="image"/>
+    </ion-slide>
+  </ion-slides>
+  <span class="back" (click)="dismiss()">
+    <ion-icon color="light" slot="icon-only" size="large" name="arrow-back"></ion-icon>
+  </span>
+
+  <div class="content">
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col size="8" class="ion-no-padding">
+          <ion-text color="primary" class="harga">Rp{{ product?.hargaJual | number }}</ion-text>
+        </ion-col>
+        <ion-col size="4" class="ion-no-padding ion-text-end">
+        </ion-col>
+      </ion-row>
+      <ion-text>
+        <h4>
+          <strong>{{ product?.nama }} {{ product?.type }}</strong>
+        </h4>
+      </ion-text>
+    </ion-grid>
+  </div>
+
+  <hr class="sparator">
+
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col size="3" class="ion-text-center" style="padding: 10px">
+        <ion-icon style="margin-bottom: -5px" name="speedometer" size="large" color="primary"></ion-icon><br>
+        <ion-label color="medium">Berat</ion-label><br>
+        <ion-label>{{ product.berat }} gr</ion-label>
+      </ion-col>
+      <ion-col size="3" class="ion-text-center" style="padding: 10px">
+        <ion-icon style="margin-bottom: -5px" name="pricetags" size="large" color="primary"></ion-icon><br>
+        <ion-label color="medium">Brand</ion-label><br>
+        <ion-label>{{ product.toko }}</ion-label>
+      </ion-col>
+      <ion-col size="3" class="ion-text-center" style="padding: 10px">
+        <ion-icon style="margin-bottom: -5px" name="filing" size="large" color="primary"></ion-icon><br>
+        <ion-label color="medium">Stock</ion-label><br>
+        <ion-label>{{ product.jumStock | sum }} pcs</ion-label>
+      </ion-col>
+      <ion-col size="3" class="ion-text-center" style="padding: 10px">
+        <ion-icon style="margin-bottom: -5px" name="analytics" size="large" color="primary"></ion-icon><br>
+        <ion-label color="medium">Request</ion-label><br>
+        <ion-label>{{ product.keep }}</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <hr class="sparator">
+
+  <div class="content">
+      <ion-text>
+        <h6>Diskripsi Barang:</h6>
+        <p>{{ product.diskripsi }}</p>
+      </ion-text>
+  </div>
+  
+</ion-content>
+<ion-toolbar *ngIf="product">
+  <ion-buttons slot="end">
+    <ion-button color="primary" shape="round" fill="solid" [disabled]="stock==0 || jumlah>stock" (click)="keep()">MASUKKAN KERANJANG</ion-button>
+  </ion-buttons>
+  <ion-buttons slot="start">
+    <ion-label>&nbsp;<strong>JUMLAH:</strong>&nbsp;&nbsp;</ion-label>
+    <ion-chip style="margin-right:10px" (click)="c(-1)" outline color="primary">
+      <ion-icon style="margin:0" name="remove-circle"></ion-icon>
+    </ion-chip>
+    <div class="count"><strong>{{ jumlah }}</strong></div>
+    <ion-chip style="margin-left:10px" (click)="c(1)" outline color="primary">
+      <ion-icon style="margin:0" name="add-circle"></ion-icon>
+    </ion-chip>
+  </ion-buttons>
+</ion-toolbar>
