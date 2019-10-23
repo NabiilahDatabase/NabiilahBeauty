@@ -1,0 +1,124 @@
+.cart-empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%); /* IE 9 */
+    -webkit-transform: translate(-50%, -50%); /* Chrome, Safari, Opera */
+    text-align: center;
+}
+
+.count {
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; /* align vertical */
+    font-size: 20px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+.count-button {
+    margin: 5px 10px;
+    width: 27px;
+    height: 27px;
+}
+.stock {
+    position: absolute;
+    top: 10px;
+    left: 55px;
+    background-color: #54388E;
+    padding: 0px 6px;
+    border-radius: 10px;
+    color: white;
+    font-size: 14px;
+}
+.out-stock {
+    background-color: #f04141;
+}
+.subtotal {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+}
+.totalan {
+    font-size: 15px;
+}
+.diskon {
+    font-size: 15px;
+    right: 65px;
+    top: 13px;
+    position: absolute;
+}
+ion-toggle {
+    position: absolute;
+    right: 0px;
+}
+
+.line-input {
+    margin-bottom: 0!important;
+    padding: 0;
+    ion-item {
+        --border-color: transparent!important;
+        --highlight-height: 0;
+        border: 1px solid #dedede;
+        border-radius: 4px;
+        &.item-has-focus {
+            border: 1px solid var(--ion-color-danger);
+        }
+        ion-label {
+            color: #807e7e!important;
+            font-weight: 300;
+            font-size: 1rem!important;
+        }
+    }
+}
+
+.title {
+    padding: 0px 10px 0px;
+    display: flex;
+    font-size: 15px;
+    align-items: center;
+    background-color: gainsboro;
+}
+.title ion-icon {
+    margin: 5px;
+}
+
+.change-icon {
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; /* align vertical */
+}
+
+.avatar-icon {
+    margin: 3px 0 0 10px;
+}
+
+.success {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    /* border-radius: 10px 0 0 10px; */
+}
+.keep {
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    right: 16px;
+    /* border-radius: 0 10px 10px 0; */
+}
+.cancel {
+    color: white;
+    /* border-radius: 0; */
+}
+
+.success-sender {
+    color: white;
+}
+.keep-sender {
+    color: white;
+}
+.cancel-sender {
+    color: white;
+}

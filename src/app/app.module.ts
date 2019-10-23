@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 // Pages Modules
 import { VerifikasiPageModule } from 'src/app/pages/auth/verifikasi/verifikasi.module';
 import { ItemPageModule } from './pages/item/item.module';
+import { CartPageModule } from './pages/cart/cart.module';
 
 // AngularFire Modules
 import { environment } from '../environments/environment';
@@ -40,6 +41,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     VerifikasiPageModule,
     ItemPageModule,
+    CartPageModule,
   ],
   providers: [
     StatusBar,

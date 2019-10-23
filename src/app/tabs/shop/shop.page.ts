@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
 
 import { ItemPage } from './../../pages/item/item.page';
+import { CartPage } from 'src/app/pages/cart/cart.page';
 
 @Component({
   selector: 'app-shop',
@@ -58,6 +59,11 @@ export class ShopPage {
         data: itemid
       }
     });
+    return await modal.present();
+  }
+
+  async showCart() {
+    const modal = await this.modal.create({ component: CartPage });
     return await modal.present();
   }
 

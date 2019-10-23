@@ -1,9 +1,204 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>cart</ion-title>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-button color="light" routerLink="/tabs">
+          <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Keranjang Admin {{ userService.admin.nama }}</ion-title>
   </ion-toolbar>
+  <ion-progress-bar *ngIf="onLoad && cart" color="tertiary" type="indeterminate"></ion-progress-bar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="onLoad && !cart">
+  <div class="cart-empty">
+    <img src="../../../assets/cart-empty.svg">
+    <ion-label>Keranjang Kosong</ion-label>
+  </div>
+</ion-content>
+
+<ion-content *ngIf="!onLoad && cart">
+  <ion-text class="title">
+    <ion-icon name="cart" color="tertiary"></ion-icon>
+    <strong>PRODUK PESANAN</strong>
+  </ion-text>
+  <ion-list no-padding>
+    <ion-item-sliding *ngFor="let item of cart; let i=index">
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <img [src]="item.img[0]">
+          <span [class]="item.valid?'stock':'stock out-stock'">{{ item.jumStock[item.indexWarna] }}</span>
+        </ion-thumbnail>
+        <ion-label [color]="item.valid?'dark':'danger'">
+          <h2><strong>{{ item.nama }} {{ item.type }}</strong></h2>
+          <h3>Warna: <strong>{{ item.warna[item.indexWarna] }}</strong></h3>
+          <p>Rp{{ item.hargaJual | number }}</p>
+        </ion-label>
+        <div class="count">
+          <ion-icon class="count-button" [color]="item.valid?'tertiary':'danger'" size="large" name="remove-circle" (click)="editBarang(item,-1)"></ion-icon>
+          <ion-label [color]="item.valid?'dark':'danger'"><strong>{{ item.jumlah }}</strong></ion-label>
+          <ion-icon class="count-button" [color]="item.valid?'tertiary':'danger'" size="large" name="add-circle" (click)="editBarang(item,1)"></ion-icon>
+        </div>
+        <div class="subtotal">
+          <ion-label *ngIf="item.valid">Rp{{ item.jumlah * item.hargaJual | number }}</ion-label>
+          <ion-label color="danger" *ngIf="!item.valid">OUT STOCK</ion-label>
+        </div>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="hapusBarang(item)">HAPUS</ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-list  *ngIf="cart" no-padding>
+    <ion-item>
+      <ion-label class="totalan">Sub-Total:</ion-label>
+      <ion-note color="tertiary"><h5>Rp{{ (cart | pluck:'subtotal' | sum) | number }}</h5></ion-note>
+    </ion-item>
+    <ion-item *ngIf="adaPotongan && !adaDiskon && ekspedisi">
+      <ion-label color="success" class="totalan">Potongan:</ion-label>
+      <ion-note color="success"><h5>-Rp{{ $diskon | number }}</h5></ion-note>
+    </ion-item>
+    <ion-item *ngIf="adaDiskon">
+      <ion-label color="danger" class="totalan">Diskon:</ion-label>
+      <ion-note color="danger"><h5>-Rp{{ $diskon | number }}</h5></ion-note>
+    </ion-item>
+    <ion-item *ngIf="deposit!=0">
+      <ion-label color="primary" class="totalan">Deposit {{ dropshiperData.nama }}:</ion-label>
+      <ion-note color="primary"><h5>-Rp{{ deposit | number }}</h5></ion-note>
+    </ion-item>
+    <ion-item *ngIf="hutang!=0">
+      <ion-label color="primary" class="totalan">Hutang:</ion-label>
+      <ion-note color="primary"><h5>Rp{{ hutang | number }}</h5></ion-note>
+    </ion-item>
+    <ion-item *ngIf="ekspedisi">
+      <ion-label class="totalan">Ongkir [{{ (cart | pluck:'subberat' | sum)/1000 | number }}Kg]:</ion-label>
+      <ion-note color="tertiary"><h5>Rp{{ ekspedisi.ongkir | number }}</h5></ion-note>
+    </ion-item>
+    <ion-item *ngIf="ekspedisi">
+      <ion-label class="totalan"><strong>TOTAL:</strong></ion-label>
+      <ion-note color="tertiary"><h5><strong>Rp{{ total | number }}</strong></h5></ion-note>
+    </ion-item>
+  </ion-list>
+
+  <ion-text class="title">
+    <ion-icon name="pin" color="tertiary"></ion-icon>
+    <strong>TUJUAN PENGIRIMAN</strong>
+  </ion-text>
+  <ion-list *ngIf="!customerData" no-padding>
+    <ion-item button (click)="editCustomer()">
+      <ion-ripple-effect></ion-ripple-effect>
+      <ion-avatar slot="start">
+        <img src="../../../assets/user.svg">
+      </ion-avatar>
+      <ion-label color="tertiary">
+        <h2><strong>KLIK UNTUK EDIT</strong></h2>
+        <h3>+628x-xxxx-xxxx</h3>
+        <p>Kecamatan, Kabupaten</p>
+      </ion-label>
+      <div class="change-icon">
+        <ion-icon color="dark" size="large" name="create"></ion-icon>
+      </div>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="customerData as customer" no-padding>
+    <ion-item button (click)="editCustomer()">
+      <ion-ripple-effect></ion-ripple-effect>
+      <ion-avatar slot="start">
+        <img src="../../../assets/user.svg">
+      </ion-avatar>
+      <ion-label>
+        <h2><strong>{{ customer.nama }}</strong></h2>
+        <h3>{{ customer.hp }}</h3>
+        <p>{{ customer.kec }}, {{ customer.kab }}, {{ customer.prov }}</p>
+      </ion-label>
+      <ion-badge color="success" class="success" mode="ios">{{ customer.success }}</ion-badge>
+      <ion-badge color="danger" class="cancel" mode="ios">{{ customer.cancel }}</ion-badge>
+      <ion-badge color="medium" class="keep" mode="ios">{{ customer.keep }}</ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-text class="title">
+    <ion-icon name="pin" color="tertiary"></ion-icon>
+    <strong>PENGIRIM</strong>
+  </ion-text>
+  <ion-list *ngIf="!senderName" no-padding>
+    <ion-item button (click)="senderName=' '">
+      <ion-ripple-effect></ion-ripple-effect>
+      <ion-avatar slot="start">
+        <img src="../../../assets/user.svg">
+      </ion-avatar>
+      <ion-label color="tertiary">
+        <h2><strong>{{ defaultSender.nama }}</strong></h2>
+        <h3>{{ defaultSender.hp }}</h3>
+      </ion-label>
+      <div class="change-icon">
+        <ion-icon color="dark" size="large" name="create"></ion-icon>
+      </div>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="senderName" no-padding>
+    <ion-item>
+      <ion-label><strong>Nama:</strong></ion-label>
+      <ion-input [value]="senderName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label><strong>HP:</strong></ion-label>
+      <ion-input [value]="senderNumber"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-text class="title">
+    <ion-icon name="pin" color="tertiary"></ion-icon>
+    <strong>DROPSHIPER</strong>
+  </ion-text>
+  <ion-list *ngIf="dropshiperData" no-padding>
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="../../../assets/user.svg">
+      </ion-avatar>
+      <ion-label>
+        <h2><strong>{{ dropshiperData.nama }}</strong></h2>
+        <h3>+{{ dropshiperData.hp }}</h3>
+      </ion-label>
+      <ion-badge color="success" class="success-s" mode="ios">{{ dropshiperData.success }}</ion-badge>
+      <ion-badge color="danger" class="cancel-s" mode="ios">{{ dropshiperData.cancel }}</ion-badge>
+      <ion-badge color="medium" class="keep-s" mode="ios">{{ dropshiperData.keep }}</ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-text *ngIf="customerData" class="title">
+    <ion-icon name="airplane" color="tertiary"></ion-icon>
+    <strong>EKSPEDISI</strong>
+  </ion-text>
+  <ion-list *ngIf="customerData as customer" no-padding>
+    <ion-item button (click)="editEkspedisi(customer)">
+      <ion-ripple-effect></ion-ripple-effect>
+      <ion-avatar slot="start">
+        <ion-icon class="avatar-icon" name="airplane" size="large" color="tertiary"></ion-icon>
+      </ion-avatar>
+      <ion-label color="tertiary" *ngIf="!ekspedisi">
+        <h2><strong>PILIH EKSPEDISI</strong></h2>
+        <h3>Untuk pengiriman ke {{ customer.kec }}</h3>
+      </ion-label>
+      <ion-label *ngIf="ekspedisi">
+        <h2><strong>{{ ekspedisi.kurir | uppercase }}</strong> {{ ekspedisi.service | uppercase }}</h2>
+        <h3>Rp{{ ekspedisi.ongkir | number }}</h3>
+      </ion-label>
+      <div class="change-icon">
+        <ion-icon color="dark" size="large" name="sync"></ion-icon>
+      </div>
+    </ion-item>
+  </ion-list>
 
 </ion-content>
+
+<ion-footer *ngIf="cart" no-padding>
+  <ion-list class="line-input">
+    <ion-item>
+      <ion-input color="danger" [disabled]="!adaDiskon" type="number" [(ngModel)]="diskon" (keyup)="hitung()" placeholder="Masukkan Total Diskon"></ion-input>
+      <ion-toggle mode="ios" slot="end" name="banana" color="danger" [(ngModel)]="adaDiskon" (ionChange)="hitung()">Diskon</ion-toggle>
+      <ion-note class="diskon" [color]="adaDiskon?'danger':'medium'">Diskon</ion-note>
+    </ion-item>
+  </ion-list>
+  <ion-button [disabled]="!(cart | pluck:'valid' | every: valid) || !customerData || !ekspedisi" color="tertiary" expand="full" (click)="checkout()">CHECKOUT</ion-button>
+</ion-footer>

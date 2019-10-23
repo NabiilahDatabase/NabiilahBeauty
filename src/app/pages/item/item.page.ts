@@ -12,7 +12,7 @@ export class ItemPage {
 
   @Input() data: string;
   product; task;
-  pilihanWarna = ''; indexWarna; stock;
+  pilihanWarna = ''; indexWarna;
   jumlah;
 
   constructor(

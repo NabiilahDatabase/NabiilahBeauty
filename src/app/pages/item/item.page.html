@@ -42,7 +42,7 @@
       <ion-col size="3" class="ion-text-center" style="padding: 10px">
         <ion-icon style="margin-bottom: -5px" name="filing" size="large" color="primary"></ion-icon><br>
         <ion-label color="medium">Stock</ion-label><br>
-        <ion-label>{{ product.jumStock | sum }} pcs</ion-label>
+        <ion-label>{{ product.stock }} pcs</ion-label>
       </ion-col>
       <ion-col size="3" class="ion-text-center" style="padding: 10px">
         <ion-icon style="margin-bottom: -5px" name="analytics" size="large" color="primary"></ion-icon><br>
@@ -64,7 +64,7 @@
 </ion-content>
 <ion-toolbar *ngIf="product">
   <ion-buttons slot="end">
-    <ion-button color="primary" shape="round" fill="solid" [disabled]="stock==0 || jumlah>stock" (click)="keep()">MASUKKAN KERANJANG</ion-button>
+    <ion-button color="primary" shape="round" fill="solid" [disabled]="product.stock==0 || jumlah>productstock" (click)="keep()">MASUKKAN KERANJANG</ion-button>
   </ion-buttons>
   <ion-buttons slot="start">
     <ion-label>&nbsp;<strong>JUMLAH:</strong>&nbsp;&nbsp;</ion-label>

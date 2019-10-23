@@ -8,7 +8,7 @@
       <ion-button (click)="openCart()" slot="end" color="light">
         <ion-icon slot="icon-only" name="cart"></ion-icon>
       </ion-button>
-      <ion-badge routerLink="/cart" color="light">{{ userInfo.cart }}pc</ion-badge>
+      <ion-badge (click)="openCart()" color="light">{{ userInfo.cart }}pc</ion-badge>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar color="primary">
@@ -33,10 +33,10 @@
                 </div>
               </div>
               <div class="disk">
-                <ion-label class="nama"><strong>{{ post.nama }}</strong> {{ post.type }}</ion-label>
+                <ion-label class="nama"><strong>{{ post.nama }}</strong></ion-label>
                 <div class="harga">
                   <ion-label class="rp">RP</ion-label><ion-label>{{ post.hargaJual | number }}</ion-label>
-                  <span class="stock">{{ post.jumStock | sum }}pcs</span>
+                  <span class="stock">{{ post.stock }}pcs</span>
                 </div>
               </div>
             </div>

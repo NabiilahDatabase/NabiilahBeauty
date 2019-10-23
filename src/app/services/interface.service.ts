@@ -1,24 +1,19 @@
 export class Cart {
     id: string;
     jumlah: number;
-    indexWarna: number;
 }
 
 export interface Product {
     id: string;
     nama: string;
-    type: string;
     berat: number;
-    warna: [];
-    stock: boolean;
-    jumStock: [];
+    stock: number;
     hargaJual: number;
     hargaBeli: number;
     hargaGold: number;
     hargaPlatinum: number;
     hargaSilver: number;
     img: [];
-    toko: string;
   }
 
 export interface Invoice {

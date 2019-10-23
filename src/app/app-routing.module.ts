@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: 'verifikasi', loadChildren: './pages/auth/verifikasi/verifikasi.module#VerifikasiPageModule' },
   { path: 'item', loadChildren: './pages/item/item.module#ItemPageModule' },
   { path: 'cart', loadChildren: './pages/cart/cart.module#CartPageModule' },
-  { path: 'search', loadChildren: './pages/search/search.module#SearchPageModule' }
+  { path: 'search', loadChildren: './pages/search/search.module#SearchPageModule' },
+  { path: 'ekspedisi', loadChildren: './pages/ekspedisi/ekspedisi.module#EkspedisiPageModule' }
 ];
 @NgModule({
   imports: [

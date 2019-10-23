@@ -38,7 +38,6 @@ export class UserService {
           this.setUser(user.uid);
         }
       } else {
-        this.user = null;
         console.log('belum login');
       }
     });
@@ -63,10 +62,11 @@ export class UserService {
   }
 
   setUser(userid: string) {
+    console.log(this.user);
     this.task = this.afs.collection('user').doc<User>(userid).valueChanges().subscribe(res => {
       this.user = res;
-      console.log('setuser');
     });
+    console.log('setUser');
   }
   getUserId() {
     return firebase.auth().currentUser.uid;
@@ -125,6 +125,7 @@ export class UserService {
           text: 'Ya',
           handler: () => {
             firebase.auth().signOut();
+            this.user = null;
             this.zone.run(async () => {
               await this.router.navigate(['/login']);
             });

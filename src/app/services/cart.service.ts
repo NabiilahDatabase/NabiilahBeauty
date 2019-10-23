@@ -55,7 +55,7 @@ export class CartService {
       }
       batch.update(userRef, { cart: firebase.firestore.FieldValue.increment(item.jumlah) });
       batch.commit().then(() =>
-        this.popup.showToast(`${item.nama} berhasil dimasukkan keranjang`, 800)
+        this.popup.showToast(`Berhasil dimasukkan keranjang`, 800)
       );
     } catch (error) {
       this.popup.showAlert('Terjadi kesalahan:', error);
