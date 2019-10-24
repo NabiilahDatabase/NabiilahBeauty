@@ -67,14 +67,15 @@ export class CartService {
     const itemRef = this.cartColl.doc<Cart>(item.id).ref;
     const userRef = this.userDoc.ref;
     try {
-      const doc = await this.cartColl.doc<Cart>(item.id).ref.get();
+      const doc = await itemRef.get();
       if (doc.data().jumlah > 0) {
+        console.log(doc.data().jumlah);
         if (doc.data().jumlah === 1 && numb === -1) {
           this.deleteItem(item, true);
         } else {
           batch.update(itemRef, { jumlah: firebase.firestore.FieldValue.increment(numb) });
+          batch.update(userRef, { cart: firebase.firestore.FieldValue.increment(numb) });
         }
-        batch.update(userRef, { cart: firebase.firestore.FieldValue.increment(numb) });
         batch.commit();
       }
     } catch (error) {
@@ -84,16 +85,22 @@ export class CartService {
 
   async deleteItem(item, closeCart: boolean) {
     try {
-      const doc = await this.cartColl.doc<Cart>(item.id + '-' + item.indexWarna).ref.get();
+      const batch = this.afs.firestore.batch();
+      const itemRef = this.cartColl.doc<Cart>(item.id).ref;
+      const userRef = this.userDoc.ref;
+      const doc = await itemRef.get();
       if (doc.exists) {
         const alert = await this.alert.create({
-          message: `Hapus ${item.nama} ${item.warna[item.indexWarna]} dari keranjang?`,
+          message: `Hapus ${item.nama} dari keranjang?`,
           mode: 'ios',
           buttons: [
               { text: 'Batal', handler: () => alert.dismiss() },
               { text: 'Ya', handler: () => {
-                  if (closeCart) { doc.ref.delete(); this.router.navigate(['/tabs']); }
-                  doc.ref.delete();
+                  batch.update(userRef, { cart: firebase.firestore.FieldValue.increment(-doc.data().jumlah) });
+                  batch.delete(itemRef);
+                  batch.commit().then(
+                    () => { if (closeCart) { this.router.navigate(['/tabs']); } }
+                  );
                 }
               }
           ]

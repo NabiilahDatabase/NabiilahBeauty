@@ -34,7 +34,7 @@ export class VerifikasiPage {
     this.confirmationResult.confirm(code).then(
       (success) => {
         this.userService.registerUser({
-          nama: this.registerForm.controls.nama.value.toString().toLowerCase(),
+          nama: this.registerForm.controls.nama.value.toString().toUpperCase().trim(),
           email: this.registerForm.controls.email.value,
           hp: this.registerForm.controls.hp.value,
           password: this.registerForm.controls.password.value,

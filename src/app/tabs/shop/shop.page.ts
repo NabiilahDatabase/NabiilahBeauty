@@ -8,6 +8,7 @@ import * as firebase from 'firebase';
 
 import { ItemPage } from './../../pages/item/item.page';
 import { CartPage } from 'src/app/pages/cart/cart.page';
+import { ToolService } from 'src/app/services/tool.service';
 
 @Component({
   selector: 'app-shop',
@@ -26,6 +27,7 @@ export class ShopPage {
     private dataService: DataService,
     public userService: UserService,
     private modal: ModalController,
+    private tool: ToolService,
   ) {
     this.task = this.dataService.getProducts().subscribe(res => {
       this.onload = false;
@@ -49,7 +51,7 @@ export class ShopPage {
     console.log('hoso');
   }
   openCart() {
-    console.log('open cart');
+    this.tool.saveRoute('/cart');
   }
 
   async showItem(itemid: string) {

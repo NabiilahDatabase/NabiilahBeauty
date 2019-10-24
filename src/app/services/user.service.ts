@@ -48,6 +48,7 @@ export class UserService {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
               resolve(true); // user sudah login
+              // console.log(user.uid);
               if (!this.user) {
                 this.setUser(user.uid);
               }
@@ -62,11 +63,11 @@ export class UserService {
   }
 
   setUser(userid: string) {
-    console.log(this.user);
     this.task = this.afs.collection('user').doc<User>(userid).valueChanges().subscribe(res => {
       this.user = res;
+      // console.log(res);
     });
-    console.log('setUser');
+    // console.log('setUser', this.user);
   }
   getUserId() {
     return firebase.auth().currentUser.uid;

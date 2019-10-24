@@ -4,7 +4,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
 
 import { ModalController } from '@ionic/angular';
-import { UserService } from 'src/app/services/user.service';
+import { UserService, User } from 'src/app/services/user.service';
 
 // import { CustomerlistPage } from '../customerlist/customerlist.page';
 // import { DropshiperlistPage } from 'src/app/pages/dropshiperlist/dropshiperlist.page';
@@ -21,7 +21,7 @@ export class CartPage implements OnInit {
 
   cart: any[];
   cartDetails: Cart[];
-  customerData;
+  customerData: User;
   dropshiperData;
 
   senderName;
@@ -59,6 +59,7 @@ export class CartPage implements OnInit {
       this.valid = (value: any, index: number, array: any[]): boolean => {
         return value === true;
       };
+      this.customerData = this.userService.getUserInfo();
     }
 
   ngOnInit() {
@@ -110,7 +111,7 @@ export class CartPage implements OnInit {
       this.hitung();
     });
   }
-
+//sampe sni
   async editEkspedisi(customer) {
     let berat = 0;
     this.cart.forEach((item) => {

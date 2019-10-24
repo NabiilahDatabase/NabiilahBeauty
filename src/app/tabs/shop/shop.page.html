@@ -8,7 +8,7 @@
       <ion-button (click)="openCart()" slot="end" color="light">
         <ion-icon slot="icon-only" name="cart"></ion-icon>
       </ion-button>
-      <ion-badge (click)="openCart()" color="light">{{ userInfo.cart }}pc</ion-badge>
+      <ion-badge *ngIf="userInfo.cart!==0" (click)="openCart()" color="light">{{ userInfo.cart }}pc</ion-badge>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar color="primary">

@@ -70,6 +70,10 @@ ion-slides {
     --bullet-background-active: rgba(30, 0, 112, 0.5);
 }
 
+.line-breaker {
+    white-space: pre-line;
+}
+
 .sparator {
     background-color: #eaeaea;
     padding: 5px;
