@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: 'item', loadChildren: './pages/item/item.module#ItemPageModule' },
   { path: 'cart', loadChildren: './pages/cart/cart.module#CartPageModule' },
   { path: 'search', loadChildren: './pages/search/search.module#SearchPageModule' },
-  { path: 'ekspedisi', loadChildren: './pages/ekspedisi/ekspedisi.module#EkspedisiPageModule' }
+  { path: 'ekspedisi', loadChildren: './pages/ekspedisi/ekspedisi.module#EkspedisiPageModule' },
+  { path: 'edit-profile', loadChildren: './pages/user/edit-profile/edit-profile.module#EditProfilePageModule' }
 ];
 @NgModule({
   imports: [

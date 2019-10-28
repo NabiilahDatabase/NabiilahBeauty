@@ -59,7 +59,9 @@ export class CartPage implements OnInit {
       this.valid = (value: any, index: number, array: any[]): boolean => {
         return value === true;
       };
-      this.customerData = this.userService.getUserInfo();
+      this.userService.getUserInfo().then(
+        (userdata) => this.customerData = userdata
+      );
     }
 
   ngOnInit() {
@@ -111,7 +113,7 @@ export class CartPage implements OnInit {
       this.hitung();
     });
   }
-//sampe sni
+
   async editEkspedisi(customer) {
     let berat = 0;
     this.cart.forEach((item) => {
@@ -137,33 +139,32 @@ export class CartPage implements OnInit {
     this.jumlahBarang = 0;
     this.total = 0;
     this.beratPaket = 0;
-    this.$diskon = 0;
-    this.adaPotongan = false;
-    this.potongan = 0;
+    // this.$diskon = 0;
+    // this.adaPotongan = false;
+    // this.potongan = 0;
 
     this.cart.forEach((item) => {
       this.jumlahBarang += item.jumlah;
       this.total += item.subtotal;
       this.beratPaket += item.subberat;
-      if (this.jumlahBarang >= 6) {
-        this.adaPotongan = true;
-        this.potongan = 5000 * this.jumlahBarang;
-        if (this.jumlahBarang >= 12) {
-          this.potongan = 10000 * this.jumlahBarang;
-          if (this.jumlahBarang >= 24) {
-            this.potongan = 15000 * this.jumlahBarang;
-          }
-        }
-      }
+      // if (this.jumlahBarang >= 6) {
+      //   this.adaPotongan = true;
+      //   this.potongan = 5000 * this.jumlahBarang;
+      //   if (this.jumlahBarang >= 12) {
+      //     this.potongan = 10000 * this.jumlahBarang;
+      //     if (this.jumlahBarang >= 24) {
+      //       this.potongan = 15000 * this.jumlahBarang;
+      //     }
+      //   }
+      // }
     });
-    // console.log(this.jumlahBarang);
     if (this.ekspedisi) {
-      if (this.adaDiskon) {
-        this.$diskon = this.diskon;
-      } else {
-        this.$diskon = this.potongan;
-      }
-      this.total = this.total + this.ekspedisi.ongkir - this.$diskon - this.deposit + this.hutang;
+      // if (this.adaDiskon) {
+      //   this.$diskon = this.diskon;
+      // } else {
+      //   this.$diskon = this.potongan;
+      // }
+      this.total = this.total + this.ekspedisi.ongkir;
     }
   }
 
@@ -176,41 +177,25 @@ export class CartPage implements OnInit {
       sender.hp = this.senderNumber;
     }
     const cart = this.cart.map(item => {
-      const id = item.id;
-      const nama = item.nama;
-      const type = item.type;
-      const toko = item.toko;
-      const berat = item.berat;
-      const diskon = item.diskon;
-      const hargaJual = item.hargaJual;
-      const hargaBeli = item.hargaBeli;
-      const indexWarna = Number(item.indexWarna);
-      const warna = item.warna[indexWarna];
-      const jumlah = item.jumlah;
-      const barcode = this.tool.getUnixTime() + '-' + this.tool.generateNumber(3);
       const status = 'keep';
       const waktuKeep = this.tool.getUnixTime();
-      const kodeProses = 'X';
       const diprint = false;
-      return {id, nama, type, toko, berat, diskon, hargaJual, hargaBeli, indexWarna, warna,
-        jumlah, barcode, status, waktuKeep, kodeProses, diprint,
+      return {...item, status, waktuKeep, diprint,
       };
     });
-    // this.cartService.checkout(
-    //   cart, this.customerData, sender, this.dropshiperData, this.ekspedisi, this.$diskon, this.deposit, this.hutang, this.total
-    // );
-    console.log('Barang:');
-    console.log(cart);
-    console.log('Customer:');
-    console.log(this.customerData);
-    console.log('Sender:');
-    console.log(sender);
-    console.log('Dropshiper:');
-    console.log(this.dropshiperData);
-    console.log('Expedition:');
-    console.log(this.ekspedisi);
-    console.log('Disc:');
-    console.log(this.$diskon);
+    this.cartService.checkout(
+      cart, this.customerData, this.ekspedisi, this.total
+    );
+    // console.log('Barang:');
+    // console.log(cart);
+    // console.log('Customer:');
+    // console.log(this.customerData);
+    // console.log('Sender:');
+    // console.log(sender);
+    // console.log('Dropshiper:');
+    // console.log(this.dropshiperData);
+    // console.log('Expedition:');
+    // console.log(this.ekspedisi);
   }
 
 }

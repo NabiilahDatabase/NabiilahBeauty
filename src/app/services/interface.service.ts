@@ -6,6 +6,7 @@ export class Cart {
 export interface Product {
     id: string;
     nama: string;
+    diskripsi: string;
     berat: number;
     stock: number;
     hargaJual: number;
@@ -13,7 +14,7 @@ export interface Product {
     hargaGold: number;
     hargaPlatinum: number;
     hargaSilver: number;
-    img: [];
+    img: []; keep: number;
   }
 
 export interface Invoice {

@@ -13,10 +13,12 @@ export class AkunPage implements OnInit {
   constructor(
     public userService: UserService,
   ) {
+    this.userService.getUserInfo().then(
+      (userdata) => this.userInfo = userdata
+    );
   }
 
-  async ngOnInit() {
-    this.userInfo = await this.userService.getUserInfo();
+  ngOnInit() {
   }
 
   logOut() {

@@ -42,6 +42,10 @@ export class VerifikasiPage {
           kab: this.registerForm.controls.kab.value.toString(),
           prov: this.registerForm.controls.prov.value.toString(),
           keep: 0, cancel: 0, success: 0, cart: 0,
+          kec_id: this.registerForm.controls.kec_id.value,
+          kab_id: this.registerForm.controls.kab_id.value,
+          prov_id: this.registerForm.controls.prov_id.value,
+          joinDate: this.tool.getUnixTime()
         }).then(() => {
           loading.dismiss();
           this.modal.dismiss();

@@ -52,6 +52,9 @@ export class RegisterPage {
       kec: ['', Validators.required],
       kab: ['', Validators.required],
       prov: ['', Validators.required],
+      kec_id: ['', Validators.required],
+      kab_id: ['', Validators.required],
+      prov_id: ['', Validators.required],
     });
   }
 
@@ -98,9 +101,12 @@ export class RegisterPage {
     this.expand = false;
     this.registerForm.controls.kec.setValue(data.subdistrict_name);
     this.registerForm.controls.kab.setValue(data.city);
-    this.registerForm.controls.prov.setValue(data.subdistrict_name);
+    this.registerForm.controls.prov.setValue(data.province);
+    this.registerForm.controls.kec_id.setValue(data.subdistrict_id);
+    this.registerForm.controls.kab_id.setValue(data.city_id);
+    this.registerForm.controls.prov_id.setValue(data.province_id);
     this.kecPilihan = data;
-    // console.log(data);
+    console.log(data);
   }
 
 }

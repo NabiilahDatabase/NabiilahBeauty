@@ -1,9 +1,53 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>ekspedisi</ion-title>
+  <ion-toolbar mode="ios" color="primary">
+    EKSPEDISI
+    <ion-buttons slot="start">
+      <ion-button color="light" (click)="dismiss()">
+          <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
+  <ion-toolbar color="primary">
+      <ion-list class="ion-no-padding">
+        <ion-item color="primary">
+          <ion-avatar slot="start">
+            <ion-icon class="avatar-icon" name="airplane" size="large" color="light"></ion-icon>
+          </ion-avatar>
+          <ion-label color="light">
+            <h2><strong>{{ customer.nama | uppercase }}</strong></h2>
+            <h3>ke {{ customer.kec }}, {{ customer.kab }}</h3>
+            <h3 *ngIf="ongkirPilihan">{{ ongkirPilihan.kurir | uppercase }} {{ ongkirPilihan.service | uppercase }}</h3>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-buttons slot="end" *ngIf="ongkirPilihan">
+        <ion-button color="light" (click)="pilih()">
+            <ion-icon slot="icon-only" name="save"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+  <ion-progress-bar *ngIf="onload" type="indeterminate" color="primary"></ion-progress-bar>
 </ion-header>
 
-<ion-content>
-
+<ion-content *ngIf="ongkirList && !onload">
+  <ion-text class="title">
+    <ion-icon name="search" color="primary"></ion-icon>
+    <strong>PILIH EKSPEDISI</strong>
+  </ion-text>
+  <ion-list *ngFor="let eksp of ongkirList | orderBy:'cost'" class="ion-no-padding">
+      <ion-item button (click)="pilihEkspedisi(eksp)">
+        <ion-ripple-effect></ion-ripple-effect>
+        <ion-label>
+          <h2><strong>{{ eksp?.code | uppercase }}</strong>  {{ eksp?.service | uppercase }}</h2>
+          <p *ngIf="eksp.etd">Estimasi: {{ eksp?.etd }} Hari</p>
+          <p *ngIf="!eksp.etd">Estimasi: 2-4 Hari</p>
+        </ion-label>
+        <ion-note>
+          <h5 style="color: tomato">
+            <strong>Rp{{ eksp?.cost | number }}</strong>
+          </h5>
+        </ion-note>
+        <ion-icon *ngIf="eksp?.code===ongkirPilihan?.kurir&&eksp?.service===ongkirPilihan?.service" slot="start" name="checkmark-circle-outline" color="primary"></ion-icon>
+      </ion-item>
+  </ion-list>
 </ion-content>

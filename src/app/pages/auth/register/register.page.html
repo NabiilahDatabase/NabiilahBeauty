@@ -65,7 +65,7 @@
             <ion-input formControlName="kec" (click)="expand=!expand" (keyup)="cari(registerForm.controls['kec'].value)" placeholder="Cari Kecamatan"></ion-input>
   
             <ion-list class="ion-no-padding">
-                <ion-item *ngIf="dataKecamatan?.length===0 && alamat?.length>1">
+                <ion-item *ngIf="dataKecamatan?.length===0 && registerForm.controls['kec'].value.length>1">
                   <ion-label>
                     <span style="color:red">Kecamatan tidak ditemukan!</span>
                   </ion-label>

@@ -1,0 +1,16 @@
+.title {
+    padding: 0px 10px 0px;
+    display: flex;
+    font-size: 15px;
+    align-items: center;
+    background-color: gainsboro;
+}
+.title ion-icon {
+    margin: 5px;
+}
+ion-item ion-icon {
+    margin: 10px 10px 10px 0;
+}
+.pilihan:active {
+    color: rgb(223, 93, 255);
+}

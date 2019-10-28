@@ -11,11 +11,11 @@ export interface User {
   hp: number;
   password: string;
   nama: string;
-  kec: string;
-  kab: string;
-  prov: string;
+  kec: string; kab: string; prov: string;
+  kec_id: number; kab_id: number; prov_id: number;
   keep: number; cancel: number; success: number;
   cart: number;
+  joinDate: number;
 }
 
 @Injectable({
@@ -72,7 +72,7 @@ export class UserService {
   getUserId() {
     return firebase.auth().currentUser.uid;
   }
-  getUserInfo() {
+  async getUserInfo() {
     console.log('getuserinfo');
     return this.user;
   }
@@ -80,13 +80,16 @@ export class UserService {
   async registerUser(data: User) {
     try {
       const userdata = await firebase.auth().createUserWithEmailAndPassword(data.email, data.password);
+      console.log('register as ', data.email, ' & ', data.password);
       this.afs.collection('user').doc(userdata.user.uid).set({
         uid: userdata.user.uid,
         email: userdata.user.email,
         hp: data.hp,
         nama: data.nama,
         kec: data.kec, kab: data.kab, prov: data.prov,
+        kec_id: data.kec_id, kab_id: data.kab_id, prov_id: data.prov_id,
         keep: 0, cancel: 0, success: 0, cart: 0,
+        joinDate: data.joinDate
       }).then(() => {
         this.setUser(userdata.user.uid);
         this.popup.showToast('Berhasil terdaftar!', 700);
@@ -98,6 +101,7 @@ export class UserService {
 
   async loginWithEmail(email: string, password: string) {
     try {
+      console.log('login as ', email, ' & ', password);
       const userdata = await firebase.auth().signInWithEmailAndPassword(email, password);
       if (userdata) {
         console.log('login');

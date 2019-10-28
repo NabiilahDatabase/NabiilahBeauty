@@ -5,14 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { EkspedisiPage } from './ekspedisi.page';
-
-import { NgOrderByPipeModule } from 'angular-pipes';
+import { EditProfilePage } from './edit-profile.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: EkspedisiPage
+    component: EditProfilePage
   }
 ];
 
@@ -21,9 +19,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
-    NgOrderByPipeModule,
+    RouterModule.forChild(routes)
   ],
-  declarations: [EkspedisiPage]
+  declarations: [EditProfilePage]
 })
-export class EkspedisiPageModule {}
+export class EditProfilePageModule {}
