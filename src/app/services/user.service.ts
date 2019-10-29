@@ -5,12 +5,15 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable, NgZone } from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import * as firebase from 'firebase';
+import { Observable } from 'rxjs';
 
 export interface User {
+  uid: string;
   email: string;
   hp: number;
   password: string;
   nama: string;
+  alamat: string;
   kec: string; kab: string; prov: string;
   kec_id: number; kab_id: number; prov_id: number;
   keep: number; cancel: number; success: number;
@@ -23,7 +26,8 @@ export interface User {
 })
 export class UserService {
 
-  public user: User; task;
+  public user: User;
+  public userObservable: Observable<User>; task;
 
   constructor(
     private afs: AngularFirestore,
@@ -48,9 +52,13 @@ export class UserService {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
               resolve(true); // user sudah login
-              // console.log(user.uid);
+              this.setUser(user.uid);
               if (!this.user) {
-                this.setUser(user.uid);
+                this.task = this.afs.collection('user').doc<User>(user.uid).valueChanges().subscribe(res => {
+                  this.user = res;
+                  console.log(res);
+                  console.log('subscribe userdata can activte');
+                });
               }
             } else {
               resolve(false); // user belum login
@@ -63,18 +71,22 @@ export class UserService {
   }
 
   setUser(userid: string) {
-    this.task = this.afs.collection('user').doc<User>(userid).valueChanges().subscribe(res => {
-      this.user = res;
-      // console.log(res);
-    });
+    this.userObservable = this.afs.collection('user').doc<User>(userid).valueChanges();
     // console.log('setUser', this.user);
+  }
+  setUserData(user: User) {
+    this.user = user;
   }
   getUserId() {
     return firebase.auth().currentUser.uid;
   }
-  async getUserInfo() {
-    console.log('getuserinfo');
-    return this.user;
+  getUserInfo() {
+    console.log('getUserInfo');
+    return this.userObservable;
+  }
+
+  async updateUserInfo(partialdata) {
+    this.afs.collection('user').doc(this.getUserId()).update(partialdata);
   }
 
   async registerUser(data: User) {
@@ -92,6 +104,10 @@ export class UserService {
         joinDate: data.joinDate
       }).then(() => {
         this.setUser(userdata.user.uid);
+        this.task = this.userObservable.subscribe(res => {
+          this.user = res;
+          console.log('subscribe userdata');
+        });
         this.popup.showToast('Berhasil terdaftar!', 700);
       });
     } catch (error) {
@@ -107,6 +123,10 @@ export class UserService {
         console.log('login');
         this.popup.showToast('Berhasil masuk sebagai ' + userdata.user.email, 700);
         this.setUser(userdata.user.uid);
+        this.task = this.userObservable.subscribe(res => {
+          this.user = res;
+          console.log('subscribe userdata');
+        });
         this.zone.run(async () => {
           await this.router.navigate(['/tabs']);
         });
@@ -131,6 +151,7 @@ export class UserService {
           handler: () => {
             firebase.auth().signOut();
             this.user = null;
+            this.userObservable = null;
             this.zone.run(async () => {
               await this.router.navigate(['/login']);
             });

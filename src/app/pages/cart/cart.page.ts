@@ -21,6 +21,7 @@ export class CartPage implements OnInit {
 
   cart: any[];
   cartDetails: Cart[];
+  userInfo: Observable<User>;
   customerData: User;
   dropshiperData;
 
@@ -47,7 +48,7 @@ export class CartPage implements OnInit {
   onload = true;
 
   valid;
-  task; task2; task3; task4;
+  task; task2;
 
   constructor(
     private dataService: DataService,
@@ -59,9 +60,7 @@ export class CartPage implements OnInit {
       this.valid = (value: any, index: number, array: any[]): boolean => {
         return value === true;
       };
-      this.userService.getUserInfo().then(
-        (userdata) => this.customerData = userdata
-      );
+      this.customerData = this.userService.user;
     }
 
   ngOnInit() {
@@ -70,8 +69,6 @@ export class CartPage implements OnInit {
   onDestroy() {
     this.task.unsubscribe();
     this.task2.unsubscribe();
-    this.task3.unsubscribe();
-    this.task4.unsubscribe();
   }
 
   getCart() {

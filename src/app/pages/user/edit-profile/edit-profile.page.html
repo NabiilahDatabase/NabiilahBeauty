@@ -1,40 +1,33 @@
 <ion-header no-border>
   <ion-toolbar mode="ios" no-border color="primary">
-    <ion-title>
-    </ion-title>
-    <ion-buttons slot="primary">
+    <ion-buttons slot="secondary">
       <ion-button (click)="dismiss()" color="light">
-        <ion-icon slot="icon-only" name="exit"></ion-icon>
+        <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-  </ion-toolbar>
-  <ion-toolbar mode="ios" no-border color="primary">
-    <ion-text color="light" class="ion-text-center">
-      <h1>
-        <ion-icon name="create" color="light"></ion-icon>
-        <strong>Edit Profil</strong>
-      </h1>
-      <h6>NabiilahBeauty.com</h6>
-    </ion-text>
+    <ion-title>
+      <ion-icon name="create" color="light"></ion-icon>
+      <strong>Edit Profil</strong>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div class="container">
-    <form [formGroup]="registerForm">
+    <form [formGroup]="form">
       <ion-item>
         <ion-label position="floating">
           <ion-icon class="icon" size="large" name="contact" color="primary"></ion-icon>&nbsp;
           Nama Lengkap
         </ion-label>
-        <ion-input formControlName="nama" [value]="userInfo.nama" type="text"></ion-input>
+        <ion-input autocapitalize="on" formControlName="nama" type="text"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">
           <ion-icon class="icon" size="large" name="logo-whatsapp" color="primary"></ion-icon>&nbsp;
           Nomor Whatsapp
         </ion-label>
-        <ion-input disabled formControlName="hp" [value]="userInfo.hp" (click)="prefix=true" (keyup)="prefix=true" type="number">
+        <ion-input formControlName="hp" (click)="prefix=true" (keyup)="prefix=true" type="number">
           <span *ngIf="prefix" matPrefix>+&nbsp;</span>
         </ion-input>
       </ion-item>
@@ -43,37 +36,42 @@
           <ion-icon class="icon" size="large" name="at" color="primary"></ion-icon>&nbsp;
           Email
         </ion-label>
-        <ion-input disabled formControlName="email" [value]="userInfo.email" type="email"></ion-input>
+        <ion-input formControlName="email" type="email"></ion-input>
+      </ion-item>
+      <ion-item [color]="(form.controls['alamat'].pristine&&!form.controls['alamat'].value)?'tertiary':''">
+        <ion-label position="stacked">Alamat Lengkap:</ion-label>
+        <ion-textarea rows="2" placeholder="Lengkapi alamat nama jalan / no. rumah / desa / kelurahan / Rt.Rw"
+          formControlName="alamat" type="text">
+        </ion-textarea>
+      </ion-item>
+    <div *ngIf="!editKec">
+      <ion-item>
+        <ion-buttons slot="end">
+          <ion-button (click)="editKec=true" fill="solid" color="primary">
+            <ion-icon name="create"></ion-icon>&nbsp;
+            <ion-label color="light">Edit</ion-label>
+          </ion-button>
+        </ion-buttons>
+        <ion-label position="fixed">
+          Kecamatan:
+        </ion-label>
+        <ion-input [value]="form.controls['kec'].value" disabled type="text"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">
-          <ion-icon class="icon" size="large" name="lock" color="primary"></ion-icon>&nbsp;
-          Password
+        <ion-label position="fixed">
+          Kabupaten:
         </ion-label>
-        <ion-input disabled formControlName="password" type="password"></ion-input>
+        <ion-input [value]="form.controls['kab'].value" disabled type="text"></ion-input>
       </ion-item>
-      <ion-note *ngIf="registerForm.controls['password'].value?.length<6 && registerForm.controls['password'].value"
-        color="danger">Password minimal 6 huruf!
-      </ion-note>
       <ion-item>
-        <ion-label position="floating">
-          <ion-icon class="icon" size="large" name="lock" color="primary"></ion-icon>&nbsp;
-          Ulangi Password
+        <ion-label position="fixed">
+          Provinsi:
         </ion-label>
-        <ion-input disabled formControlName="upassword" type="password"></ion-input>
+        <ion-input [value]="form.controls['prov'].value" disabled type="text"></ion-input>
       </ion-item>
-      <ion-note *ngIf="registerForm.controls['password'].value!==registerForm.controls['password'].value && registerForm.controls['password'].touched"
-        color="danger">Password tidak sama!
-      </ion-note>
-      <ion-item>
-        <ion-label position="floating">
-          <ion-icon class="icon" size="large" name="contact" color="primary"></ion-icon>&nbsp;
-          Alamat Lengkap
-        </ion-label>
-        <ion-input formControlName="alamat" type="text"></ion-input>
-      </ion-item>
-      <mat-accordion>
-        <mat-expansion-panel [expanded]="expand" style="margin-top:10px">
+    </div>
+      <mat-accordion *ngIf="editKec">
+        <mat-expansion-panel [expanded]="expand" (click)="form.controls['kec'].setValue(null)" style="margin-top:10px">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>my_location</mat-icon>&nbsp;
@@ -81,10 +79,10 @@
               <span *ngIf="kecPilihan"><strong>{{ kecPilihan.subdistrict_name }}</strong> {{ kecPilihan.city }}</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <ion-input formControlName="kec" (click)="expand=!expand" (keyup)="cari(registerForm.controls['kec'].value)" placeholder="Cari Kecamatan"></ion-input>
+          <ion-input formControlName="kec" (click)="expand=!expand" (keyup)="cari(form.controls['kec'].value)" placeholder="Cari Kecamatan"></ion-input>
 
           <ion-list class="ion-no-padding">
-              <ion-item *ngIf="dataKecamatan?.length===0 && registerForm.controls['kec'].value.length>1">
+              <ion-item *ngIf="dataKecamatan?.length===0 && form.controls['kec'].value?.length>1">
                 <ion-label>
                   <span style="color:red">Kecamatan tidak ditemukan!</span>
                 </ion-label>
@@ -101,12 +99,10 @@
 
     <br>
 
-    <ion-button [disabled]="onreg || registerForm.invalid || (registerForm.controls['password'].value!==registerForm.controls['password'].value)"
-      expand="full" color="primary" (click)="update()">DAFTAR MEMBER
+    <ion-button [disabled]="onupdate || form.invalid || !form.controls['alamat'].value || editKec"
+      expand="full" color="primary" (click)="update()">UPDATE PROFIL
     </ion-button>
-    <ion-progress-bar *ngIf="onreg" type="indeterminate"></ion-progress-bar>
-    <ion-button *ngIf="!onreg" expand="full" fill="clear" color="primary" (click)="tool.saveRoute('/login')">BATAL</ion-button>
-    <br><br>
-    <div id="recaptcha"></div>
+    <ion-progress-bar *ngIf="onupdate" type="indeterminate"></ion-progress-bar>
+    <ion-button *ngIf="!onupdate" expand="full" fill="clear" color="primary" (click)="dismiss()">BATAL</ion-button>
   </div>
 </ion-content>

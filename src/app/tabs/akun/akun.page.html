@@ -9,38 +9,38 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-progress-bar *ngIf="!userInfo" type="indeterminate"></ion-progress-bar>
+  <ion-progress-bar *ngIf="!userInfo | async" type="indeterminate"></ion-progress-bar>
 </ion-header>
 
-<ion-content *ngIf="userInfo" fullscreen>
+<ion-content *ngIf="userInfo | async as user" fullscreen>
   <div class="header ion-text-center">
     <br><br>
     <ion-avatar class="avatar">
       <img src="../../../assets/user.svg">
     </ion-avatar>
     <ion-text>
-      <h2>{{ userInfo.nama | uppercase}}</h2>
+      <h2>{{ user.nama | uppercase}}</h2>
     </ion-text>
-    <ion-text style="font-size: 18px; color: lightgrey;">{{ userInfo.email }}</ion-text>
+    <ion-text style="font-size: 18px; color: lightgrey;">{{ user.email }}</ion-text>
   </div>
 
   <ion-grid>
     <ion-row>
       <ion-col size="4" class="ion-text-center">
         <ion-card class="card" color="medium">
-          <ion-label><span class="numbers"><strong>{{ userInfo.keep }}</strong></span> pcs</ion-label><br>
+          <ion-label><span class="numbers"><strong>{{ user.keep }}</strong></span> pcs</ion-label><br>
           <ion-label>Keep</ion-label>
         </ion-card>
       </ion-col>
       <ion-col size="4" class="ion-text-center">
         <ion-card class="card" color="success">
-          <ion-label><span class="numbers"><strong>{{ userInfo.success }}</strong></span> pcs</ion-label><br>
+          <ion-label><span class="numbers"><strong>{{ user.success }}</strong></span> pcs</ion-label><br>
           <ion-label>Sukses</ion-label>
         </ion-card>
       </ion-col>
       <ion-col size="4" class="ion-text-center">
         <ion-card class="card" color="danger">
-          <ion-label><span class="numbers"><strong>{{ userInfo.cancel }}</strong></span> pcs</ion-label><br>
+          <ion-label><span class="numbers"><strong>{{ user.cancel }}</strong></span> pcs</ion-label><br>
           <ion-label>Cancel</ion-label>
         </ion-card>
       </ion-col>

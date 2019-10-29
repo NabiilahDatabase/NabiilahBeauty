@@ -34,10 +34,12 @@ export class VerifikasiPage {
     this.confirmationResult.confirm(code).then(
       (success) => {
         this.userService.registerUser({
+          uid: null,
           nama: this.registerForm.controls.nama.value.toString().toUpperCase().trim(),
           email: this.registerForm.controls.email.value,
           hp: this.registerForm.controls.hp.value,
           password: this.registerForm.controls.password.value,
+          alamat: this.registerForm.controls.alamat.value,
           kec: this.registerForm.controls.kec.value.toString(),
           kab: this.registerForm.controls.kab.value.toString(),
           prov: this.registerForm.controls.prov.value.toString(),

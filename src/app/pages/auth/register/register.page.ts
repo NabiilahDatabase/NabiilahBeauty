@@ -43,12 +43,13 @@ export class RegisterPage {
     private loading: LoadingController,
   ) {
     firebase.auth().languageCode = 'id';
-    this.registerForm = formBuilder.group({
+    this.registerForm = this.formBuilder.group({
       nama: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       email: ['', Validators.compose([Validators.maxLength(30), Validators.email, Validators.required])],
       hp: ['', Validators.required],
       password: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
       upassword: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+      alamat: ['', Validators.required],
       kec: ['', Validators.required],
       kab: ['', Validators.required],
       prov: ['', Validators.required],

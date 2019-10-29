@@ -1,26 +1,13 @@
-<ion-header no-border>
-  <ion-toolbar mode="ios" no-border color="primary">
-    <ion-title>
-    </ion-title>
-    <ion-buttons slot="primary">
-      <ion-button color="light">
-        <ion-icon slot="icon-only" name="exit"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-  <ion-toolbar>
-    <ion-text color="primary" class="ion-text-center">
-      <h1>
-        <ion-icon name="create" color="primary"></ion-icon>
-        <strong>Edit Profil</strong>
-      </h1>
-      <h6></h6>
-    </ion-text>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
     <div class="container">
+      <ion-text color="primary" class="ion-text-center">
+          <h1>
+            <ion-icon name="logo-slack" color="primary"></ion-icon>
+            <strong>Daftar Member</strong>
+          </h1>
+          <h6>NabiilahBeauty.com</h6>
+      </ion-text>
+      <br>
       <form [formGroup]="registerForm">
         <ion-item>
           <ion-label position="floating">
@@ -70,10 +57,17 @@
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <mat-icon>my_location</mat-icon>&nbsp;
-                <span *ngIf="!kecPilihan">Kecamatan</span>
-                <span *ngIf="kecPilihan"><strong>{{ kecPilihan.subdistrict_name }}</strong> {{ kecPilihan.city }}</span>
+                <span *ngIf="!kecPilihan">
+                  Alamat Lengkap
+                </span>
+                <span *ngIf="kecPilihan">
+                  <strong>{{ kecPilihan.subdistrict_name }}</strong> {{ kecPilihan.city }}
+                </span>
               </mat-panel-title>
             </mat-expansion-panel-header>
+            <ion-item>
+              <ion-textarea cols="2" placeholder="Nama jalan / desa / Rt.Rw / no. rumah" formControlName="alamat" type="text"></ion-textarea>
+            </ion-item>
             <ion-input formControlName="kec" (click)="expand=!expand" (keyup)="cari(registerForm.controls['kec'].value)" placeholder="Cari Kecamatan"></ion-input>
   
             <ion-list class="ion-no-padding">
