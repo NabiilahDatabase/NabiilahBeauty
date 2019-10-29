@@ -9,6 +9,7 @@ import * as firebase from 'firebase';
 import { ItemPage } from './../../pages/item/item.page';
 import { CartPage } from 'src/app/pages/cart/cart.page';
 import { ToolService } from 'src/app/services/tool.service';
+import { SearchPage } from 'src/app/pages/search/search.page';
 
 @Component({
   selector: 'app-shop',
@@ -47,8 +48,11 @@ export class ShopPage {
     });
   }
 
-  openSearch() {
-    console.log('hoso');
+  async openSearch() {
+    const modal = await this.modal.create({
+      component: SearchPage
+    });
+    return await modal.present();
   }
   openCart() {
     this.tool.saveRoute('/cart');

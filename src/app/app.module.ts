@@ -17,6 +17,8 @@ import { VerifikasiPageModule } from './pages/auth/verifikasi/verifikasi.module'
 import { ItemPageModule } from './pages/item/item.module';
 import { CartPageModule } from './pages/cart/cart.module';
 import { EkspedisiPageModule } from './pages/ekspedisi/ekspedisi.module';
+import { EditProfilePageModule } from './pages/user/edit-profile/edit-profile.module';
+import { SearchPageModule } from './pages/search/search.module';
 
 // AngularFire Modules
 import { environment } from '../environments/environment';
@@ -50,6 +52,8 @@ import { ApolloModule } from 'apollo-angular';
     ItemPageModule,
     CartPageModule,
     EkspedisiPageModule,
+    EditProfilePageModule,
+    SearchPageModule,
     GraphQLModule,
 
     FormsModule,

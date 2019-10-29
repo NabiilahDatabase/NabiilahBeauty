@@ -1,25 +1,37 @@
+<ion-header no-border>
+  <ion-toolbar mode="ios" no-border color="primary">
+    <ion-title>
+    </ion-title>
+    <ion-buttons slot="primary">
+      <ion-button color="light">
+        <ion-icon slot="icon-only" name="exit"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-text color="primary" class="ion-text-center">
+      <h1>
+        <ion-icon name="create" color="primary"></ion-icon>
+        <strong>Edit Profil</strong>
+      </h1>
+      <h6></h6>
+    </ion-text>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
     <div class="container">
-      <ion-text color="tertiary" class="ion-text-center">
-        <h1>
-          <ion-icon name="logo-slack" color="tertiary"></ion-icon>
-          <strong>Daftar Member</strong>
-        </h1>
-        <h6>NabiilahBeauty.com</h6>
-      </ion-text>
-  
-      <br>
       <form [formGroup]="registerForm">
         <ion-item>
           <ion-label position="floating">
-            <ion-icon class="icon" size="large" name="contact" color="tertiary"></ion-icon>&nbsp;
+            <ion-icon class="icon" size="large" name="contact" color="primary"></ion-icon>&nbsp;
             Nama Lengkap
           </ion-label>
           <ion-input formControlName="nama" type="text"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">
-            <ion-icon class="icon" size="large" name="logo-whatsapp" color="tertiary"></ion-icon>&nbsp;
+            <ion-icon class="icon" size="large" name="logo-whatsapp" color="primary"></ion-icon>&nbsp;
             Nomor Whatsapp
           </ion-label>
           <ion-input formControlName="hp" (click)="prefix=true" (keyup)="prefix=true" type="number">
@@ -28,29 +40,29 @@
         </ion-item>
         <ion-item>
           <ion-label position="floating">
-            <ion-icon class="icon" size="large" name="at" color="tertiary"></ion-icon>&nbsp;
+            <ion-icon class="icon" size="large" name="at" color="primary"></ion-icon>&nbsp;
             Email
           </ion-label>
           <ion-input formControlName="email" type="email"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">
-            <ion-icon class="icon" size="large" name="lock" color="tertiary"></ion-icon>&nbsp;
+            <ion-icon class="icon" size="large" name="lock" color="primary"></ion-icon>&nbsp;
             Password
           </ion-label>
           <ion-input formControlName="password" type="password"></ion-input>
         </ion-item>
-        <ion-note *ngIf="registerForm.controls.password.value?.length<6 && registerForm.controls.password.value"
+        <ion-note *ngIf="registerForm.controls['password'].value?.length<6 && registerForm.controls['password'].value"
           color="danger">Password minimal 6 huruf!
         </ion-note>
         <ion-item>
           <ion-label position="floating">
-            <ion-icon class="icon" size="large" name="lock" color="tertiary"></ion-icon>&nbsp;
+            <ion-icon class="icon" size="large" name="lock" color="primary"></ion-icon>&nbsp;
             Ulangi Password
           </ion-label>
           <ion-input formControlName="upassword" type="password"></ion-input>
         </ion-item>
-        <ion-note *ngIf="registerForm.controls.password.value!==registerForm.controls.upassword.value && registerForm.controls.upassword.touched"
+        <ion-note *ngIf="registerForm.controls['password'].value!==registerForm.controls['upassword'].value && registerForm.controls['upassword'].touched"
           color="danger">Password tidak sama!
         </ion-note>
         <mat-accordion>
@@ -82,11 +94,11 @@
   
       <br>
   
-      <ion-button [disabled]="onreg || registerForm.invalid || (registerForm.controls.password.value!==registerForm.controls.upassword.value)"
-        expand="full" color="tertiary" (click)="register('+'+registerForm.controls.hp.value)">DAFTAR MEMBER
+      <ion-button [disabled]="onreg || registerForm.invalid || (registerForm.controls['upassword'].value!==registerForm.controls['upassword'].value)"
+        expand="full" color="primary" (click)="register('+'+registerForm.controls['hp'].value)">DAFTAR MEMBER
       </ion-button>
       <ion-progress-bar *ngIf="onreg" type="indeterminate"></ion-progress-bar>
-      <ion-button *ngIf="!onreg" expand="full" fill="clear" color="tertiary" (click)="tool.saveRoute('/login')">BATAL</ion-button>
+      <ion-button *ngIf="!onreg" expand="full" fill="clear" color="primary" (click)="tool.saveRoute('/login')">BATAL</ion-button>
       <br><br>
       <div id="recaptcha"></div>
     </div>
