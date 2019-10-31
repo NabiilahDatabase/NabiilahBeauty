@@ -18,15 +18,8 @@ export interface Product {
   }
 
 export interface Invoice {
-    cs: string;
-    cs_id: string;
-    deposit: number;
-    diskon: number;
-    dropshiper: { hp: string; id: string; nama: string };
     ekspedisi: { kurir: string; ongkir: number; service: string };
-    hutang: number;
     id: string;
-    ninggal: number;
     penerima: {
       alamat: string;
       hp: string;
@@ -38,23 +31,14 @@ export interface Invoice {
     penerima_id: string;
     pengirim: { hp: string; nama: string };
     pesanan: Array<{
-      barcode: string;
-      berat: number;
-      diskon: number;
       hargaBeli: number;
       hargaJual: number;
       id: string;
-      indexWarna: number;
       jumlah: number;
-      kodeProses: string;
       nama: string;
-      status: string;
-      toko: string;
-      type: string;
-      waktuKeep: number;
-      warna: string
     }>;
+    berat: number;
     status: string;
     total: number;
-    waktuKeep: number;
+    waktuOrder: number;
 }

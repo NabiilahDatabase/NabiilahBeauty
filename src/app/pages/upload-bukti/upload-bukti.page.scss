@@ -1,0 +1,27 @@
+.list-title {
+    margin: -8px 0px -5px;
+    border-top: solid 1px lightgrey;
+    border-bottom: solid 1px lightgray;
+    background-color: #ebe1ff;
+    color: #4c4b4b;
+}
+
+ion-note {
+    padding: 6px;
+}
+ion-badge {
+    margin-right: 7px;
+    margin-top: -20px;
+    border-radius: 20px;
+    padding: 4px 7px;
+}
+ion-text {
+    font-size: 14px;
+}
+
+.active {
+    color:white;
+}
+.inactive {
+    color:lightseagreen;
+}

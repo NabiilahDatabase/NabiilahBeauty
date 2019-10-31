@@ -6,9 +6,11 @@ import { ToolService } from './tool.service';
 import { UserService } from './user.service';
 import { map } from 'rxjs/operators';
 
-import { Product, Cart } from './interface.service';
+import { Product, Cart, Invoice } from './interface.service';
 import { Observable } from 'rxjs';
+
 import * as firebase from 'firebase';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +43,70 @@ export class DataService {
   }
   getProduct(pid: string) {
     return this.productsCollections.doc<Product>(pid).valueChanges();
+  }
+
+  getKeeps(status?: string | null) {
+    let doc: AngularFirestoreCollection = null;
+    if (status) {
+      doc = this.afs.collection('orderan', ref =>
+          ref.where('status', '==', status)
+          .orderBy('waktuOrder')
+        );
+    }
+    return doc.snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          const expand = false;
+          const menu = false;
+          const unik = data.total.toString().substr(data.total.toString().length - 3);
+          return { id, expand, menu, unik, ...data };
+        });
+      })
+    );
+  }
+  searchKeep(word: string, db: string, field: string) {
+    if (word !== '') {
+      console.log(`mecari data firestore: ${word}`);
+      const start = word;
+      const end = start + '\uf8ff';
+      return this.afs.collection(db, ref =>
+        ref.limit(10).orderBy(field)
+        .startAt(start).endAt(end)).valueChanges();
+    }
+  }
+
+  async cancelOrder(invoice: Invoice) {
+    if (invoice.status === 'order') {
+      let jumlah = 0;
+      const batch = this.afs.firestore.batch();
+      const tanggal = moment.unix(invoice.waktuOrder).format('YYYY-MM-DD');
+      const user = this.afs.collection('user').doc(invoice.penerima_id).ref;
+      try {
+          invoice.pesanan.forEach(item => {
+            const produk = this.afs.collection('produk').doc(item.id).ref;
+            const olahdataBrgHarian = this.afs.collection('olahdata').doc('produk')
+              .collection(tanggal.split('-')[0] + '-' + tanggal.split('-')[1])
+              .doc('harian').collection(tanggal.split('-')[2]).doc(item.id).ref;
+            const olahdataBrgBulanan = this.afs.collection('olahdata').doc('produk')
+              .collection(tanggal.split('-')[0] + '-' + tanggal.split('-')[1])
+              .doc(item.id).ref;
+            jumlah += item.jumlah;
+
+            batch.update(produk, {keep: firebase.firestore.FieldValue.increment((item.jumlah * -1))});
+            batch.update(olahdataBrgHarian, {keep: firebase.firestore.FieldValue.increment((item.jumlah * -1))});
+            batch.update(olahdataBrgBulanan, {keep: firebase.firestore.FieldValue.increment((item.jumlah * -1))});
+          });
+          batch.update(user, {keep: firebase.firestore.FieldValue.increment((jumlah * -1))});
+          batch.commit().then(
+            () => console.log('success delete'),
+            (err) => this.popup.showAlert('Error Commit', err)
+          );
+      } catch (error) {
+        this.popup.showAlert('Error Cancel!', error);
+      }
+    }
   }
 
   async addOrder(data) {
@@ -186,7 +252,7 @@ export class DataService {
       this.popup.showToast('Berhasil masukkan orderan', 1000);
       this.cleanCart(data.pesanan, data.penerima_id);
       this.popup.showToast('Checkout berhasil!', 2000);
-      this.tool.saveRoute('/tabs');
+      this.tool.saveRoute('/tabs/transaksi');
     } catch (error) {
       loader.dismiss();
       console.log('Error Order!', error);

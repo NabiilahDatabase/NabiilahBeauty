@@ -21,6 +21,7 @@ export class PopupService {
 
   async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({
+      mode: 'ios',
       header,
       message,
       buttons: ['OK']

@@ -5,9 +5,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicStorageModule } from '@ionic/storage';
+
+// Native Modules
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { Camera } from '@ionic-native/Camera/ngx';
+import { File } from '@ionic-native/File/ngx';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +26,7 @@ import { CartPageModule } from './pages/cart/cart.module';
 import { EkspedisiPageModule } from './pages/ekspedisi/ekspedisi.module';
 import { EditProfilePageModule } from './pages/user/edit-profile/edit-profile.module';
 import { SearchPageModule } from './pages/search/search.module';
+import { UploadBuktiPageModule } from 'src/app/pages/upload-bukti/upload-bukti.module';
 
 // AngularFire Modules
 import { environment } from '../environments/environment';
@@ -41,28 +49,35 @@ import { ApolloModule } from 'apollo-angular';
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
-    AppRoutingModule,
-    HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
-    AngularFirestoreModule,
-    AngularFireStorageModule,
     BrowserAnimationsModule,
+    FormsModule,
+    AppRoutingModule,
+    // pages module
     VerifikasiPageModule,
     ItemPageModule,
     CartPageModule,
     EkspedisiPageModule,
     EditProfilePageModule,
     SearchPageModule,
+    UploadBuktiPageModule,
+    // 3rd party Module
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
     GraphQLModule,
-
-    FormsModule,
+    HttpClientModule,
     ApolloModule,
+    IonicStorageModule.forRoot(),
   ],
   providers: [
     StatusBar,
     SplashScreen,
     Clipboard,
+    Camera,
+    File,
+    WebView,
+    FilePath,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: StorageBucket, useValue: 'nabiilah-duit.appspot.com' },
     { provide: FunctionsRegionToken, useValue: 'us-central1' },

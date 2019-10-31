@@ -58,17 +58,20 @@
               <mat-panel-title>
                 <mat-icon>my_location</mat-icon>&nbsp;
                 <span *ngIf="!kecPilihan">
-                  Alamat Lengkap
+                  <strong>Alamat Lengkap</strong>
                 </span>
                 <span *ngIf="kecPilihan">
+                  <span>{{ kecPilihan.alamat }}</span><br>
                   <strong>{{ kecPilihan.subdistrict_name }}</strong> {{ kecPilihan.city }}
                 </span>
               </mat-panel-title>
             </mat-expansion-panel-header>
             <ion-item>
-              <ion-textarea cols="2" placeholder="Nama jalan / desa / Rt.Rw / no. rumah" formControlName="alamat" type="text"></ion-textarea>
+              <ion-textarea placeholder="Nama jalan / desa / kelurahan" formControlName="alamat" type="text"></ion-textarea>
             </ion-item>
-            <ion-input formControlName="kec" (click)="expand=!expand" (keyup)="cari(registerForm.controls['kec'].value)" placeholder="Cari Kecamatan"></ion-input>
+            <ion-item>
+              <ion-input formControlName="kec" (click)="expand=!expand" (keyup)="cari(registerForm.controls['kec'].value)" placeholder="Ketik Cari Kecamatan"></ion-input>
+            </ion-item>
   
             <ion-list class="ion-no-padding">
                 <ion-item *ngIf="dataKecamatan?.length===0 && registerForm.controls['kec'].value.length>1">
@@ -85,8 +88,11 @@
           </mat-expansion-panel>
         </mat-accordion>
       </form>
-  
+
       <br>
+      <div style="text-align:center">
+        <ion-label class="ion-text-center" style="font-size:12px;color:darkgrey">Dengan klik mendaftar dibawah ini, anda berarti telah menyetujui syarat & ketentuan yang telah kami tetapkan.</ion-label>
+      </div>
   
       <ion-button [disabled]="onreg || registerForm.invalid || (registerForm.controls['upassword'].value!==registerForm.controls['upassword'].value)"
         expand="full" color="primary" (click)="register('+'+registerForm.controls['hp'].value)">DAFTAR MEMBER

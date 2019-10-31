@@ -59,11 +59,8 @@ export class RegisterPage {
     });
   }
 
-  ionViewWillEnter() {
-    this.newCaptcha();
-    this.registerForm.reset();
-  }
   newCaptcha() {
+    this.recaptchaVerifier = null;
     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
       size: 'invisible',
       callback: response => {
@@ -83,14 +80,24 @@ export class RegisterPage {
     await loading.present();
     this.newCaptcha();
     firebase.auth().signInWithPhoneNumber(phoneNumber, this.recaptchaVerifier)
-      .then(async confirmationResult => {
-        const modal = await this.modal.create({
-          component: VerifikasiPage,
-          componentProps: { registerForm: this.registerForm, confirmationResult }
-        });
-        loading.dismiss();
-        await modal.present();
-      });
+      .then(
+        async confirmationResult => {
+          this.newCaptcha();
+          this.onreg = false;
+          const modal = await this.modal.create({
+            component: VerifikasiPage,
+            componentProps: { registerForm: this.registerForm, confirmationResult }
+          });
+          loading.dismiss();
+          await modal.present();
+        },
+        error => {
+          this.newCaptcha();
+          this.onreg = false;
+          loading.dismiss();
+          this.popup.showAlert('Error!', 'Nomor yang anda masukkan tidak valid!, mohon tutup aplikasi lalu jalankan kembali');
+        }
+      );
   }
 
   cari(teks: string) {
@@ -100,13 +107,14 @@ export class RegisterPage {
   }
   pilihKecamatan(data) {
     this.expand = false;
+    const alamat = this.registerForm.controls.alamat.value;
     this.registerForm.controls.kec.setValue(data.subdistrict_name);
     this.registerForm.controls.kab.setValue(data.city);
     this.registerForm.controls.prov.setValue(data.province);
     this.registerForm.controls.kec_id.setValue(data.subdistrict_id);
     this.registerForm.controls.kab_id.setValue(data.city_id);
     this.registerForm.controls.prov_id.setValue(data.province_id);
-    this.kecPilihan = data;
+    this.kecPilihan = {...data, alamat};
     console.log(data);
   }
 

@@ -31,6 +31,7 @@ export class VerifikasiPage {
       translucent: true,
     });
     await loading.present();
+    console.log(this.registerForm.value);
     this.confirmationResult.confirm(code).then(
       (success) => {
         this.userService.registerUser({
@@ -60,6 +61,10 @@ export class VerifikasiPage {
         this.popup.showAlert('Kode Salah!', 'Harap masukkan kode verifikasi sesuai dengan yg diterima melalui SMS');
       }
     );
+  }
+
+  dismiss() {
+    this.modal.dismiss();
   }
 
 }

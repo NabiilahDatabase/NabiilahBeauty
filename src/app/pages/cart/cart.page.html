@@ -74,6 +74,10 @@
       <ion-note color="primary"><h5>Rp{{ ekspedisi.ongkir | number }}</h5></ion-note>
     </ion-item>
     <ion-item *ngIf="ekspedisi">
+      <ion-label color="primary" class="totalan">Kode Unik:</ion-label>
+      <ion-note color="primary"><h5>{{ kodeUnik | number }}</h5></ion-note>
+    </ion-item>
+    <ion-item *ngIf="ekspedisi">
       <ion-label class="totalan"><strong>TOTAL:</strong></ion-label>
       <ion-note color="primary"><h5><strong>Rp{{ total | number }}</strong></h5></ion-note>
     </ion-item>
@@ -100,7 +104,7 @@
     </ion-item>
   </ion-list>
   <ion-list *ngIf="customerData as customer" class="ion-no-padding">
-    <ion-item button>
+    <ion-item button (click)="editProfil()">
       <ion-ripple-effect></ion-ripple-effect>
       <ion-avatar slot="start">
         <ion-img src="../../../assets/user.svg"></ion-img>
@@ -108,6 +112,7 @@
       <ion-label>
         <h2><strong>{{ customer.nama }}</strong></h2>
         <h3>+{{ customer.hp }}</h3>
+        <p>{{ customer.alamat }}</p>
         <p>{{ customer.kec }}, {{ customer.kab }}, {{ customer.prov }}</p>
       </ion-label>
       <ion-badge color="success" class="success" mode="ios">{{ customer.success }}</ion-badge>
@@ -199,5 +204,7 @@
       <ion-note class="diskon" [color]="adaDiskon?'danger':'medium'">Diskon</ion-note>
     </ion-item>
   </ion-list> -->
-  <ion-button [disabled]="!(cart | pluck:'valid' | every: valid) || !customerData || !ekspedisi" color="primary" expand="full" (click)="checkout()">CHECKOUT</ion-button>
+  <ion-toolbar class="ion-no-padding">
+    <ion-button [disabled]="!(cart | pluck:'valid' | every: valid) || !customerData || !ekspedisi" color="primary" expand="block" (click)="checkout()">PESAN & BAYAR</ion-button>
+  </ion-toolbar>
 </ion-footer>

@@ -1,19 +1,20 @@
 <ion-content>
   <ion-card class="ion-text-center card">
-    <ion-text color="tertiary" class="ion-text-center">
+    <ion-text color="primary" class="ion-text-center">
       <h1 style="margin-top:0">
-        <ion-icon name="logo-slack" color="tertiary"></ion-icon>
+        <ion-icon name="logo-slack" color="primary"></ion-icon>
         <strong>NabiilahBeauty</strong>
       </h1>
       <h6>Pancarkan Cantikmu</h6>
     </ion-text>
     <br><br>
     <ion-label>Kode verifikasi sedang dikirimkan ke nomor</ion-label>
-    <br><ion-label><strong>+{{ registerForm.controls.hp.value }}</strong></ion-label><br>
+    <br><ion-label><strong>+{{ registerForm.controls['hp'].value }}</strong></ion-label><br>
     <ion-label>masukkan kode verifikasi di bawah ini:</ion-label>
     <ion-item style="width:100px;margin:0 auto">
       <ion-input style="text-align:center" [(ngModel)]="kode" placeholder="Kode"></ion-input>
     </ion-item><br>
-    <ion-button color="tertiary" (click)="confirm(kode)">Verifikasi</ion-button>
+    <ion-button color="primary" fill="clear" (click)="dismiss()">Ganti Nomor</ion-button>
+    <ion-button color="primary" (click)="confirm(kode)">Verifikasi</ion-button>
   </ion-card>
 </ion-content>

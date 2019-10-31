@@ -139,6 +139,7 @@ export class CartService {
         penerima_id: customer.uid,
         penerima: {
           nama: customer.nama,
+          alamat: customer.alamat,
           kec: customer.kec,
           kab: customer.kab,
           prov: customer.prov,
@@ -151,7 +152,7 @@ export class CartService {
         pesanan,
         status,
         berat,
-        waktuKeep: this.tool.getUnixTime(),
+        waktuOrder: this.tool.getUnixTime(),
         ekspedisi,
         total,
       });

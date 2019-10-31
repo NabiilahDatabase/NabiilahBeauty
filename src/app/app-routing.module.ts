@@ -11,7 +11,8 @@ const routes: Routes = [
   { path: 'cart', loadChildren: './pages/cart/cart.module#CartPageModule' },
   { path: 'search', loadChildren: './pages/search/search.module#SearchPageModule' },
   { path: 'ekspedisi', loadChildren: './pages/ekspedisi/ekspedisi.module#EkspedisiPageModule' },
-  { path: 'edit-profile', loadChildren: './pages/user/edit-profile/edit-profile.module#EditProfilePageModule' }
+  { path: 'edit-profile', loadChildren: './pages/user/edit-profile/edit-profile.module#EditProfilePageModule' },  { path: 'upload-bukti', loadChildren: './pages/upload-bukti/upload-bukti.module#UploadBuktiPageModule' }
+
 ];
 @NgModule({
   imports: [

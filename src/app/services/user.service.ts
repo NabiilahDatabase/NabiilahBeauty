@@ -98,6 +98,7 @@ export class UserService {
         email: userdata.user.email,
         hp: data.hp,
         nama: data.nama,
+        alamat: data.alamat,
         kec: data.kec, kab: data.kab, prov: data.prov,
         kec_id: data.kec_id, kab_id: data.kab_id, prov_id: data.prov_id,
         keep: 0, cancel: 0, success: 0, cart: 0,

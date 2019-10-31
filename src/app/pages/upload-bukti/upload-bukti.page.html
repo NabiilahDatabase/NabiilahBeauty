@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar mode="ios" color="primary">
+    INFO PEMBAYARAN
+    <ion-buttons slot="start">
+      <ion-button color="light" (click)="dismiss()">
+          <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="ion-no-padding">
+    <ion-item lines="full">
+      <ion-label>Total Tagihan</ion-label>
+      <ion-note color="primary">
+        <h5>
+          <strong>Rp {{ data.total | number }}</strong>
+        </h5>
+      </ion-note>
+    </ion-item>
+    <ion-list-header class="list-title">
+      Pilih nomor rekening tujuan transfer
+    </ion-list-header>
+    <ion-item *ngFor="let rek of rekBank" lines="full" button (click)="pilihBank(rek)" [color]="bankPilihan?.nama===rek.nama?'primary':''">
+      <ion-ripple-effect></ion-ripple-effect>
+      <ion-label>
+        <strong>{{ rek.nomor }}</strong>
+        <p>a.n {{ rek.an }}</p>
+      </ion-label>
+      <ion-note>
+        <h5 [class]="bankPilihan?.nama===rek.nama?'active':'inactive'">
+          <strong>{{ rek.nama }}</strong>
+        </h5>
+      </ion-note>
+    </ion-item>
+  </ion-list>
+  <ion-list class="ion-no-padding" *ngIf="bankPilihan">
+    <ion-list-header class="list-title">
+      Lalu ikuti langkah-langkah berikut
+    </ion-list-header>
+    <ion-item lines="none">
+      <ion-badge slot="start">1</ion-badge>
+      <ion-text>
+        <p style="margin:10px 0 0 0">Transfer sesuai dengan nominal tagihan anda <strong>Rp{{data.total|number}}</strong>, 3 digit terakhir adalah kode unik untuk mempercepat verifikasi pembayaran.</p>
+      </ion-text>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-badge slot="start">2</ion-badge>
+      <ion-text>
+        <p style="margin:10px 0 0 0">Lakukan pembayaran ke Bank / ATM <strong>{{bankPilihan.nama}}</strong> dengan nomor rekening <strong>{{bankPilihan.nomor}}</strong> a/n <strong>{{bankPilihan.an}}</strong>.</p>
+      </ion-text>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-badge slot="start">3</ion-badge>
+      <ion-text>
+        <p style="margin:10px 0 0 0">Setelah transaksi berhasil, foto dan upload bukti transfer dengan mengetuk tombol <strong>UPLOAD BUKTI TRANSFER</strong> dibawah ini.</p>
+      </ion-text>
+    </ion-item>
+
+    <section>
+      <ion-button (click)="selectImage()" style="margin:10px" color="primary" expand="block">
+        <ion-icon name="camera"></ion-icon>&nbsp;UPLOAD BUKTI TRANSFER
+      </ion-button>
+    </section>
+  </ion-list>
+
+</ion-content>

@@ -11,6 +11,7 @@ import { UserService, User } from 'src/app/services/user.service';
 import { EkspedisiPage } from 'src/app/pages/ekspedisi/ekspedisi.page';
 import { ToolService } from 'src/app/services/tool.service';
 import { Cart, Product } from 'src/app/services/interface.service';
+import { EditProfilePage } from '../user/edit-profile/edit-profile.page';
 
 @Component({
   selector: 'app-cart',
@@ -42,6 +43,7 @@ export class CartPage implements OnInit {
   hutang = 0;
 
   jumlahBarang = 0;
+  kodeUnik: number;
   total = 0;
   beratPaket = 0;
 
@@ -97,6 +99,16 @@ export class CartPage implements OnInit {
         this.cart = null;
       }
     });
+  }
+
+  async editProfil() {
+    const modal = await this.modal.create({
+      component: EditProfilePage,
+      componentProps: {
+        userInfo: this.customerData
+      }
+    });
+    await modal.present();
   }
 
   editBarang(item, num) {
@@ -161,7 +173,8 @@ export class CartPage implements OnInit {
       // } else {
       //   this.$diskon = this.potongan;
       // }
-      this.total = this.total + this.ekspedisi.ongkir;
+      this.kodeUnik = Number(this.tool.generateNumber(3));
+      this.total = this.total + this.ekspedisi.ongkir + this.kodeUnik;
     }
   }
 
