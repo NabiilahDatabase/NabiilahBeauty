@@ -51,7 +51,7 @@ export class TransaksiPage {
     }
   }
 
-  async cancel(invoice) {
+  async cancel(invoice: Invoice) {
     const alert = await this.alertController.create({
       header: 'Hapus Checkout!',
       mode: 'ios',

@@ -1,15 +1,14 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ModalController, Platform, LoadingController, ActionSheetController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { File, FileEntry } from '@ionic-native/File/ngx';
-import { HttpClient } from '@angular/common/http';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
-import { Storage } from '@ionic/storage';
-import { FilePath } from '@ionic-native/file-path/ngx';
 import { Camera, PictureSourceType, CameraOptions } from '@ionic-native/Camera/ngx';
 import { PopupService } from 'src/app/services/popup.service';
-import { finalize } from 'rxjs/operators';
+import { Invoice } from 'src/app/services/interface.service';
+import { TelegramService } from 'src/app/services/telegram.service';
+import { HttpEventType } from '@angular/common/http';
+import { ToolService } from 'src/app/services/tool.service';
 
 const STORAGE_KEY = 'NabiilahBeauty';
 
@@ -20,18 +19,19 @@ const STORAGE_KEY = 'NabiilahBeauty';
 })
 export class UploadBuktiPage implements OnInit {
 
-  data;
+  data: Invoice;
   rekBank; task; onload = true;
   bankPilihan;
 
-  images = [];
+  @ViewChild('uploadButton', {static: false }) uploadButton;
+  file; image; isUploading = false; progressPercent;
 
   constructor(
     private modal: ModalController,
     private afs: AngularFirestore, private popup: PopupService,
-    private camera: Camera, private file: File, private http: HttpClient, private webview: WebView,
-    private storage: Storage, private platform: Platform, private loading: LoadingController,
-    private ref: ChangeDetectorRef, private filePath: FilePath, private actionSheetController: ActionSheetController,
+    private telegram: TelegramService, private tool: ToolService,
+    private camera: Camera, private webview: WebView,
+    private actionSheetController: ActionSheetController,
   ) {
     this.task = this.afs.collection('config').doc('rekening').valueChanges().subscribe(res =>  {
       // tslint:disable-next-line: no-string-literal
@@ -41,151 +41,113 @@ export class UploadBuktiPage implements OnInit {
   }
 
   ngOnInit() {
-    this.platform.ready().then(() => {
-      this.loadStoredImages();
-    });
   }
-  loadStoredImages() {
-    this.storage.get(STORAGE_KEY).then(images => {
-      if (images) {
-        const arr = JSON.parse(images);
-        this.images = [];
-        for (const img of arr) {
-          const filePath = this.file.dataDirectory + img;
-          const resPath = this.pathForImage(filePath);
-          this.images.push({ name: img, path: resPath, filePath });
-        }
-      }
-    });
+  selectFile() {
+    this.uploadButton.nativeElement.click();
   }
-  pathForImage(img) {
-    if (img === null) {
-      return '';
-    } else {
-      const converted = this.webview.convertFileSrc(img);
-      return converted;
-    }
-  }
-  async selectImage() {
-    const actionSheet = await this.actionSheetController.create({
-      mode: 'ios',
-      header: 'Pilih Sumber Gambar',
-      buttons:
-        [{
-          text: 'Ambil Gambar dengan Foto',
-          icon: 'camera',
-          handler: () => {
-            this.takePicture(this.camera.PictureSourceType.CAMERA);
-          }
-        },
-        {
-          text: 'Upload dari Gallery',
-          icon: 'image',
-          handler: () => {
-            this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        }]
-    });
-    await actionSheet.present();
-  }
-  takePicture(sourceType: PictureSourceType) {
-    const options: CameraOptions = {
-      quality: 100,
-      sourceType,
-      saveToPhotoAlbum: true,
-      correctOrientation: true
-    };
-    this.camera.getPicture(options).then(imagePath => {
-      if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
-        this.filePath.resolveNativePath(imagePath)
-          .then(filePath => {
-            const correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
-            const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-            this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-          });
-      } else {
-        const currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
-        const correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-        this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-      }
-    });
-  }
-  createFileName() {
-    const d = new Date(), n = d.getTime(), newFileName = n + '.jpg';
-    return newFileName;
-  }
-  copyFileToLocalDir(namePath, currentName, newFileName) {
-    this.file.copyFile(namePath, currentName, this.file.dataDirectory, newFileName).then(success => {
-        this.updateStoredImages(newFileName);
-    }, error => {
-        this.popup.showAlert('Error Save', 'Error while storing file.');
-    });
-  }
-  updateStoredImages(name) {
-    this.storage.get(STORAGE_KEY).then(images => {
-      const arr = JSON.parse(images);
-      if (!arr) {
-        const newImages = [name];
-        this.storage.set(STORAGE_KEY, JSON.stringify(newImages));
-      } else {
-        arr.push(name);
-        this.storage.set(STORAGE_KEY, JSON.stringify(arr));
-      }
-      const filePath = this.file.dataDirectory + name;
-      const resPath = this.pathForImage(filePath);
-      const newEntry = {
-        name,
-        path: resPath,
-        filePath
-      };
-      this.images = [newEntry, ...this.images];
-      this.ref.detectChanges(); // trigger change detection cycle
-    });
-  }
-  deleteImage(imgEntry, position) {
-    this.images.splice(position, 1);
-    this.storage.get(STORAGE_KEY).then(images => {
-      const arr = JSON.parse(images);
-      const filtered = arr.filter(name => name !== imgEntry.name);
-      this.storage.set(STORAGE_KEY, JSON.stringify(filtered));
-      const correctPath = imgEntry.filePath.substr(0, imgEntry.filePath.lastIndexOf('/') + 1);
-      this.file.removeFile(correctPath, imgEntry.name).then(res => {
-        this.popup.showToast('File Dihapus', 700);
-      });
-    });
-  }
-  startUpload(imgEntry) {
-    this.file.resolveLocalFilesystemUrl(imgEntry.filePath)
-      .then(entry => { (entry as FileEntry).file(file => this.readFile(file)); })
-      .catch(err => { this.popup.showToast('Error while reading file.', 1000); });
-  }
-  readFile(file: any) {
+
+  async selectImage(event) {
+    const mimeType = event.target.files[0].type;
     const reader = new FileReader();
-    reader.onloadend = () => {
-      const formData = new FormData();
-      const imgBlob = new Blob([reader.result], { type: file.type });
-      formData.append('file', imgBlob, file.name);
-      this.uploadImageData(formData);
-    };
-    reader.readAsArrayBuffer(file);
+    if (mimeType.match(/image\/*/) == null) {
+      this.popup.showAlert('Format Error', 'File yg anda pilih tidak didukung');
+    } else {
+      if (event.target.files.length > 0) {
+        this.file = event.target.files[0];
+        reader.readAsDataURL(this.file);
+        reader.onload = () => {
+          this.image = reader.result;
+          document.querySelector('ion-content').scrollToBottom(500);
+        };
+      } else {
+      }
+    }
+
+    // const actionSheet = await this.actionSheetController.create({
+    //   mode: 'ios',
+    //   header: 'Pilih Sumber Gambar',
+    //   buttons:
+    //     [{
+    //       text: 'Ambil Gambar dengan Foto',
+    //       icon: 'camera',
+    //       handler: () => {
+    //         this.takePicture().then(pic => this.image = pic);
+    //       }
+    //     },
+    //     {
+    //       text: 'Upload dari Gallery',
+    //       icon: 'image',
+    //       handler: () => {
+    //         this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
+    //       }
+    //     },
+    //     {
+    //       text: 'Cancel',
+    //       role: 'cancel'
+    //     }]
+    // });
+    // await actionSheet.present();
   }
-  async uploadImageData(formData: FormData) {
-    const loading = await this.loading.create({
-      message: 'Uploading image...',
+  uploadBukti() {
+    this.isUploading = true;
+    let pesanan = '';
+    this.data.pesanan.forEach((item) => {
+      pesanan += `${item.jumlah}x ${item.nama}\n`;
     });
-    await loading.present();
-    this.http.post('http://localhost:8888/upload.php', formData)
-      .pipe( finalize(() => { loading.dismiss(); }) )
-      .subscribe(res => {
-        // tslint:disable-next-line: no-string-literal
-        if (res['success']) { this.popup.showToast('File upload complete.', 700);
-        } else { this.popup.showToast('File upload failed.', 700); }
-      });
+    const template =
+      // tslint:disable-next-line: max-line-length
+      `INVOICE: *${this.data.id}*\n` +
+      `TOTAL: *Rp ${this.data.total / 1000}* (${this.bankPilihan.nama})\n` +
+      `NAMA: *${this.data.penerima.nama.toUpperCase()}*\n` +
+      `PESANAN:\n${pesanan.trim()}`
+    ;
+    this.telegram.sendPhoto(this.file, template).subscribe(
+      (event) => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progressPercent = Math.round((event.loaded / event.total) * 100);
+        } else if (event.type === HttpEventType.Response) {
+          console.log(event.body.result);
+          this.afs.collection('orderan').doc(this.data.id).set({
+              status: 'dibayar', waktuDibayar: this.tool.getUnixTime()
+            }, { merge: true }).then(
+             () => {
+               this.popup.showToast('Berhasil upload bukti transfer', 700);
+               this.modal.dismiss();
+               this.isUploading = false;
+             },
+             (error) => {
+               this.popup.showAlert('Error Upload', error);
+               this.isUploading = false;
+              }
+          );
+        }
+      },
+      (err) => {
+        this.isUploading = false;
+        console.log(err);
+        this.popup.showAlert('Error Upload', JSON.stringify(err.error));
+      }
+    );
   }
+  // async takePicture(sourceType?: PictureSourceType) {
+  //   const options: CameraOptions = {
+  //     quality: 100,
+  //     targetWidth: 900,
+  //     targetHeight: 600,
+  //     encodingType: this.camera.EncodingType.JPEG,
+  //     mediaType: this.camera.MediaType.PICTURE,
+  //     saveToPhotoAlbum: false,
+  //     correctOrientation: true,
+  //     destinationType: this.camera.DestinationType.FILE_URI,
+  //     // destinationType: this.camera.DestinationType.FILE_URI,
+  //   };
+  //   return this.camera.getPicture(options).then(imageUri => {
+  //     this.image = imageUri;
+  //     this.imgbase64 = 'data:image/jpeg;base64,' + imageUri;
+  //     console.log(imageUri);
+  //     return this.webview.convertFileSrc(imageUri);
+  //   });
+  // }
 
   pilihBank(bank) {
     this.bankPilihan = bank;

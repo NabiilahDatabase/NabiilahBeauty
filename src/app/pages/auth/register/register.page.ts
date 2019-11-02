@@ -60,8 +60,7 @@ export class RegisterPage {
   }
 
   newCaptcha() {
-    this.recaptchaVerifier = null;
-    this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
+    return new firebase.auth.RecaptchaVerifier('recaptcha', {
       size: 'invisible',
       callback: response => {
         console.log(response);
@@ -74,15 +73,15 @@ export class RegisterPage {
     this.onreg = true;
     const loading = await this.loading.create({
       mode: 'ios',
+      spinner: 'circular',
       message: 'Proses registrasi...',
       translucent: true,
     });
     await loading.present();
-    this.newCaptcha();
+    this.recaptchaVerifier = this.newCaptcha();
     firebase.auth().signInWithPhoneNumber(phoneNumber, this.recaptchaVerifier)
       .then(
         async confirmationResult => {
-          this.newCaptcha();
           this.onreg = false;
           const modal = await this.modal.create({
             component: VerifikasiPage,
@@ -92,10 +91,16 @@ export class RegisterPage {
           await modal.present();
         },
         error => {
-          this.newCaptcha();
+          this.recaptchaVerifier = this.newCaptcha();
           this.onreg = false;
           loading.dismiss();
-          this.popup.showAlert('Error!', 'Nomor yang anda masukkan tidak valid!, mohon tutup aplikasi lalu jalankan kembali');
+          console.log(error);
+          let message = '';
+          switch (error.code) {
+            case 'auth/captcha-check-failed': { message = 'Captcha tidak valid'; break; }
+          }
+          this.popup.showAlert('Error!', 'Nomor yang anda masukkan tidak valid!, mohon masukkan nomor yg benar');
+          this.tool.saveRoute('/login');
         }
       );
   }

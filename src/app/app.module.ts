@@ -12,9 +12,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { Camera } from '@ionic-native/Camera/ngx';
-import { File } from '@ionic-native/File/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
-import { FilePath } from '@ionic-native/file-path/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -75,9 +73,7 @@ import { ApolloModule } from 'apollo-angular';
     SplashScreen,
     Clipboard,
     Camera,
-    File,
     WebView,
-    FilePath,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: StorageBucket, useValue: 'nabiilah-duit.appspot.com' },
     { provide: FunctionsRegionToken, useValue: 'us-central1' },

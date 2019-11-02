@@ -58,11 +58,20 @@
       </ion-text>
     </ion-item>
 
-    <section>
-      <ion-button (click)="selectImage()" style="margin:10px" color="primary" expand="block">
-        <ion-icon name="camera"></ion-icon>&nbsp;UPLOAD BUKTI TRANSFER
+    <section *ngIf="!image">
+      <input class="filebtn" type="file" (change)="selectImage($event)" #uploadButton/>
+      <ion-button (click)="selectFile()" style="margin:10px" color="primary" expand="block">
+        <ion-icon name="images"></ion-icon>&nbsp;UPLOAD BUKTI TRANSFER
       </ion-button>
     </section>
+    <div *ngIf="image">
+      <ion-img src="{{image}}"></ion-img>
+    </div>
+    <ion-button *ngIf="image" [disabled]="isUploading" (click)="uploadBukti()" style="margin:10px" color="primary" expand="block">
+      <ion-icon *ngIf="!isUploading" name="cloud-upload"></ion-icon>
+      <ion-spinner *ngIf="isUploading" name="dots"></ion-spinner>
+      &nbsp;KIRIM BUKTI
+    </ion-button>
   </ion-list>
 
 </ion-content>

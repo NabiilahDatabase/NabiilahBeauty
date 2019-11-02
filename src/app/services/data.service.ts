@@ -50,6 +50,7 @@ export class DataService {
     if (status) {
       doc = this.afs.collection('orderan', ref =>
           ref.where('status', '==', status)
+          .where('penerima_id', '==', this.userService.getUserId())
           .orderBy('waktuOrder')
         );
     }
@@ -82,6 +83,7 @@ export class DataService {
       let jumlah = 0;
       const batch = this.afs.firestore.batch();
       const tanggal = moment.unix(invoice.waktuOrder).format('YYYY-MM-DD');
+      const orderan = this.afs.collection('orderan').doc(invoice.id).ref;
       const user = this.afs.collection('user').doc(invoice.penerima_id).ref;
       try {
           invoice.pesanan.forEach(item => {
@@ -99,6 +101,7 @@ export class DataService {
             batch.update(olahdataBrgBulanan, {keep: firebase.firestore.FieldValue.increment((item.jumlah * -1))});
           });
           batch.update(user, {keep: firebase.firestore.FieldValue.increment((jumlah * -1))});
+          batch.delete(orderan);
           batch.commit().then(
             () => console.log('success delete'),
             (err) => this.popup.showAlert('Error Commit', err)

@@ -27,6 +27,7 @@ export class VerifikasiPage {
   async confirm(code) {
     const loading = await this.loading.create({
       mode: 'ios',
+      spinner: 'lines',
       message: 'Verifikasi...',
       translucent: true,
     });

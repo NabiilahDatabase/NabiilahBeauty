@@ -1,8 +1,8 @@
-<ion-content>
+<ion-content fullscreen>
     <div class="container">
       <ion-text color="primary" class="ion-text-center">
           <h1>
-            <ion-icon name="logo-slack" color="primary"></ion-icon>
+            <ion-icon name="rose" color="primary"></ion-icon>
             <strong>Daftar Member</strong>
           </h1>
           <h6>NabiilahBeauty.com</h6>
@@ -90,6 +90,8 @@
       </form>
 
       <br>
+      <div style="text-align:-webkit-center" id="recaptcha"></div>
+
       <div style="text-align:center">
         <ion-label class="ion-text-center" style="font-size:12px;color:darkgrey">Dengan klik mendaftar dibawah ini, anda berarti telah menyetujui syarat & ketentuan yang telah kami tetapkan.</ion-label>
       </div>
@@ -100,7 +102,6 @@
       <ion-progress-bar *ngIf="onreg" type="indeterminate"></ion-progress-bar>
       <ion-button *ngIf="!onreg" expand="full" fill="clear" color="primary" (click)="tool.saveRoute('/login')">BATAL</ion-button>
       <br><br>
-      <div id="recaptcha"></div>
     </div>
   </ion-content>
   
