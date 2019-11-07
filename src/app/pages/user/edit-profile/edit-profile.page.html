@@ -1,5 +1,5 @@
 <ion-header no-border>
-  <ion-toolbar mode="ios" no-border color="primary">
+  <ion-toolbar mode="ios" no-border color="beauty">
     <ion-buttons slot="secondary">
       <ion-button (click)="dismiss()" color="light">
         <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
@@ -17,14 +17,14 @@
     <form [formGroup]="form">
       <ion-item>
         <ion-label position="floating">
-          <ion-icon class="icon" size="large" name="contact" color="primary"></ion-icon>&nbsp;
+          <ion-icon class="icon" size="large" name="contact" color="beauty"></ion-icon>&nbsp;
           Nama Lengkap
         </ion-label>
         <ion-input autocapitalize="on" formControlName="nama" type="text"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">
-          <ion-icon class="icon" size="large" name="logo-whatsapp" color="primary"></ion-icon>&nbsp;
+          <ion-icon class="icon" size="large" name="logo-whatsapp" color="beauty"></ion-icon>&nbsp;
           Nomor Whatsapp
         </ion-label>
         <ion-input formControlName="hp" (click)="prefix=true" (keyup)="prefix=true" type="number">
@@ -33,7 +33,7 @@
       </ion-item>
       <ion-item>
         <ion-label position="floating">
-          <ion-icon class="icon" size="large" name="at" color="primary"></ion-icon>&nbsp;
+          <ion-icon class="icon" size="large" name="at" color="beauty"></ion-icon>&nbsp;
           Email
         </ion-label>
         <ion-input formControlName="email" type="email"></ion-input>
@@ -47,7 +47,7 @@
     <div *ngIf="!editKec">
       <ion-item>
         <ion-buttons slot="end">
-          <ion-button (click)="editKec=true" fill="solid" color="primary">
+          <ion-button (click)="editKec=true" fill="solid" color="beauty">
             <ion-icon name="create"></ion-icon>&nbsp;
             <ion-label color="light">Edit</ion-label>
           </ion-button>
@@ -100,9 +100,9 @@
     <br>
 
     <ion-button [disabled]="onupdate || form.invalid || !form.controls['alamat'].value || editKec"
-      expand="full" color="primary" (click)="update()">UPDATE PROFIL
+      expand="full" color="beauty" (click)="update()">UPDATE PROFIL
     </ion-button>
     <ion-progress-bar *ngIf="onupdate" type="indeterminate"></ion-progress-bar>
-    <ion-button *ngIf="!onupdate" expand="full" fill="clear" color="primary" (click)="dismiss()">BATAL</ion-button>
+    <ion-button *ngIf="!onupdate" expand="full" fill="clear" color="beauty" (click)="dismiss()">BATAL</ion-button>
   </div>
 </ion-content>

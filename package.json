@@ -1,12 +1,12 @@
 {
   "name": "com.nabiilah.beauty",
-  "version": "0.0.1",
-  "author": "Nabiilah",
-  "homepage": "https://nabiilahstore.com/",
+  "version": "1.0.0",
+  "author": "Nabiilah Team",
+  "homepage": "https://nabiilahbeauty.com/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ionic cordova resources android && ionic cordova build android --prod --release && copy /Y platforms\\android\\app\\build\\outputs\\apk\\release\\app-release-unsigned.apk ..\\",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

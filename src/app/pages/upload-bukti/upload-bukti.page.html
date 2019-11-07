@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar mode="ios" color="primary">
+  <ion-toolbar mode="ios" color="beauty">
     INFO PEMBAYARAN
     <ion-buttons slot="start">
       <ion-button color="light" (click)="dismiss()">
@@ -13,7 +13,7 @@
   <ion-list class="ion-no-padding">
     <ion-item lines="full">
       <ion-label>Total Tagihan</ion-label>
-      <ion-note color="primary">
+      <ion-note color="beauty">
         <h5>
           <strong>Rp {{ data.total | number }}</strong>
         </h5>
@@ -22,7 +22,7 @@
     <ion-list-header class="list-title">
       Pilih nomor rekening tujuan transfer
     </ion-list-header>
-    <ion-item *ngFor="let rek of rekBank" lines="full" button (click)="pilihBank(rek)" [color]="bankPilihan?.nama===rek.nama?'primary':''">
+    <ion-item *ngFor="let rek of rekBank" lines="full" button (click)="pilihBank(rek)" [color]="bankPilihan?.nama===rek.nama?'beauty':''">
       <ion-ripple-effect></ion-ripple-effect>
       <ion-label>
         <strong>{{ rek.nomor }}</strong>
@@ -60,14 +60,14 @@
 
     <section *ngIf="!image">
       <input class="filebtn" type="file" (change)="selectImage($event)" #uploadButton/>
-      <ion-button (click)="selectFile()" style="margin:10px" color="primary" expand="block">
+      <ion-button (click)="selectFile()" style="margin:10px" color="beauty" expand="block">
         <ion-icon name="images"></ion-icon>&nbsp;UPLOAD BUKTI TRANSFER
       </ion-button>
     </section>
     <div *ngIf="image">
       <ion-img src="{{image}}"></ion-img>
     </div>
-    <ion-button *ngIf="image" [disabled]="isUploading" (click)="uploadBukti()" style="margin:10px" color="primary" expand="block">
+    <ion-button *ngIf="image" [disabled]="isUploading" (click)="uploadBukti()" style="margin:10px" color="beauty" expand="block">
       <ion-icon *ngIf="!isUploading" name="cloud-upload"></ion-icon>
       <ion-spinner *ngIf="isUploading" name="dots"></ion-spinner>
       &nbsp;KIRIM BUKTI

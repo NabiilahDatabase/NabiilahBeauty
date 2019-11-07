@@ -1,0 +1,143 @@
+.produk-terbaru {
+    margin: 0;
+    padding: 10px 10px 0;
+    background: linear-gradient(0deg,#ffffff 0,#efefef 2.5rem);
+    display: flex;
+}
+.produk-terbaru-title {
+    color: rgba(0,0,0,.54);
+    text-transform: uppercase;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -moz-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+.produk-terbaru-link {
+    text-decoration: none;
+    display: block;
+}
+.produk-terbaru-content {
+    background: linear-gradient(180deg,#ffffff 0,#efefef 2.5rem);
+}
+
+#container {
+    width: inherit;
+    height: 200px;
+    display: table;
+    background-color: white;      
+}
+
+#container .image-container {
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+
+ion-badge {
+    position: absolute;
+    top: 15px;
+    right: 37px;
+    border-radius: 0px 10px;
+    color: #54388E;
+    padding: 2.5px 5px 3px;
+}
+
+.side-padding {
+    padding: 0 10px;
+}
+.filter-button {
+    background-color: #ededed;
+    color: #777777;
+    border-radius: 50px;
+    padding: 3px 10px 6px;
+    font-size: 17px;
+    margin-left: 10px;
+}
+.active {
+    background-color: #54388E;
+    color: white;
+}
+
+#images {
+    margin: 0 auto;
+    width: 100%;
+}
+.card {
+    position: relative;
+    box-sizing: border-box;
+}
+.card-rumah {
+    border: solid 2px #54388E;
+}
+.disk {
+    // padding: .5rem; // tombol di tengah
+    background: #ffffff;
+    position: relative;
+    border-radius: 0px 0px 10px 10px;
+}
+.stock {
+    background: #54388E;
+    color: white;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 0.6em;
+    padding: 3px 6px;
+    border-radius: 0.3em;
+}
+.toko {
+    background: #54388E;
+    color: white;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 0.6em;
+    padding: 3px 6px;
+    border-radius: 0.8em;
+}
+.nama {
+    padding: 5px 0 0 10px;
+    white-space: normal;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    font-size: 0.85em;
+    height: 42px;
+}
+.harga {
+    color: #54388E;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0px 10px 5px;
+}
+.rp {
+    font-size: .82rem;
+}
+.add {
+    margin: 0;
+    height: 23px;
+}
+
+cdk-virtual-scroll-viewport {
+    height: 100vh;
+  
+    li {
+      height: 100px;
+    }
+  
+    // Bonus points
+    &::-webkit-scrollbar {
+      width: 1em;
+    }
+  
+    &::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background-color: rgb(238, 169, 79);
+    }
+}

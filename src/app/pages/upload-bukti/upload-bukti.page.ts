@@ -108,18 +108,19 @@ export class UploadBuktiPage implements OnInit {
         } else if (event.type === HttpEventType.Response) {
           console.log(event.body.result);
           this.afs.collection('orderan').doc(this.data.id).set({
-              status: 'dibayar', waktuDibayar: this.tool.getUnixTime()
+              status: 'dibayar',
+              waktuDibayar: this.tool.getUnixTime(),
+              tglDibayar: this.tool.getTime('YYYYMMDD')
             }, { merge: true }).then(
              () => {
                this.popup.showToast('Berhasil upload bukti transfer', 700);
                this.modal.dismiss();
-               this.isUploading = false;
              },
              (error) => {
                this.popup.showAlert('Error Upload', error);
-               this.isUploading = false;
               }
           );
+          this.isUploading = false;
         }
       },
       (err) => {

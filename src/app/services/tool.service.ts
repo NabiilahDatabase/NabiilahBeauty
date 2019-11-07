@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { PopupService } from './popup.service';
 
+import * as moment from 'moment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -39,6 +41,9 @@ export class ToolService {
   }
   getUnixTime() {
     return Math.round(new Date().getTime() / 1000);
+  }
+  getTime(format: string) {
+    return moment(moment().toDate().getTime()).format(format);
   }
   generateNumber(x: number)  {
     const a = [1, 2, 3, 4, 5, 6, 7, 8, 9];

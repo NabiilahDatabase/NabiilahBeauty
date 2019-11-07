@@ -34,6 +34,21 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
 
+
+.ion-color-beauty {
+    --ion-color-base: var(--ion-color-beauty) !important;
+    --ion-color-base-rgb: var(--ion-color-beauty-rgb) !important;
+    --ion-color-contrast: var(--ion-color-beauty-contrast) !important;
+    --ion-color-contrast-rgb: var(--ion-color-beauty-contrast-rgb) !important;
+    --ion-color-shade: var(--ion-color-beauty-shade) !important;
+    --ion-color-tint: var(--ion-color-beauty-tint) !important;
+}
+
+ion-item {
+    --highlight-color-focused: #9a1374;
+    --highlight-color-valid: #d6009a;
+}
+
 :root,
 :root[mode="md"],
 :root[mode="ios"] {

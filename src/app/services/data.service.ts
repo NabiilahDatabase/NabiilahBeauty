@@ -44,6 +44,16 @@ export class DataService {
   getProduct(pid: string) {
     return this.productsCollections.doc<Product>(pid).valueChanges();
   }
+  searchProduct(name: string) {
+    if (name !== '') {
+      console.log(`mecari data firestore: ${name}`);
+      const start = name;
+      const end = start + '\uf8ff';
+      return this.afs.collection<Product>('produk', ref =>
+        ref.limit(10).orderBy('nama')
+        .startAt(start).endAt(end)).valueChanges();
+    }
+  }
 
   getKeeps(status?: string | null) {
     let doc: AngularFirestoreCollection = null;

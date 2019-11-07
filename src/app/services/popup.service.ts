@@ -14,6 +14,7 @@ export class PopupService {
   async showToast(message: any, dur: number) {
     const toast = await this.toastController.create({
         message,
+        position: 'top',
         duration: dur
     });
     await toast.present();

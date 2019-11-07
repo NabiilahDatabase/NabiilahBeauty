@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary" mode="ios">
+  <ion-toolbar color="beauty" mode="ios">
     <ion-title>Transaksi</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="openCart()">
@@ -8,7 +8,7 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar mode="ios" class="fancy-toolbar ion-no-padding">
-    <ion-segment color="primary" scrollable>
+    <ion-segment color="beauty" scrollable>
         <ion-segment-button (click)="filter('order')" checked layout="icon-start">
           <ion-label>Tagihan</ion-label>
           <ion-icon name="wallet"></ion-icon>
@@ -23,7 +23,7 @@
         </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
-  <ion-progress-bar *ngIf="onLoad" color="primary" type="indeterminate"></ion-progress-bar>
+  <ion-progress-bar *ngIf="onLoad" color="beauty" type="indeterminate"></ion-progress-bar>
 </ion-header>
 
 <ion-content *ngIf="keeps">
@@ -42,7 +42,7 @@
               <ion-card-title class="ion-no-margin"><strong>{{ keep.penerima.nama | uppercase }}</strong></ion-card-title>
             </ion-card-header>
             <ion-label class="total"><strong>Rp{{ keep.total | number }}</strong></ion-label>
-            <ion-label *ngIf="keep.status==='order'" class="jumlah-barang" color="primary">Lihat rincian</ion-label>
+            <ion-label *ngIf="keep.status==='order'" class="jumlah-barang" color="beauty">Lihat rincian</ion-label>
             <span *ngIf="keep.status==='dibayar'">
               <ion-label class="jumlah-barang" *ngIf="!keep?.dicek" color="medium"><ion-icon slot="icon-only" name="time"></ion-icon>&nbsp;VERIFIKASI</ion-label>
               <ion-label class="jumlah-barang" *ngIf="keep?.dicek" color="success"><ion-icon slot="icon-only" name="checkbox"></ion-icon>&nbsp;VALID</ion-label>    
@@ -86,7 +86,7 @@
           </ion-item>
           <ion-item lines="full">
             <ion-label>TOTAL TAGIHAN:</ion-label>
-            <ion-label class="harga ion-text-right" color="primary" slot="end"><strong>Rp{{keep.total | number}}</strong></ion-label>
+            <ion-label class="harga ion-text-right" color="beauty" slot="end"><strong>Rp{{keep.total | number}}</strong></ion-label>
           </ion-item>
           <ion-item lines="full" *ngIf="keep.status==='dikirim' && keep?.resi">
             <ion-label color="tertiary">RESI:</ion-label>
@@ -105,7 +105,7 @@
             </ion-col>
             <ion-col size="6" class="ion-no-padding">
               <section class="full-width">
-                <ion-button (click)="bayar(keep)" expand="full" color="primary"><ion-icon slot="icon-only" name="cash"></ion-icon>&nbsp;Bayar Tagihan</ion-button>
+                <ion-button (click)="bayar(keep)" expand="full" color="beauty"><ion-icon slot="icon-only" name="cash"></ion-icon>&nbsp;Bayar Tagihan</ion-button>
               </section>
             </ion-col>
           </ion-row>

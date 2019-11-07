@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary" mode="ios">
+  <ion-toolbar color="beauty" mode="ios">
     <ion-title>
       <ion-icon name="rose"></ion-icon>
       Nabiilah Beauty
@@ -11,13 +11,13 @@
       <ion-badge *ngIf="userInfo.cart!==0" (click)="openCart()" color="light">{{ userInfo.cart }}pc</ion-badge>
     </ion-buttons>
   </ion-toolbar>
-  <ion-toolbar color="primary">
-    <ion-searchbar (click)="openSearch()" placeholder="Cari Produk" mode="ios" color="light"></ion-searchbar>
+  <ion-toolbar color="beauty">
+    <ion-searchbar (search)="openSearch($event)" placeholder="Cari Produk" mode="ios" color="light"></ion-searchbar>
   </ion-toolbar>
   <ion-progress-bar *ngIf="onload" type="indeterminate"></ion-progress-bar>
 </ion-header>
 
-<ion-content *ngIf="products">
+<ion-content *ngIf="data">
   <div class="produk-terbaru">
     <span class='produk-terbaru-title'>PRODUK TERBARU</span>
     <span class='produk-terbaru-link'>Lihat semua</span>
@@ -25,7 +25,7 @@
   <div class='produk-terbaru-content'>
     <ion-grid>
         <ion-row id="images" class="ion-align-items-center">
-          <ion-col size="6" *ngFor="let post of products">
+          <ion-col size="6" *ngFor="let post of data | async">
             <div (click)="showItem(post.id)" class="card">
               <div id="container">
                 <div class="image-container">
@@ -33,7 +33,7 @@
                 </div>
               </div>
               <div class="disk">
-                <ion-label class="nama"><strong>{{ post.nama }}</strong></ion-label>
+                <ion-label class="nama"><strong>{{ post.nama | ucwords }}</strong></ion-label>
                 <div class="harga">
                   <ion-label class="rp">RP</ion-label><ion-label>{{ post.hargaJual | number }}</ion-label>
                   <span class="stock">{{ post.stock }}pcs</span>
@@ -43,5 +43,13 @@
           </ion-col>
         </ion-row>
     </ion-grid>
+    
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="dots"
+        loadingText="Memuat Produk...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
   </div>
 </ion-content>

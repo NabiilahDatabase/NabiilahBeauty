@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar mode="ios" color="primary">
+  <ion-toolbar mode="ios" color="beauty">
     EKSPEDISI
     <ion-buttons slot="start">
       <ion-button color="light" (click)="dismiss()">
@@ -7,9 +7,9 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="beauty">
       <ion-list class="ion-no-padding">
-        <ion-item color="primary">
+        <ion-item color="beauty">
           <ion-avatar slot="start">
             <ion-icon class="avatar-icon" name="airplane" size="large" color="light"></ion-icon>
           </ion-avatar>
@@ -26,12 +26,12 @@
         </ion-button>
       </ion-buttons>
   </ion-toolbar>
-  <ion-progress-bar *ngIf="onload" type="indeterminate" color="primary"></ion-progress-bar>
+  <ion-progress-bar *ngIf="onload" type="indeterminate" color="beauty"></ion-progress-bar>
 </ion-header>
 
 <ion-content *ngIf="ongkirList && !onload">
   <ion-text class="title">
-    <ion-icon name="search" color="primary"></ion-icon>
+    <ion-icon name="search" color="beauty"></ion-icon>
     <strong>PILIH EKSPEDISI</strong>
   </ion-text>
   <ion-list *ngFor="let eksp of ongkirList | orderBy:'cost'" class="ion-no-padding">
@@ -47,7 +47,7 @@
             <strong>Rp{{ eksp?.cost | number }}</strong>
           </h5>
         </ion-note>
-        <ion-icon *ngIf="eksp?.code===ongkirPilihan?.kurir&&eksp?.service===ongkirPilihan?.service" slot="start" name="checkmark-circle-outline" color="primary"></ion-icon>
+        <ion-icon *ngIf="eksp?.code===ongkirPilihan?.kurir&&eksp?.service===ongkirPilihan?.service" slot="start" name="checkmark-circle-outline" color="beauty"></ion-icon>
       </ion-item>
   </ion-list>
 </ion-content>

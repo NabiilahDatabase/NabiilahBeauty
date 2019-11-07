@@ -1,5 +1,5 @@
 <ion-header no-border>
-  <ion-toolbar mode="ios" no-border color="primary">
+  <ion-toolbar mode="ios" no-border color="beauty">
     <ion-title>
       Akun Anda
     </ion-title>
@@ -9,7 +9,7 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-progress-bar *ngIf="!userInfo | async" type="indeterminate"></ion-progress-bar>
+  <ion-progress-bar *ngIf="!userInfo" type="indeterminate"></ion-progress-bar>
 </ion-header>
 
 <ion-content *ngIf="userInfo | async as user" fullscreen>
@@ -57,8 +57,8 @@
       <ion-col size="6">
         <ion-card class="ion-activatable">
           <ion-ripple-effect></ion-ripple-effect>
-          <ion-progress-bar color="primary" value="1"></ion-progress-bar>
-          <ion-icon style="padding:10px" color="primary" size="large" name="analytics"></ion-icon>
+          <ion-progress-bar color="beauty" value="1"></ion-progress-bar>
+          <ion-icon style="padding:10px" color="beauty" size="large" name="analytics"></ion-icon>
           <h5><strong>Grafik</strong></h5>
         </ion-card>
       </ion-col>

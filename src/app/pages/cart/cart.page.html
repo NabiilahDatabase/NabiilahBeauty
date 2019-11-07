@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar mode="ios" color="primary">
+  <ion-toolbar mode="ios" color="beauty">
     <ion-buttons slot="start">
       <ion-button color="light" routerLink="/tabs">
           <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
@@ -7,7 +7,7 @@
     </ion-buttons>
     <ion-title>Keranjang</ion-title>
   </ion-toolbar>
-  <ion-progress-bar *ngIf="onload && cart" color="primary" type="indeterminate"></ion-progress-bar>
+  <ion-progress-bar *ngIf="onload && cart" color="beauty" type="indeterminate"></ion-progress-bar>
 </ion-header>
 
 <ion-content *ngIf="onload && !cart">
@@ -19,7 +19,7 @@
 
 <ion-content *ngIf="!onload && cart">
   <ion-text class="title">
-    <ion-icon name="cart" color="primary"></ion-icon>
+    <ion-icon name="cart" color="beauty"></ion-icon>
     <strong>PRODUK PESANAN</strong>
   </ion-text>
   <ion-list class="ion-no-padding">
@@ -30,13 +30,13 @@
           <ion-img [src]="item.img[0]"></ion-img>
         </ion-thumbnail>
         <ion-label [color]="item.valid?'dark':'danger'">
-          <h2><strong>{{ item.nama }}</strong></h2>
+          <h2><strong>{{ item.nama | ucwords }}</strong></h2>
           <p>Rp{{ item.hargaJual | number }}</p>
         </ion-label>
         <div class="count">
-          <ion-icon class="count-button" [color]="item.valid?'primary':'danger'" size="large" name="remove-circle" (click)="editBarang(item,-1)"></ion-icon>
+          <ion-icon class="count-button" [color]="item.valid?'beauty':'danger'" size="large" name="remove-circle" (click)="editBarang(item,-1)"></ion-icon>
           <ion-label [color]="item.valid?'dark':'danger'"><strong>{{ item.jumlah }}</strong></ion-label>
-          <ion-icon class="count-button" [color]="item.valid?'primary':'danger'" size="large" name="add-circle" (click)="editBarang(item,1)"></ion-icon>
+          <ion-icon class="count-button" [color]="item.valid?'beauty':'danger'" size="large" name="add-circle" (click)="editBarang(item,1)"></ion-icon>
         </div>
         <div class="subtotal">
           <ion-label *ngIf="item.valid">Rp{{ item.jumlah * item.hargaJual | number }}</ion-label>
@@ -51,7 +51,7 @@
   <ion-list  *ngIf="cart" class="ion-no-padding">
     <ion-item>
       <ion-label class="totalan">Sub-Total:</ion-label>
-      <ion-note color="primary"><h5>Rp{{ (cart | pluck:'subtotal' | sum) | number }}</h5></ion-note>
+      <ion-note color="beauty"><h5>Rp{{ (cart | pluck:'subtotal' | sum) | number }}</h5></ion-note>
     </ion-item>
     <ion-item *ngIf="adaPotongan && !adaDiskon && ekspedisi">
       <ion-label color="success" class="totalan">Potongan:</ion-label>
@@ -62,29 +62,29 @@
       <ion-note color="danger"><h5>-Rp{{ $diskon | number }}</h5></ion-note>
     </ion-item>
     <ion-item *ngIf="deposit!=0">
-      <ion-label color="primary" class="totalan">Deposit {{ dropshiperData.nama }}:</ion-label>
-      <ion-note color="primary"><h5>-Rp{{ deposit | number }}</h5></ion-note>
+      <ion-label color="beauty" class="totalan">Deposit {{ dropshiperData.nama }}:</ion-label>
+      <ion-note color="beauty"><h5>-Rp{{ deposit | number }}</h5></ion-note>
     </ion-item>
     <ion-item *ngIf="hutang!=0">
-      <ion-label color="primary" class="totalan">Hutang:</ion-label>
-      <ion-note color="primary"><h5>Rp{{ hutang | number }}</h5></ion-note>
+      <ion-label color="beauty" class="totalan">Hutang:</ion-label>
+      <ion-note color="beauty"><h5>Rp{{ hutang | number }}</h5></ion-note>
     </ion-item>
     <ion-item *ngIf="ekspedisi">
       <ion-label class="totalan">Ongkir [{{ (cart | pluck:'subberat' | sum)/1000 | number }}Kg]:</ion-label>
-      <ion-note color="primary"><h5>Rp{{ ekspedisi.ongkir | number }}</h5></ion-note>
+      <ion-note color="beauty"><h5>Rp{{ ekspedisi.ongkir | number }}</h5></ion-note>
     </ion-item>
     <ion-item *ngIf="ekspedisi">
-      <ion-label color="primary" class="totalan">Kode Unik:</ion-label>
-      <ion-note color="primary"><h5>{{ kodeUnik | number }}</h5></ion-note>
+      <ion-label color="beauty" class="totalan">Kode Unik:</ion-label>
+      <ion-note color="beauty"><h5>{{ kodeUnik | number }}</h5></ion-note>
     </ion-item>
     <ion-item *ngIf="ekspedisi">
       <ion-label class="totalan"><strong>TOTAL:</strong></ion-label>
-      <ion-note color="primary"><h5><strong>Rp{{ total | number }}</strong></h5></ion-note>
+      <ion-note color="beauty"><h5><strong>Rp{{ total | number }}</strong></h5></ion-note>
     </ion-item>
   </ion-list>
 
   <ion-text class="title">
-    <ion-icon name="pin" color="primary"></ion-icon>
+    <ion-icon name="pin" color="beauty"></ion-icon>
     <strong>TUJUAN PENGIRIMAN</strong>
   </ion-text>
   <ion-list *ngIf="!customerData" class="ion-no-padding">
@@ -93,7 +93,7 @@
       <ion-avatar slot="start">
         <ion-img src="../../../assets/user.svg"></ion-img>
       </ion-avatar>
-      <ion-label color="primary">
+      <ion-label color="beauty">
         <h2><strong>KLIK UNTUK EDIT</strong></h2>
         <h3>+628x-xxxx-xxxx</h3>
         <p>Kecamatan, Kabupaten</p>
@@ -122,7 +122,7 @@
   </ion-list>
 
   <!-- <ion-text class="title">
-    <ion-icon name="pin" color="primary"></ion-icon>
+    <ion-icon name="pin" color="beauty"></ion-icon>
     <strong>PENGIRIM</strong>
   </ion-text>
   <ion-list *ngIf="!senderName" class="ion-no-padding">
@@ -131,7 +131,7 @@
       <ion-avatar slot="start">
         <ion-img src="../../../assets/user.svg"></ion-img>
       </ion-avatar>
-      <ion-label color="primary">
+      <ion-label color="beauty">
         <h2><strong>{{ defaultSender.nama }}</strong></h2>
         <h3>{{ defaultSender.hp }}</h3>
       </ion-label>
@@ -152,7 +152,7 @@
   </ion-list>
 
   <ion-text class="title">
-    <ion-icon name="pin" color="primary"></ion-icon>
+    <ion-icon name="pin" color="beauty"></ion-icon>
     <strong>DROPSHIPER</strong>
   </ion-text>
   <ion-list *ngIf="dropshiperData" class="ion-no-padding">
@@ -171,16 +171,16 @@
   </ion-list> -->
 
   <ion-text *ngIf="customerData" class="title">
-    <ion-icon name="airplane" color="primary"></ion-icon>
+    <ion-icon name="airplane" color="beauty"></ion-icon>
     <strong>EKSPEDISI</strong>
   </ion-text>
   <ion-list *ngIf="customerData as customer" class="ion-no-padding">
     <ion-item button (click)="editEkspedisi(customer)">
       <ion-ripple-effect></ion-ripple-effect>
       <ion-avatar slot="start">
-        <ion-icon class="avatar-icon" name="airplane" size="large" color="primary"></ion-icon>
+        <ion-icon class="avatar-icon" name="airplane" size="large" color="beauty"></ion-icon>
       </ion-avatar>
-      <ion-label color="primary" *ngIf="!ekspedisi">
+      <ion-label color="beauty" *ngIf="!ekspedisi">
         <h2><strong>PILIH EKSPEDISI</strong></h2>
         <h3>Untuk pengiriman ke {{ customer.kec }}</h3>
       </ion-label>
@@ -205,6 +205,6 @@
     </ion-item>
   </ion-list> -->
   <ion-toolbar class="ion-no-padding">
-    <ion-button [disabled]="!(cart | pluck:'valid' | every: valid) || !customerData || !ekspedisi" color="primary" expand="block" (click)="checkout()">PESAN & BAYAR</ion-button>
+    <ion-button [disabled]="!(cart | pluck:'valid' | every: valid) || !customerData || !ekspedisi" color="beauty" expand="block" (click)="checkout()">PESAN & BAYAR</ion-button>
   </ion-toolbar>
 </ion-footer>

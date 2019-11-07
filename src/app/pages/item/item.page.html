@@ -12,14 +12,14 @@
     <ion-grid class="ion-no-padding">
       <ion-row>
         <ion-col size="8" class="ion-no-padding">
-          <ion-text color="primary" class="harga">Rp{{ product?.hargaJual | number }}</ion-text>
+          <ion-text color="beauty" class="harga">Rp{{ product?.hargaJual | number }}</ion-text>
         </ion-col>
         <ion-col size="4" class="ion-no-padding ion-text-end">
         </ion-col>
       </ion-row>
       <ion-text>
         <h4>
-          <strong>{{ product?.nama }}</strong>
+          <strong>{{ product?.nama | ucwords }}</strong>
         </h4>
       </ion-text>
     </ion-grid>
@@ -30,22 +30,22 @@
   <ion-grid class="ion-no-padding">
     <ion-row>
       <ion-col size="3" class="ion-text-center" style="padding: 10px">
-        <ion-icon style="margin-bottom: -5px" name="speedometer" size="large" color="primary"></ion-icon><br>
+        <ion-icon style="margin-bottom: -5px" name="speedometer" size="large" color="beauty"></ion-icon><br>
         <ion-label color="medium">Berat</ion-label><br>
         <ion-label>{{ product.berat }} gr</ion-label>
       </ion-col>
       <ion-col size="3" class="ion-text-center" style="padding: 10px">
-        <ion-icon style="margin-bottom: -5px" name="pricetags" size="large" color="primary"></ion-icon><br>
+        <ion-icon style="margin-bottom: -5px" name="pricetags" size="large" color="beauty"></ion-icon><br>
         <ion-label color="medium">Brand</ion-label><br>
         <ion-label>N/A</ion-label>
       </ion-col>
       <ion-col size="3" class="ion-text-center" style="padding: 10px">
-        <ion-icon style="margin-bottom: -5px" name="filing" size="large" color="primary"></ion-icon><br>
+        <ion-icon style="margin-bottom: -5px" name="filing" size="large" color="beauty"></ion-icon><br>
         <ion-label color="medium">Stock</ion-label><br>
         <ion-label>{{ product.stock }} pcs</ion-label>
       </ion-col>
       <ion-col size="3" class="ion-text-center" style="padding: 10px">
-        <ion-icon style="margin-bottom: -5px" name="analytics" size="large" color="primary"></ion-icon><br>
+        <ion-icon style="margin-bottom: -5px" name="analytics" size="large" color="beauty"></ion-icon><br>
         <ion-label color="medium">Request</ion-label><br>
         <ion-label>{{ product.keep }}</ion-label>
       </ion-col>
@@ -64,15 +64,15 @@
 </ion-content>
 <ion-toolbar *ngIf="product">
   <ion-buttons slot="end">
-    <ion-button color="primary" shape="round" fill="solid" [disabled]="product.stock==0" (click)="keep()">BELI</ion-button>
+    <ion-button color="beauty" shape="round" fill="solid" [disabled]="product.stock==0" (click)="keep()">TAMBAH</ion-button>
   </ion-buttons>
   <ion-buttons slot="start">
     <ion-label>&nbsp;<strong>JUMLAH:</strong>&nbsp;&nbsp;</ion-label>
-    <ion-chip style="margin-right:10px" (click)="c(-1)" outline color="primary">
+    <ion-chip style="margin-right:10px" (click)="c(-1)" outline color="beauty">
       <ion-icon style="margin:0" name="remove-circle"></ion-icon>
     </ion-chip>
     <div class="count"><strong>{{ jumlah }}</strong></div>
-    <ion-chip style="margin-left:10px" (click)="c(1)" outline color="primary">
+    <ion-chip style="margin-left:10px" (click)="c(1)" outline color="beauty">
       <ion-icon style="margin:0" name="add-circle"></ion-icon>
     </ion-chip>
   </ion-buttons>

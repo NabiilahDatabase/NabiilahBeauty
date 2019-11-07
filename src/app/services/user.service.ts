@@ -145,7 +145,7 @@ export class UserService {
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'primary',
+          cssClass: 'beauty',
           handler: () => {}
         }, {
           text: 'Ya',

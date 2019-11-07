@@ -1,9 +1,35 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>search</ion-title>
+  <ion-toolbar color="beauty">
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-searchbar style="padding:0 10px 0 0" (search)="cari($event)" (ionCancel)="dismiss()" value="{{data}}" placeholder="Cari Produk" mode="ios" color="light" cancelButtonText="Batal" showCancelButton="always"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content *ngIf="searchResult">
+  <div class='produk-terbaru-content'>
+    <ion-grid>
+        <ion-row id="images" class="ion-align-items-center">
+          <ion-col size="6" *ngFor="let post of searchResult">
+            <div (click)="showItem(post.id)" class="card">
+              <div id="container">
+                <div class="image-container">
+                  <ion-img src="{{ post.img[0] }}"></ion-img>
+                </div>
+              </div>
+              <div class="disk">
+                <ion-label class="nama"><strong>{{ post.nama | ucwords }}</strong></ion-label>
+                <div class="harga">
+                  <ion-label class="rp">RP</ion-label><ion-label>{{ post.hargaJual | number }}</ion-label>
+                  <span class="stock">{{ post.stock }}pcs</span>
+                </div>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>

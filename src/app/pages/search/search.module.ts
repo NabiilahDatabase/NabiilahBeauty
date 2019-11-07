@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { SearchPage } from './search.page';
 
+import { NgPipesModule } from 'ngx-pipes';
+
 const routes: Routes = [
   {
     path: '',
@@ -19,7 +21,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    NgPipesModule,
   ],
   declarations: [SearchPage]
 })
