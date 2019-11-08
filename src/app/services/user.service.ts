@@ -52,6 +52,7 @@ export class UserService {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
               resolve(true); // user sudah login
+              console.log(user);
               this.setUser(user.uid);
               if (!this.user) {
                 this.task = this.afs.collection('user').doc<User>(user.uid).valueChanges().subscribe(res => {
@@ -84,9 +85,12 @@ export class UserService {
     console.log('getUserInfo');
     return this.userObservable;
   }
-
   async updateUserInfo(partialdata) {
     this.afs.collection('user').doc(this.getUserId()).update(partialdata);
+  }
+
+  getAlamat() {
+
   }
 
   async registerUser(data: User) {
@@ -108,6 +112,14 @@ export class UserService {
         this.task = this.userObservable.subscribe(res => {
           this.user = res;
           console.log('subscribe userdata');
+        });
+        this.afs.collection('user').doc(userdata.user.uid).collection('alamat').doc(data.joinDate.toString()).set({
+          nama: data.nama,
+          hp: data.hp,
+          alamat: data.alamat,
+          kec: data.kec, kab: data.kab, prov: data.prov,
+          kec_id: data.kec_id, kab_id: data.kab_id, prov_id: data.prov_id,
+          primary: true,
         });
         this.popup.showToast('Berhasil terdaftar!', 700);
       });

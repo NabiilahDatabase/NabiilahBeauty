@@ -34,7 +34,7 @@ export class VerifikasiPage {
     await loading.present();
     console.log(this.registerForm.value);
     this.confirmationResult.confirm(code).then(
-      (success) => {
+      (data) => {
         this.userService.registerUser({
           uid: null,
           nama: this.registerForm.controls.nama.value.toString().toUpperCase().trim(),

@@ -5,7 +5,7 @@
           <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Keranjang</ion-title>
+    <ion-title>Keranjang Saya</ion-title>
   </ion-toolbar>
   <ion-progress-bar *ngIf="onload && cart" color="beauty" type="indeterminate"></ion-progress-bar>
 </ion-header>
@@ -30,13 +30,13 @@
           <ion-img [src]="item.img[0]"></ion-img>
         </ion-thumbnail>
         <ion-label [color]="item.valid?'dark':'danger'">
-          <h2><strong>{{ item.nama | ucwords }}</strong></h2>
+          <h3><strong>{{ item.nama | ucwords }}</strong></h3>
           <p>Rp{{ item.hargaJual | number }}</p>
         </ion-label>
-        <div class="count">
-          <ion-icon class="count-button" [color]="item.valid?'beauty':'danger'" size="large" name="remove-circle" (click)="editBarang(item,-1)"></ion-icon>
-          <ion-label [color]="item.valid?'dark':'danger'"><strong>{{ item.jumlah }}</strong></ion-label>
-          <ion-icon class="count-button" [color]="item.valid?'beauty':'danger'" size="large" name="add-circle" (click)="editBarang(item,1)"></ion-icon>
+        <div class="change-icon">
+            <ion-icon class="count-button" [color]="item.valid?'beauty':'danger'" size="large" name="remove-circle" (click)="editBarang(item,-1)"></ion-icon>
+            <ion-label [color]="item.valid?'dark':'danger'"><strong>{{ item.jumlah }}</strong></ion-label>
+            <ion-icon class="count-button" [color]="item.valid?'beauty':'danger'" size="large" name="add-circle" (click)="editBarang(item,1)"></ion-icon>
         </div>
         <div class="subtotal">
           <ion-label *ngIf="item.valid">Rp{{ item.jumlah * item.hargaJual | number }}</ion-label>
@@ -197,14 +197,14 @@
 </ion-content>
 
 <ion-footer *ngIf="cart" class="ion-no-padding">
-  <!-- <ion-list class="line-input">
+  <ion-list class="line-input">
     <ion-item>
-      <ion-input color="danger" [disabled]="!adaDiskon" type="number" [(ngModel)]="diskon" (keyup)="hitung()" placeholder="Masukkan Total Diskon"></ion-input>
+      <ion-label *ngIf="ekspedisi" color="beauty"><h5><strong>Rp{{ total | number }}</strong></h5></ion-label>
       <ion-toggle mode="ios" slot="end" name="banana" color="danger" [(ngModel)]="adaDiskon" (ionChange)="hitung()">Diskon</ion-toggle>
-      <ion-note class="diskon" [color]="adaDiskon?'danger':'medium'">Diskon</ion-note>
+      <ion-note class="diskon" [color]="adaDiskon?'danger':'medium'">Kirim sebagai dropshiper</ion-note>
     </ion-item>
-  </ion-list> -->
+  </ion-list>
   <ion-toolbar class="ion-no-padding">
-    <ion-button [disabled]="!(cart | pluck:'valid' | every: valid) || !customerData || !ekspedisi" color="beauty" expand="block" (click)="checkout()">PESAN & BAYAR</ion-button>
+    <ion-button [disabled]="!(cart | pluck:'valid' | every: valid) || !customerData || !ekspedisi" color="beauty" expand="full" (click)="checkout()">BUAT PESANAN</ion-button>
   </ion-toolbar>
 </ion-footer>

@@ -37,7 +37,8 @@
 .subtotal {
     position: absolute;
     bottom: 5px;
-    right: 23px;
+    right: 35px;
+    font-size: 0.8em;
 }
 .totalan {
     font-size: 15px;
@@ -77,7 +78,7 @@ ion-toggle {
     display: flex;
     font-size: 15px;
     align-items: center;
-    background-color: gainsboro;
+    background-color: #ffe7ee;
 }
 .title ion-icon {
     margin: 5px;
