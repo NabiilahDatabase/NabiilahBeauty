@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export interface User {
   uid: string;
   email: string;
-  hp: number;
+  hp: string;
   password: string;
   nama: string;
   alamat: string;
@@ -39,7 +39,7 @@ export class UserService {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         if (!this.user) {
-          this.setUser(user.uid);
+          this.setUser(user.phoneNumber);
         }
       } else {
         console.log('belum login');
@@ -52,13 +52,12 @@ export class UserService {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
               resolve(true); // user sudah login
-              console.log(user);
-              this.setUser(user.uid);
+              console.log('can active:', user);
+              this.setUser(user.phoneNumber);
               if (!this.user) {
-                this.task = this.afs.collection('user').doc<User>(user.uid).valueChanges().subscribe(res => {
+                this.task = this.afs.collection('user').doc<User>(user.phoneNumber).valueChanges().subscribe(res => {
                   this.user = res;
-                  console.log(res);
-                  console.log('subscribe userdata can activte');
+                  console.log('subscribe userdata can activte', res);
                 });
               }
             } else {
@@ -71,15 +70,16 @@ export class UserService {
     });
   }
 
-  setUser(userid: string) {
-    this.userObservable = this.afs.collection('user').doc<User>(userid).valueChanges();
+  setUser(hp: string) {
+    this.userObservable = this.afs.collection('user').doc<User>(hp).valueChanges();
     // console.log('setUser', this.user);
   }
   setUserData(user: User) {
     this.user = user;
   }
   getUserId() {
-    return firebase.auth().currentUser.uid;
+    console.log('getUserId: ', firebase.auth().currentUser);
+    return firebase.auth().currentUser.phoneNumber;
   }
   getUserInfo() {
     console.log('getUserInfo');
@@ -95,11 +95,14 @@ export class UserService {
 
   async registerUser(data: User) {
     try {
-      const userdata = await firebase.auth().createUserWithEmailAndPassword(data.email, data.password);
-      console.log('register as ', data.email, ' & ', data.password);
-      this.afs.collection('user').doc(userdata.user.uid).set({
-        uid: userdata.user.uid,
-        email: userdata.user.email,
+      // const userdata = await firebase.auth().createUserWithEmailAndPassword(data.email, data.password);
+      // console.log('register as ', data.email, ' & ', data.password);
+      firebase.auth().currentUser.updateEmail(data.email).then(() => console.log('updateEmail'));
+      firebase.auth().currentUser.updateProfile({displayName: data.nama}).then(() => console.log('updateName'));
+      // firebase.auth().currentUser.updatePassword(data.password).then(() => console.log('updatePassword'));
+      this.afs.collection('user').doc(data.hp).set({
+        uid: data.uid,
+        email: data.email,
         hp: data.hp,
         nama: data.nama,
         alamat: data.alamat,
@@ -108,12 +111,12 @@ export class UserService {
         keep: 0, cancel: 0, success: 0, cart: 0,
         joinDate: data.joinDate
       }).then(() => {
-        this.setUser(userdata.user.uid);
+        this.setUser(data.hp);
         this.task = this.userObservable.subscribe(res => {
           this.user = res;
           console.log('subscribe userdata');
         });
-        this.afs.collection('user').doc(userdata.user.uid).collection('alamat').doc(data.joinDate.toString()).set({
+        this.afs.collection('user').doc(data.hp).collection('alamat').doc(data.joinDate.toString()).set({
           nama: data.nama,
           hp: data.hp,
           alamat: data.alamat,

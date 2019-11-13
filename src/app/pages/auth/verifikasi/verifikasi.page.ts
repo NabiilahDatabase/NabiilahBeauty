@@ -4,6 +4,7 @@ import { UserService } from 'src/app/services/user.service';
 import { ModalController, LoadingController } from '@ionic/angular';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-verifikasi',
@@ -27,41 +28,44 @@ export class VerifikasiPage {
   async confirm(code) {
     const loading = await this.loading.create({
       mode: 'ios',
-      spinner: 'lines',
+      spinner: 'dots',
       message: 'Verifikasi...',
       translucent: true,
     });
     await loading.present();
-    console.log(this.registerForm.value);
-    this.confirmationResult.confirm(code).then(
-      (data) => {
-        this.userService.registerUser({
-          uid: null,
-          nama: this.registerForm.controls.nama.value.toString().toUpperCase().trim(),
-          email: this.registerForm.controls.email.value,
-          hp: this.registerForm.controls.hp.value,
-          password: this.registerForm.controls.password.value,
-          alamat: this.registerForm.controls.alamat.value,
-          kec: this.registerForm.controls.kec.value.toString(),
-          kab: this.registerForm.controls.kab.value.toString(),
-          prov: this.registerForm.controls.prov.value.toString(),
-          keep: 0, cancel: 0, success: 0, cart: 0,
-          kec_id: this.registerForm.controls.kec_id.value,
-          kab_id: this.registerForm.controls.kab_id.value,
-          prov_id: this.registerForm.controls.prov_id.value,
-          joinDate: this.tool.getUnixTime()
-        }).then(() => {
-          loading.dismiss();
-          this.modal.dismiss();
-          this.tool.saveRoute('/tabs');
-          }
-        );
-      },
-      (error) => {
+    // console.log(this.registerForm.value);
+    const credential = firebase.auth.PhoneAuthProvider.credential(this.confirmationResult.verificationId, code);
+
+    firebase.auth().signInWithCredential(credential).then(
+      (udata) => {
+      // console.log('User cred: ', udata);
+      this.userService.registerUser({
+        uid: udata.user.uid,
+        nama: this.registerForm.controls.nama.value.toString().toUpperCase().trim(),
+        email: this.registerForm.controls.email.value,
+        hp: '+' + this.registerForm.controls.hp.value,
+        password: this.registerForm.controls.password.value,
+        alamat: this.registerForm.controls.alamat.value,
+        kec: this.registerForm.controls.kec.value.toString(),
+        kab: this.registerForm.controls.kab.value.toString(),
+        prov: this.registerForm.controls.prov.value.toString(),
+        keep: 0, cancel: 0, success: 0, cart: 0,
+        kec_id: this.registerForm.controls.kec_id.value,
+        kab_id: this.registerForm.controls.kab_id.value,
+        prov_id: this.registerForm.controls.prov_id.value,
+        joinDate: this.tool.getUnixTime()
+      }).then(() => {
         loading.dismiss();
-        this.popup.showAlert('Kode Salah!', 'Harap masukkan kode verifikasi sesuai dengan yg diterima melalui SMS');
-      }
-    );
+        this.modal.dismiss();
+        this.tool.saveRoute('/tabs');
+        }
+      );
+    },
+    (error) => {
+      loading.dismiss();
+      this.popup.showAlert('Kode Salah!', 'Harap masukkan kode verifikasi sesuai dengan yg diterima melalui SMS');
+    });
+    // this.confirmationResult.confirm(code).then();
   }
 
   dismiss() {

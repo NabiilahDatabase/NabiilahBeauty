@@ -73,36 +73,42 @@ export class RegisterPage {
     this.onreg = true;
     const loading = await this.loading.create({
       mode: 'ios',
-      spinner: 'circular',
+      spinner: 'dots',
       message: 'Proses registrasi...',
       translucent: true,
     });
     await loading.present();
-    this.recaptchaVerifier = this.newCaptcha();
-    firebase.auth().signInWithPhoneNumber(phoneNumber, this.recaptchaVerifier)
-      .then(
-        async confirmationResult => {
-          this.onreg = false;
-          const modal = await this.modal.create({
-            component: VerifikasiPage,
-            componentProps: { registerForm: this.registerForm, confirmationResult }
-          });
-          loading.dismiss();
-          await modal.present();
-        },
-        error => {
-          this.recaptchaVerifier = this.newCaptcha();
-          this.onreg = false;
-          loading.dismiss();
-          console.log(error);
-          let message = '';
-          switch (error.code) {
-            case 'auth/captcha-check-failed': { message = 'Captcha tidak valid'; break; }
+    // Verifikasi nomor
+    const numb = await this.afs.collection('user').doc('+' + phoneNumber).ref.get();
+    if (!numb.exists) {
+      this.recaptchaVerifier = this.newCaptcha();
+      firebase.auth().signInWithPhoneNumber(phoneNumber, this.recaptchaVerifier)
+        .then(
+          async confirmationResult => {
+            this.onreg = false;
+            const modal = await this.modal.create({
+              component: VerifikasiPage,
+              componentProps: { registerForm: this.registerForm, confirmationResult }
+            });
+            loading.dismiss();
+            await modal.present();
+          },
+          error => {
+            this.recaptchaVerifier = this.newCaptcha();
+            this.onreg = false;
+            loading.dismiss();
+            console.log(error);
+            let message = '';
+            switch (error.code) {
+              case 'auth/captcha-check-failed': { message = 'Captcha tidak valid'; break; }
+            }
+            this.popup.showAlert('Error!', 'Nomor yang anda masukkan tidak valid!, mohon masukkan nomor yg benar');
+            this.tool.saveRoute('/login');
           }
-          this.popup.showAlert('Error!', 'Nomor yang anda masukkan tidak valid!, mohon masukkan nomor yg benar');
-          this.tool.saveRoute('/login');
-        }
-      );
+        );
+    } else {
+      this.popup.showAlert('Nomor Error', 'Nomor yg anda masukkan sudah terdaftar di sistem kami, diharapkan login untuk melanjutkan');
+    }
   }
 
   cari(teks: string) {

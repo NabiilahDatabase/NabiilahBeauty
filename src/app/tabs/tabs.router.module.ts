@@ -24,7 +24,7 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('./shop/shop.module').then(m => m.ShopPageModule)
+              import('./shop/shop.module').then(m => m.ShopPageModule), canActivate: [UserService]
           }
         ]
       },
