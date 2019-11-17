@@ -116,13 +116,9 @@ export class CartService {
     }
   }
 
-  async checkout(barang, customer, ekspedisi, total: number) {
+  async checkout(barang, sender, customer, ekspedisi, total: number) {
     try {
       const status = 'order';
-      const sender = {
-        nama: 'NABIILAHSTORE.COM',
-        hp: '+62822-4278-3494',
-      };
       let berat = 0;
       const pesanan = [];
       barang.forEach((item) => {
@@ -136,7 +132,7 @@ export class CartService {
       });
       this.dataService.addOrder({
         id: this.tool.getUnixTime() + this.tool.generateNumber(3) + '-' + this.tool.generateNumber(2),
-        penerima_id: customer.uid,
+        owner_id: this.userid,
         penerima: {
           nama: customer.nama,
           alamat: customer.alamat,

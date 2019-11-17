@@ -1,23 +1,24 @@
 <ion-header>
   <ion-toolbar color="beauty" mode="ios">
     <ion-title>Transaksi</ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons *ngIf="userService.userObservable | async as userData" slot="end">
       <ion-button (click)="openCart()">
         <ion-icon slot="icon-only" color="light" name="cart"></ion-icon>
       </ion-button>
+      <ion-badge *ngIf="userData.cart!==0" (click)="openCart()" color="light">{{ userData.cart }}pc</ion-badge>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar mode="ios" class="fancy-toolbar ion-no-padding">
     <ion-segment color="beauty" scrollable>
-        <ion-segment-button (click)="filter('order')" checked layout="icon-start">
+        <ion-segment-button (click)="filter('order')" checked layout="icon-start" value="tagihan">
           <ion-label>Tagihan</ion-label>
           <ion-icon name="wallet"></ion-icon>
         </ion-segment-button>
-        <ion-segment-button (click)="filter('dibayar')" layout="icon-start">
+        <ion-segment-button (click)="filter('dibayar')" layout="icon-start" value="dibayar">
           <ion-label>Dibayar</ion-label>
           <ion-icon name="checkbox-outline"></ion-icon>
         </ion-segment-button>
-        <ion-segment-button (click)="filter('dikirim')" layout="icon-start">
+        <ion-segment-button (click)="filter('dikirim')" layout="icon-start" value="dikirim">
           <ion-label>Dikirim</ion-label>
           <ion-icon name="airplane"></ion-icon>
         </ion-segment-button>
@@ -28,7 +29,8 @@
 
 <ion-content *ngIf="keeps">
     <ion-card [class]="keep.status" *ngFor="let keep of keeps">
-      <ion-grid class="ion-no-padding">
+      <ion-grid class="ion-no-padding ion-activatable">
+        <ion-ripple-effect></ion-ripple-effect>
         <ion-row>
           <ion-col size="1" style="padding:0 5px">
             <ion-label class="day">{{ keep.waktuOrder*1000 | date:'d' }}</ion-label>

@@ -24,6 +24,15 @@
   margin-left: -120px;
 }
 
+ion-badge {
+  position: absolute;
+  top: 15px;
+  right: 37px;
+  border-radius: 0px 10px;
+  color: #9a1374;
+  padding: 2.5px 5px 3px;
+}
+
 ion-button {
   margin: 0;
 }

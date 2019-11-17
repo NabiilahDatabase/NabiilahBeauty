@@ -11,7 +11,7 @@ import { UserService, User } from 'src/app/services/user.service';
 import { EkspedisiPage } from 'src/app/pages/ekspedisi/ekspedisi.page';
 import { ToolService } from 'src/app/services/tool.service';
 import { Cart, Product } from 'src/app/services/interface.service';
-import { EditProfilePage } from '../user/edit-profile/edit-profile.page';
+import { PilihAlamatPage } from 'src/app/pages/user/pilih-alamat/pilih-alamat.page';
 
 @Component({
   selector: 'app-cart',
@@ -23,11 +23,12 @@ export class CartPage implements OnInit {
   cart: any[];
   cartDetails: Cart[];
   userInfo: Observable<User>;
-  customerData: User;
+  customerData;
   dropshiperData;
 
+  adaSender = false;
   senderName;
-  senderNumber;
+  senderNumber = '+';
   defaultSender = {
     nama: 'NABIILAHSTORE.COM',
     hp: '+62822-4278-3494',
@@ -101,12 +102,18 @@ export class CartPage implements OnInit {
     });
   }
 
-  async editProfil() {
+  async editCustomer() {
     const modal = await this.modal.create({
-      component: EditProfilePage,
-      componentProps: {
-        userInfo: this.customerData
-      }
+      component: PilihAlamatPage,
+      // componentProps: { userInfo: this.customerData }
+    });
+    modal.onDidDismiss()
+      .then((prop) => {
+        if (prop.data) {
+          this.customerData = prop.data;
+          this.ekspedisi = null;
+          this.hitung();
+        }
     });
     await modal.present();
   }
@@ -183,8 +190,8 @@ export class CartPage implements OnInit {
     if (!this.senderName) {
       sender = this.defaultSender;
     } else {
-      sender.nama = this.senderName;
-      sender.hp = this.senderNumber;
+      sender.nama = this.senderName.toUpperCase();
+      sender.hp = '+' + this.senderNumber;
     }
     const cart = this.cart.map(item => {
       const status = 'keep';
@@ -194,7 +201,7 @@ export class CartPage implements OnInit {
       };
     });
     this.cartService.checkout(
-      cart, this.customerData, this.ekspedisi, this.total
+      cart, sender, this.customerData, this.ekspedisi, this.total
     );
     // console.log('Barang:');
     // console.log(cart);

@@ -83,6 +83,20 @@
     </ion-item>
   </ion-list>
 
+  <ion-text *ngIf="adaSender" class="title">
+    <ion-icon name="pin" color="beauty"></ion-icon>
+    <strong>PENGIRIM</strong>
+  </ion-text>
+  <ion-list *ngIf="adaSender" class="ion-no-padding">
+    <ion-item>
+      <ion-label><strong>Nama:</strong></ion-label>
+      <ion-input placeholder="Nama Dropshiper" [(ngModel)]="senderName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label><strong>+</strong></ion-label>
+      <ion-input placeholder="Nomor HP" [(ngModel)]="senderNumber" type="number"></ion-input>
+    </ion-item>
+  </ion-list>
   <ion-text class="title">
     <ion-icon name="pin" color="beauty"></ion-icon>
     <strong>TUJUAN PENGIRIMAN</strong>
@@ -104,20 +118,16 @@
     </ion-item>
   </ion-list>
   <ion-list *ngIf="customerData as customer" class="ion-no-padding">
-    <ion-item button (click)="editProfil()">
+    <ion-item button detail (click)="editCustomer()">
       <ion-ripple-effect></ion-ripple-effect>
       <ion-avatar slot="start">
         <ion-img src="../../../assets/user.svg"></ion-img>
       </ion-avatar>
       <ion-label>
         <h2><strong>{{ customer.nama }}</strong></h2>
-        <h3>+{{ customer.hp }}</h3>
-        <p>{{ customer.alamat }}</p>
+        <p>{{ customer.hp }} | {{ customer.alamat }}</p>
         <p>{{ customer.kec }}, {{ customer.kab }}, {{ customer.prov }}</p>
       </ion-label>
-      <ion-badge color="success" class="success" mode="ios">{{ customer.success }}</ion-badge>
-      <ion-badge color="danger" class="cancel" mode="ios">{{ customer.cancel }}</ion-badge>
-      <ion-badge color="medium" class="keep" mode="ios">{{ customer.keep }}</ion-badge>
     </ion-item>
   </ion-list>
 
@@ -200,11 +210,11 @@
   <ion-list class="line-input">
     <ion-item>
       <ion-label *ngIf="ekspedisi" color="beauty"><h5><strong>Rp{{ total | number }}</strong></h5></ion-label>
-      <ion-toggle mode="ios" slot="end" name="banana" color="danger" [(ngModel)]="adaDiskon" (ionChange)="hitung()">Diskon</ion-toggle>
-      <ion-note class="diskon" [color]="adaDiskon?'danger':'medium'">Kirim sebagai dropshiper</ion-note>
+      <ion-toggle mode="ios" slot="end" name="banana" color="danger" [(ngModel)]="adaSender">Diskon</ion-toggle>
+      <ion-note class="diskon" [color]="adaSender?'danger':'medium'">Kirim sebagai dropshiper</ion-note>
     </ion-item>
   </ion-list>
   <ion-toolbar class="ion-no-padding">
-    <ion-button [disabled]="!(cart | pluck:'valid' | every: valid) || !customerData || !ekspedisi" color="beauty" expand="full" (click)="checkout()">BUAT PESANAN</ion-button>
+    <ion-button [disabled]="!(cart | pluck:'valid' | every: valid) || !customerData || !ekspedisi || (adaSender && (!senderName || (senderNumber?.length < 8)))" color="beauty" expand="full" (click)="checkout()">BUAT PESANAN</ion-button>
   </ion-toolbar>
 </ion-footer>

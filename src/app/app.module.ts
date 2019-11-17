@@ -11,7 +11,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
-import { Camera } from '@ionic-native/Camera/ngx';
+// import { Camera } from '@ionic-native/Camera/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +25,8 @@ import { EkspedisiPageModule } from './pages/ekspedisi/ekspedisi.module';
 import { EditProfilePageModule } from './pages/user/edit-profile/edit-profile.module';
 import { SearchPageModule } from './pages/search/search.module';
 import { UploadBuktiPageModule } from 'src/app/pages/upload-bukti/upload-bukti.module';
+import { EditAlamatPageModule } from 'src/app/pages/user/edit-alamat/edit-alamat.module';
+import { PilihAlamatPageModule } from 'src/app/pages/user/pilih-alamat/pilih-alamat.module';
 
 // AngularFire Modules
 import { environment } from '../environments/environment';
@@ -58,6 +60,8 @@ import { ApolloModule } from 'apollo-angular';
     EditProfilePageModule,
     SearchPageModule,
     UploadBuktiPageModule,
+    EditAlamatPageModule,
+    PilihAlamatPageModule,
     // 3rd party Module
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
@@ -72,7 +76,7 @@ import { ApolloModule } from 'apollo-angular';
     StatusBar,
     SplashScreen,
     Clipboard,
-    Camera,
+    // Camera,
     WebView,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: StorageBucket, useValue: 'nabiilah-duit.appspot.com' },

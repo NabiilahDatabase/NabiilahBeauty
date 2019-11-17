@@ -97,7 +97,7 @@
       </div>
   
       <ion-button [disabled]="onreg || registerForm.invalid || (registerForm.controls['upassword'].value!==registerForm.controls['upassword'].value)"
-        expand="full" color="beauty" (click)="register('+'+registerForm.controls['hp'].value)">DAFTAR MEMBER
+        expand="full" color="beauty" (click)="register(registerForm.controls['hp'].value)">DAFTAR MEMBER
       </ion-button>
       <ion-progress-bar *ngIf="onreg" type="indeterminate"></ion-progress-bar>
       <ion-button *ngIf="!onreg" expand="full" fill="clear" color="beauty" (click)="tool.saveRoute('/login')">BATAL</ion-button>

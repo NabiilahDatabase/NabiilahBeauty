@@ -48,7 +48,7 @@ export class ShopPage {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         if (!this.userInfo) {
-          this.task2 = this.afs.collection('user').doc<User>(user.uid).valueChanges().subscribe(res => {
+          this.task2 = this.afs.collection('user').doc<User>(user.phoneNumber).valueChanges().subscribe(res => {
             this.userInfo = res;
             this.userService.setUserData(res);
           });

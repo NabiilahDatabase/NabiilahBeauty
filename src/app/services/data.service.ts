@@ -60,7 +60,7 @@ export class DataService {
     if (status) {
       doc = this.afs.collection('orderan', ref =>
           ref.where('status', '==', status)
-          .where('penerima_id', '==', this.userService.getUserId())
+          .where('owner_id', '==', this.userService.getUserId())
           .orderBy('waktuOrder')
         );
     }
@@ -94,7 +94,7 @@ export class DataService {
       const batch = this.afs.firestore.batch();
       const tanggal = moment.unix(invoice.waktuOrder).format('YYYY-MM-DD');
       const orderan = this.afs.collection('orderan').doc(invoice.id).ref;
-      const user = this.afs.collection('user').doc(invoice.penerima_id).ref;
+      const user = this.afs.collection('user').doc(invoice.owner_id).ref;
       try {
           invoice.pesanan.forEach(item => {
             const produk = this.afs.collection('produk').doc(item.id).ref;
@@ -140,7 +140,7 @@ export class DataService {
       const produkJumlah = [];
       const hargaBeli = [], hargaJual = [], idBarang = [], jumlah = [], nama = [];
       let jum = 0;
-      const customerRef = this.afs.collection('user').doc(data.penerima_id).ref;
+      const customerRef = this.afs.collection('user').doc(data.owner_id).ref;
       const orderanRef = this.afs.collection('orderan').doc(data.id).ref;
 
       data.pesanan.forEach(item => {
@@ -263,7 +263,7 @@ export class DataService {
 */
       loader.dismiss();
       this.popup.showToast('Berhasil masukkan orderan', 1000);
-      this.cleanCart(data.pesanan, data.penerima_id);
+      this.cleanCart(data.pesanan, data.owner_id);
       this.popup.showToast('Checkout berhasil!', 2000);
       this.tool.saveRoute('/tabs/transaksi');
     } catch (error) {

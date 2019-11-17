@@ -80,15 +80,16 @@ export class RegisterPage {
     await loading.present();
     // Verifikasi nomor
     const numb = await this.afs.collection('user').doc('+' + phoneNumber).ref.get();
+    // console.log(phoneNumber, numb.exists);
     if (!numb.exists) {
       this.recaptchaVerifier = this.newCaptcha();
-      firebase.auth().signInWithPhoneNumber(phoneNumber, this.recaptchaVerifier)
+      firebase.auth().signInWithPhoneNumber('+' + phoneNumber, this.recaptchaVerifier)
         .then(
           async confirmationResult => {
             this.onreg = false;
             const modal = await this.modal.create({
               component: VerifikasiPage,
-              componentProps: { registerForm: this.registerForm, confirmationResult }
+              componentProps: { form: this.registerForm, confirmationResult, register: true }
             });
             loading.dismiss();
             await modal.present();
@@ -107,7 +108,10 @@ export class RegisterPage {
           }
         );
     } else {
-      this.popup.showAlert('Nomor Error', 'Nomor yg anda masukkan sudah terdaftar di sistem kami, diharapkan login untuk melanjutkan');
+      this.recaptchaVerifier = this.newCaptcha();
+      this.onreg = false;
+      loading.dismiss();
+      this.popup.showAlert('Nomor Error', 'Nomor yg anda masukkan sudah terdaftar di sistem kami, harap login untuk melanjutkan');
     }
   }
 
@@ -126,7 +130,7 @@ export class RegisterPage {
     this.registerForm.controls.kab_id.setValue(data.city_id);
     this.registerForm.controls.prov_id.setValue(data.province_id);
     this.kecPilihan = {...data, alamat};
-    console.log(data);
+    // console.log(data);
   }
 
 }

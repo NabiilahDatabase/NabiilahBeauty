@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { EditAlamatPageRoutingModule } from './edit-alamat-routing.module';
 
 import { EditAlamatPage } from './edit-alamat.page';
+import { MaterialModule } from 'src/app/modules/material.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EditAlamatPageRoutingModule
+    EditAlamatPageRoutingModule,
+    MaterialModule,
   ],
   declarations: [EditAlamatPage]
 })

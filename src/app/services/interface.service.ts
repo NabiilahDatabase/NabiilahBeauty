@@ -28,7 +28,7 @@ export interface Invoice {
       nama: string;
       prov: string;
     };
-    penerima_id: string;
+    owner_id: string;
     pengirim: { hp: string; nama: string };
     pesanan: Array<{
       hargaBeli: number;
@@ -41,4 +41,14 @@ export interface Invoice {
     status: string;
     total: number;
     waktuOrder: number;
+}
+
+export interface Alamat {
+  nama: string;
+  hp: string;
+  alamat: string;
+  kec: string; kec_id: string;
+  kab: string; kab_id: string;
+  prov: string; prov_id: string;
+  primary: boolean;
 }

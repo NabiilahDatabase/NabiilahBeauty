@@ -3,7 +3,7 @@ import { ModalController, Platform, LoadingController, ActionSheetController } f
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { WebView } from '@ionic-native/ionic-webview/ngx';
-import { Camera, PictureSourceType, CameraOptions } from '@ionic-native/Camera/ngx';
+// import { Camera, PictureSourceType, CameraOptions } from '@ionic-native/Camera/ngx';
 import { PopupService } from 'src/app/services/popup.service';
 import { Invoice } from 'src/app/services/interface.service';
 import { TelegramService } from 'src/app/services/telegram.service';
@@ -30,7 +30,8 @@ export class UploadBuktiPage implements OnInit {
     private modal: ModalController,
     private afs: AngularFirestore, private popup: PopupService,
     private telegram: TelegramService, private tool: ToolService,
-    private camera: Camera, private webview: WebView,
+    // private camera: Camera,
+    private webview: WebView,
     private actionSheetController: ActionSheetController,
   ) {
     this.task = this.afs.collection('config').doc('rekening').valueChanges().subscribe(res =>  {

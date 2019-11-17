@@ -5,5 +5,79 @@
 </ion-header>
 
 <ion-content>
+  <form [formGroup]="dataForm">
+    <ion-item>
+      <ion-label position="fixed">
+        <ion-icon class="icon" size="large" name="contact" color="beauty"></ion-icon>&nbsp;
+        Nama Penerima:
+      </ion-label>
+      <ion-input slot="end" autocapitalize="on" formControlName="nama" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">
+        <ion-icon class="icon" size="large" name="logo-whatsapp" color="beauty"></ion-icon>&nbsp;
+        Nomor Whatsapp:
+      </ion-label>
+      <ion-input slot="end" formControlName="hp" (click)="prefix=true" (keyup)="prefix=true" type="number">
+        <span *ngIf="prefix" matPrefix>+&nbsp;</span>
+      </ion-input>
+    </ion-item>
+    <ion-item [color]="(dataForm.controls['alamat'].pristine&&!dataForm.controls['alamat'].value)?'tertiary':''">
+      <ion-label position="fixed">Alamat Lengkap:</ion-label>
+      <ion-textarea slot="end" rows="2" placeholder="Lengkapi alamat nama jalan / no. rumah / desa / kelurahan / Rt.Rw"
+        formControlName="alamat" type="text">
+      </ion-textarea>
+    </ion-item>
+  <div *ngIf="!editKec">
+    <ion-item>
+      <ion-buttons slot="end">
+        <ion-button (click)="editKec=true" fill="solid" color="beauty">
+          <ion-icon name="create"></ion-icon>&nbsp;
+          <ion-label color="light">Edit</ion-label>
+        </ion-button>
+      </ion-buttons>
+      <ion-label position="fixed">
+        Kecamatan:
+      </ion-label>
+      <ion-input [value]="dataForm.controls['kec'].value" disabled type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">
+        Kabupaten:
+      </ion-label>
+      <ion-input [value]="dataForm.controls['kab'].value" disabled type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">
+        Provinsi:
+      </ion-label>
+      <ion-input [value]="dataForm.controls['prov'].value" disabled type="text"></ion-input>
+    </ion-item>
+  </div>
+    <mat-accordion *ngIf="editKec">
+      <mat-expansion-panel [expanded]="expand" (click)="dataForm.controls['kec'].setValue(null)" style="margin-top:10px">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>my_location</mat-icon>&nbsp;
+            <span *ngIf="!kecPilihan">Kecamatan</span>
+            <span *ngIf="kecPilihan"><strong>{{ kecPilihan.subdistrict_name }}</strong> {{ kecPilihan.city }}</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ion-input formControlName="kec" (click)="expand=!expand" (keyup)="cari(dataForm.controls['kec'].value)" placeholder="Cari Kecamatan"></ion-input>
 
+        <ion-list class="ion-no-padding">
+            <ion-item *ngIf="dataKecamatan?.length===0 && dataForm.controls['kec'].value?.length>1">
+              <ion-label>
+                <span style="color:red">Kecamatan tidak ditemukan!</span>
+              </ion-label>
+            </ion-item>
+            <ion-item *ngFor="let data of dataKecamatan" (click)="pilihKecamatan(data)">
+              <ion-label>
+                <strong>{{ data?.subdistrict_name }}</strong>, {{ data?.city }}, {{ data?.province }}
+              </ion-label>
+            </ion-item>
+        </ion-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </form>
 </ion-content>

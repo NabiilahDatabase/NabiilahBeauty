@@ -6,6 +6,8 @@ import { Injectable, NgZone } from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import * as firebase from 'firebase';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Alamat } from './interface.service';
 
 export interface User {
   uid: string;
@@ -52,7 +54,7 @@ export class UserService {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
               resolve(true); // user sudah login
-              console.log('can active:', user);
+              // console.log('can active:', user);
               this.setUser(user.phoneNumber);
               if (!this.user) {
                 this.task = this.afs.collection('user').doc<User>(user.phoneNumber).valueChanges().subscribe(res => {
@@ -78,7 +80,7 @@ export class UserService {
     this.user = user;
   }
   getUserId() {
-    console.log('getUserId: ', firebase.auth().currentUser);
+    console.log('getUserId: ', firebase.auth().currentUser.phoneNumber);
     return firebase.auth().currentUser.phoneNumber;
   }
   getUserInfo() {
@@ -89,8 +91,49 @@ export class UserService {
     this.afs.collection('user').doc(this.getUserId()).update(partialdata);
   }
 
-  getAlamat() {
-
+  getAlamat(nama?: string, cariID?: boolean): Observable<any | Alamat | Alamat[]> {
+    if (!nama) {
+      return this.afs.collection('user').doc(this.getUserId()).collection('alamat').snapshotChanges().pipe(
+        map(actions => {
+          return actions.map(a => {
+            const data = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          });
+        })
+      );
+    } else {
+      if (cariID) {
+        return this.afs.collection('user').doc(this.getUserId()).collection('alamat').doc<Alamat>(nama).valueChanges();
+      } else {
+        console.log(`mecari nama alamat: ${nama}`);
+        const start = nama.toUpperCase();
+        const end = start + '\uf8ff';
+        return this.afs.collection('user').doc(this.getUserId()).collection<Alamat>('alamat', ref =>
+          ref.limit(10).orderBy('nama')
+          .startAt(start).endAt(end)).valueChanges();
+      }
+    }
+  }
+  async deleteAlamat(id: string) {
+    const alert = await this.alertController.create({
+      message: 'Yakin ingin menghapus alamat ini?',
+      mode: 'ios',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'beauty',
+          handler: () => {}
+        }, {
+          text: 'Ya',
+          handler: () => {
+           this.afs.collection('user').doc(this.getUserId()).collection('alamat').doc(id).delete();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
   async registerUser(data: User) {
@@ -98,7 +141,7 @@ export class UserService {
       // const userdata = await firebase.auth().createUserWithEmailAndPassword(data.email, data.password);
       // console.log('register as ', data.email, ' & ', data.password);
       firebase.auth().currentUser.updateEmail(data.email).then(() => console.log('updateEmail'));
-      firebase.auth().currentUser.updateProfile({displayName: data.nama}).then(() => console.log('updateName'));
+      // firebase.auth().currentUser.updateProfile({displayName: data.nama}).then(() => console.log('updateName'));
       // firebase.auth().currentUser.updatePassword(data.password).then(() => console.log('updatePassword'));
       this.afs.collection('user').doc(data.hp).set({
         uid: data.uid,
@@ -150,6 +193,14 @@ export class UserService {
     } catch (error) {
       this.popup.showAlert('Error!', error);
     }
+  }
+
+  loginWithOTP(hp: string) {
+    this.setUser(hp);
+    this.task = this.userObservable.subscribe(res => {
+      this.user = res;
+      console.log('subscribe userdata');
+    });
   }
 
   async logout() {

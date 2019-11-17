@@ -14,7 +14,8 @@ import * as firebase from 'firebase';
 export class VerifikasiPage {
 
   kode;
-  @Input() registerForm: FormGroup;
+  @Input() register: boolean;
+  @Input() form: FormGroup;
   @Input() confirmationResult: firebase.auth.ConfirmationResult;
 
   constructor(
@@ -33,33 +34,41 @@ export class VerifikasiPage {
       translucent: true,
     });
     await loading.present();
-    // console.log(this.registerForm.value);
-    const credential = firebase.auth.PhoneAuthProvider.credential(this.confirmationResult.verificationId, code);
-
-    firebase.auth().signInWithCredential(credential).then(
+    // console.log(this.form.value);
+    // const credential = firebase.auth.PhoneAuthProvider.credential(this.confirmationResult.verificationId, code);
+    // firebase.auth().signInWithCredential(credential)
+    this.confirmationResult.confirm(code)
+    .then(
       (udata) => {
-      // console.log('User cred: ', udata);
-      this.userService.registerUser({
-        uid: udata.user.uid,
-        nama: this.registerForm.controls.nama.value.toString().toUpperCase().trim(),
-        email: this.registerForm.controls.email.value,
-        hp: '+' + this.registerForm.controls.hp.value,
-        password: this.registerForm.controls.password.value,
-        alamat: this.registerForm.controls.alamat.value,
-        kec: this.registerForm.controls.kec.value.toString(),
-        kab: this.registerForm.controls.kab.value.toString(),
-        prov: this.registerForm.controls.prov.value.toString(),
-        keep: 0, cancel: 0, success: 0, cart: 0,
-        kec_id: this.registerForm.controls.kec_id.value,
-        kab_id: this.registerForm.controls.kab_id.value,
-        prov_id: this.registerForm.controls.prov_id.value,
-        joinDate: this.tool.getUnixTime()
-      }).then(() => {
-        loading.dismiss();
-        this.modal.dismiss();
-        this.tool.saveRoute('/tabs');
+        if (this.register) {
+          // console.log('User cred: ', udata);
+          this.userService.registerUser({
+            uid: udata.user.uid,
+            nama: this.form.controls.nama.value.toString().toUpperCase().trim(),
+            email: this.form.controls.email.value,
+            hp: '+' + this.form.controls.hp.value,
+            password: this.form.controls.password.value,
+            alamat: this.form.controls.alamat.value,
+            kec: this.form.controls.kec.value.toString(),
+            kab: this.form.controls.kab.value.toString(),
+            prov: this.form.controls.prov.value.toString(),
+            keep: 0, cancel: 0, success: 0, cart: 0,
+            kec_id: this.form.controls.kec_id.value,
+            kab_id: this.form.controls.kab_id.value,
+            prov_id: this.form.controls.prov_id.value,
+            joinDate: this.tool.getUnixTime()
+          }).then(() => {
+            loading.dismiss();
+            this.modal.dismiss();
+            this.tool.saveRoute('/tabs');
+            }
+          );
+        } else {
+          this.userService.loginWithOTP('+' + this.form.controls.hp.value);
+          loading.dismiss();
+          this.modal.dismiss();
+          this.tool.saveRoute('/tabs');
         }
-      );
     },
     (error) => {
       loading.dismiss();

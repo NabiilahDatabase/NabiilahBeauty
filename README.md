@@ -11,6 +11,7 @@
 + (!) Change UserID with phone number
 + (!) Add Dropshiper feature
 + Must login to view content
+
 + Skeleton Loading
 + Ripple effect transaksi
 + Decrease font size item page

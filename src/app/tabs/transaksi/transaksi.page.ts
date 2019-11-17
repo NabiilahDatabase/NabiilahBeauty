@@ -1,3 +1,4 @@
+import { UserService } from './../../services/user.service';
 import { Component } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { PopupService } from 'src/app/services/popup.service';
@@ -32,11 +33,12 @@ export class TransaksiPage {
     private alertController: AlertController,
     private tool: ToolService,
     private modal: ModalController,
+    public userService: UserService,
   ) {
     this.task = this.dataService.getKeeps('order').subscribe(res => {
       this.onLoad = false;
       this.keeps = res;
-      console.log(res);
+      // console.log(res);
     });
   }
 
