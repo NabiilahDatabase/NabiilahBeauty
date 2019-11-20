@@ -43,11 +43,13 @@ export class TransaksiPage {
   }
 
   filter(pilihan: string) {
+    this.onLoad = true;
     this.modeCari = false;
     this.filterPil = pilihan;
     if (pilihan !== 'barang') {
       this.task.unsubscribe();
       this.task = this.dataService.getKeeps(pilihan).subscribe(res => {
+        this.onLoad = false;
         this.keeps = res;
       });
     }

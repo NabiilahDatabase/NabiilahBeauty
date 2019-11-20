@@ -16,9 +16,7 @@
         <ion-icon class="icon" size="large" name="logo-whatsapp" color="beauty"></ion-icon>&nbsp;
         Nomor Whatsapp
       </ion-label>
-      <ion-input formControlName="hp" (click)="prefix=true" (keyup)="prefix=true" type="number">
-        <span *ngIf="prefix" matPrefix>+&nbsp;</span>
-      </ion-input>
+      <ion-input formControlName="hp" type="tel"></ion-input>
     </ion-item>
   </form>
 

@@ -27,7 +27,7 @@
 
   <hr class="sparator">
 
-  <ion-grid class="ion-no-padding">
+  <ion-grid class="ion-no-padding" style="font-size:13px">
     <ion-row>
       <ion-col size="3" class="ion-text-center" style="padding: 10px">
         <ion-icon style="margin-bottom: -5px" name="speedometer" size="large" color="beauty"></ion-icon><br>
@@ -64,7 +64,9 @@
 </ion-content>
 <ion-toolbar *ngIf="product">
   <ion-buttons slot="end">
-    <ion-button color="beauty" shape="round" fill="solid" [disabled]="product.stock==0" (click)="keep()">TAMBAH</ion-button>
+    <ion-button color="beauty" shape="round" fill="solid" [disabled]="product.stock==0" (click)="keep()">
+      <ion-icon name="cart" slot="icon-only"></ion-icon>&nbsp;TAMBAH
+    </ion-button>
   </ion-buttons>
   <ion-buttons slot="start">
     <ion-label>&nbsp;<strong>JUMLAH:</strong>&nbsp;&nbsp;</ion-label>

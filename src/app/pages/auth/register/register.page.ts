@@ -46,7 +46,7 @@ export class RegisterPage {
     this.registerForm = this.formBuilder.group({
       nama: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       email: ['', Validators.compose([Validators.maxLength(30), Validators.email, Validators.required])],
-      hp: ['', Validators.required],
+      hp: ['+62', Validators.required],
       password: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
       upassword: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
       alamat: ['', Validators.required],
@@ -79,11 +79,11 @@ export class RegisterPage {
     });
     await loading.present();
     // Verifikasi nomor
-    const numb = await this.afs.collection('user').doc('+' + phoneNumber).ref.get();
-    // console.log(phoneNumber, numb.exists);
+    const numb = await this.afs.collection('user').doc(phoneNumber).ref.get();
+    console.log('register as: ', phoneNumber);
     if (!numb.exists) {
       this.recaptchaVerifier = this.newCaptcha();
-      firebase.auth().signInWithPhoneNumber('+' + phoneNumber, this.recaptchaVerifier)
+      firebase.auth().signInWithPhoneNumber(phoneNumber, this.recaptchaVerifier)
         .then(
           async confirmationResult => {
             this.onreg = false;

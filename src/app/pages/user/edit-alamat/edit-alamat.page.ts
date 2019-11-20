@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { NavParams, ModalController } from '@ionic/angular';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EkspedisiService } from 'src/app/services/ekspedisi.service';
 import { UserService } from 'src/app/services/user.service';
-import { Observable } from 'apollo-link';
-import { Alamat } from 'src/app/services/interface.service';
 
 @Component({
   selector: 'app-edit-alamat',
@@ -12,7 +11,7 @@ import { Alamat } from 'src/app/services/interface.service';
 })
 export class EditAlamatPage implements OnInit {
 
-  id;
+  @Input() data;
 
   prefix = false;
   editKec = false;
@@ -26,25 +25,37 @@ export class EditAlamatPage implements OnInit {
     private ekspedisi: EkspedisiService,
     private formBuilder: FormBuilder,
     private userService: UserService,
+    private modalCtrl: ModalController,
+    private navParams: NavParams,
   ) {
-    this.dataForm = this.formBuilder.group({
-      nama: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
-      hp: ['', Validators.required],
-      alamat: ['', Validators.required],
-      kec: ['', Validators.required],
-      kab: ['', Validators.required],
-      prov: ['', Validators.required],
-      kec_id: ['', Validators.required],
-      kab_id: ['', Validators.required],
-      prov_id: ['', Validators.required],
-      primary: ['', Validators.required],
-    });
-    if (this.id) {
-      this.task = this.userService.getAlamat(this.id, true).subscribe((res: Alamat) => {
-        console.log(res);
-        this.dataForm.patchValue({ ...res });
-        this.kecPilihan.subdistrict_name = res.kec;
-        this.kecPilihan.city = res.kab;
+    const penerima = this.navParams.get('data');
+    console.log();
+    if (penerima) {
+      this.dataForm = this.formBuilder.group({
+        nama: [penerima.nama, Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+        hp: [penerima.hp, Validators.required],
+        alamat: [penerima.alamat, Validators.required],
+        kec: [penerima.kec, Validators.required],
+        kab: [penerima.kab, Validators.required],
+        prov: [penerima.prov, Validators.required],
+        kec_id: [penerima.kec_id, Validators.required],
+        kab_id: [penerima.kab_id, Validators.required],
+        prov_id: [penerima.prov_id, Validators.required],
+        primary: [penerima.primary, Validators.required],
+      });
+    } else {
+      this.editKec = true;
+      this.dataForm = this.formBuilder.group({
+        nama: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+        hp: ['+62', Validators.minLength(12)],
+        alamat: ['', Validators.required],
+        kec: ['', Validators.required],
+        kab: ['', Validators.required],
+        prov: ['', Validators.required],
+        kec_id: ['', Validators.required],
+        kab_id: ['', Validators.required],
+        prov_id: ['', Validators.required],
+        primary: [false],
       });
     }
   }
@@ -62,8 +73,25 @@ export class EditAlamatPage implements OnInit {
     this.dataForm.controls.kec_id.setValue(data.subdistrict_id);
     this.dataForm.controls.kab_id.setValue(data.city_id);
     this.dataForm.controls.prov_id.setValue(data.province_id);
-    this.kecPilihan = { ...data };
-    // console.log(data);
+    this.kecPilihan = data;
+    console.log(this.dataForm.invalid);
+    console.log(this.dataForm.getRawValue());
+  }
+  hapusAlamat() {
+    this.userService.deleteAlamat(this.data.id);
+  }
+
+  dismiss(data?) {
+    if (data) {
+      if (this.data) {
+        this.userService.updateAlamat(this.data.id, this.dataForm.getRawValue());
+      } else {
+        this.userService.addAlamat(this.dataForm.getRawValue());
+      }
+      this.modalCtrl.dismiss();
+    } else {
+      this.modalCtrl.dismiss();
+    }
   }
 
   ngOnInit() {

@@ -19,7 +19,7 @@ export class LoginPage implements OnInit {
 
   loginForm: FormGroup;
   onlogin = false;
-  
+
   public recaptchaVerifier: firebase.auth.ApplicationVerifier;
 
   constructor(
@@ -41,7 +41,7 @@ export class LoginPage implements OnInit {
       }
     });
     this.loginForm = this.formBuilder.group({
-      hp: ['', Validators.required]
+      hp: ['+62', Validators.required]
     });
   }
 
@@ -65,11 +65,12 @@ export class LoginPage implements OnInit {
       translucent: true,
     });
     await loading.present();
-    
-    const numb = await this.afs.collection('user').doc('+' + this.loginForm.controls.hp.value).ref.get();
+
+    const numb = await this.afs.collection('user').doc(this.loginForm.controls.hp.value).ref.get();
     if (numb.exists) {
       this.recaptchaVerifier = this.newCaptcha();
-      firebase.auth().signInWithPhoneNumber('+' + this.loginForm.controls.hp.value, this.recaptchaVerifier)
+      console.log('login as: ', this.loginForm.controls.hp.value);
+      firebase.auth().signInWithPhoneNumber(this.loginForm.controls.hp.value, this.recaptchaVerifier)
         .then(
           async confirmationResult => {
             this.onlogin = false;

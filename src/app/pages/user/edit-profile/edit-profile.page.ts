@@ -25,7 +25,7 @@ export class EditProfilePage implements OnInit {
   dataKecamatan = [];
   kecPilihan;
 
-  userInfo: User;
+  userInfo;
   form: FormGroup;
 
   constructor(

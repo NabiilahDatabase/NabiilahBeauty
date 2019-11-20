@@ -5,7 +5,7 @@
       <ion-button (click)="openCart()">
         <ion-icon slot="icon-only" color="light" name="cart"></ion-icon>
       </ion-button>
-      <ion-badge *ngIf="userData.cart!==0" (click)="openCart()" color="light">{{ userData.cart }}pc</ion-badge>
+      <ion-badge class="cart-counter" *ngIf="userData.cart!==0" (click)="openCart()" color="light">{{ userData.cart }}pc</ion-badge>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar mode="ios" class="fancy-toolbar ion-no-padding">
@@ -24,10 +24,16 @@
         </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
-  <ion-progress-bar *ngIf="onLoad" color="beauty" type="indeterminate"></ion-progress-bar>
 </ion-header>
 
-<ion-content *ngIf="keeps">
+<ion-content *ngIf="!onLoad && keeps.length==0">
+  <div class="kosong">
+    <ion-img src="../../../assets/import.svg"></ion-img>
+    <ion-label>Transaksi Kosong</ion-label>
+  </div>
+</ion-content>
+
+<ion-content *ngIf="!onLoad">
     <ion-card [class]="keep.status" *ngFor="let keep of keeps">
       <ion-grid class="ion-no-padding ion-activatable">
         <ion-ripple-effect></ion-ripple-effect>
@@ -114,5 +120,32 @@
         </ion-grid>
       </ion-card-content>
 
+    </ion-card>
+</ion-content>
+
+<ion-content *ngIf="onLoad">
+    <ion-card style="border-left: solid #dedede 5px" *ngFor="let keep of [1, 2, 3, 4, 5, 6]">
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col size="1" style="padding:0 5px">
+            <ion-label class="day">
+              <ion-skeleton-text animated style="width:25px;height:30px"></ion-skeleton-text>
+            </ion-label>
+          </ion-col>
+          <ion-col size="11" style="padding:0 5px">
+            <ion-card-header style="padding:10px">
+              <ion-card-subtitle>
+                <ion-skeleton-text animated style="width:47%"></ion-skeleton-text>
+              </ion-card-subtitle>
+              <ion-card-title class="ion-no-margin">
+                <ion-skeleton-text animated style="width:70%;height:23px"></ion-skeleton-text>
+              </ion-card-title>
+            </ion-card-header>
+            <ion-label class="total-skeleton">
+              <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-card>
 </ion-content>

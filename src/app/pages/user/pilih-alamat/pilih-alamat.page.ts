@@ -30,17 +30,17 @@ export class PilihAlamatPage implements OnInit {
   hapusAlamat(id: string) {
     this.userService.deleteAlamat(id);
   }
-  async editAlamat(id: string) {
+  async editAlamat(penerima) {
     const modal = await this.modalCtrl.create({
       component: EditAlamatPage,
-      componentProps: { id }
+      componentProps: { data: penerima }
     });
     await modal.present();
   }
   async addAlamat() {
     const modal = await this.modalCtrl.create({
       component: EditAlamatPage,
-      componentProps: { id: null }
+      componentProps: { data: null }
     });
     await modal.present();
   }

@@ -111,7 +111,6 @@ export class ShopPage {
     this.data = this.$data.asObservable().pipe(
       scan( (acc, val) => this.query.prepend ? val.concat(acc) : acc.concat(val) )
     );
-    this.onload = false;
   }
   // Maps the snapshot to usable format the updates source
   private mapAndUpdate(col: AngularFirestoreCollection<any>) {
@@ -126,6 +125,7 @@ export class ShopPage {
           const doc = snap.payload.doc;
           return { ...data, doc };
         });
+        this.onload = false;
         // If prepending, reverse the batch order
         values = this.query.prepend ? values.reverse() : values;
         // update source with new values, done loading

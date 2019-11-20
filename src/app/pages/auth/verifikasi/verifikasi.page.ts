@@ -46,7 +46,7 @@ export class VerifikasiPage {
             uid: udata.user.uid,
             nama: this.form.controls.nama.value.toString().toUpperCase().trim(),
             email: this.form.controls.email.value,
-            hp: '+' + this.form.controls.hp.value,
+            hp: this.form.controls.hp.value,
             password: this.form.controls.password.value,
             alamat: this.form.controls.alamat.value,
             kec: this.form.controls.kec.value.toString(),
@@ -58,13 +58,15 @@ export class VerifikasiPage {
             prov_id: this.form.controls.prov_id.value,
             joinDate: this.tool.getUnixTime()
           }).then(() => {
+            console.log('new register with OTP as: ', this.form.controls.hp.value);
             loading.dismiss();
             this.modal.dismiss();
             this.tool.saveRoute('/tabs');
             }
           );
         } else {
-          this.userService.loginWithOTP('+' + this.form.controls.hp.value);
+          this.userService.loginWithOTP(this.form.controls.hp.value);
+          console.log('login with OTP as: ', this.form.controls.hp.value);
           loading.dismiss();
           this.modal.dismiss();
           this.tool.saveRoute('/tabs');

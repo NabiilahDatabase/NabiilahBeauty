@@ -1,5 +1,5 @@
+import { ToolService } from 'src/app/services/tool.service';
 import { AlertController } from '@ionic/angular';
-import { ToolService } from './tool.service';
 import { PopupService } from './popup.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable, NgZone } from '@angular/core';
@@ -13,14 +13,11 @@ export interface User {
   uid: string;
   email: string;
   hp: string;
-  password: string;
   nama: string;
-  alamat: string;
-  kec: string; kab: string; prov: string;
-  kec_id: number; kab_id: number; prov_id: number;
   keep: number; cancel: number; success: number;
   cart: number;
   joinDate: number;
+  alamat_utama: string;
 }
 
 @Injectable({
@@ -37,6 +34,7 @@ export class UserService {
     private zone: NgZone,
     private router: Router,
     private alertController: AlertController,
+    private tool: ToolService,
   ) {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -115,6 +113,19 @@ export class UserService {
       }
     }
   }
+  addAlamat(data: Alamat) {
+    const joinDate = this.tool.getUnixTime().toString();
+    this.afs.collection('user').doc(this.getUserId()).collection('alamat').doc(joinDate).set(data).then(
+      () => this.popup.showToast('Berhasil tambah alamat', 1000),
+      (error) => this.popup.showToast(error, 1500)
+    );
+  }
+  updateAlamat(id: string, data: Alamat) {
+    this.afs.collection('user').doc(this.getUserId()).collection('alamat').doc(id).update(data).then(
+      () => this.popup.showToast('Berhasil update alamat', 1000),
+      (error) => this.popup.showToast(error, 1500)
+    );
+  }
   async deleteAlamat(id: string) {
     const alert = await this.alertController.create({
       message: 'Yakin ingin menghapus alamat ini?',
@@ -136,7 +147,7 @@ export class UserService {
     await alert.present();
   }
 
-  async registerUser(data: User) {
+  async registerUser(data) {
     try {
       // const userdata = await firebase.auth().createUserWithEmailAndPassword(data.email, data.password);
       // console.log('register as ', data.email, ' & ', data.password);
@@ -148,11 +159,9 @@ export class UserService {
         email: data.email,
         hp: data.hp,
         nama: data.nama,
-        alamat: data.alamat,
-        kec: data.kec, kab: data.kab, prov: data.prov,
-        kec_id: data.kec_id, kab_id: data.kab_id, prov_id: data.prov_id,
         keep: 0, cancel: 0, success: 0, cart: 0,
-        joinDate: data.joinDate
+        joinDate: data.joinDate,
+        alamat_utama: data.joinDate
       }).then(() => {
         this.setUser(data.hp);
         this.task = this.userObservable.subscribe(res => {

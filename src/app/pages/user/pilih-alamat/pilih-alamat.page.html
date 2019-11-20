@@ -1,9 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <h3><strong>Pilih Alamat</strong></h3>
+    <ion-title>Pilih Alamat</ion-title>
     <ion-buttons slot="start">
       <ion-button (click)="dismiss()">
-        <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
+        <ion-icon color="beauty" slot="icon-only" name="arrow-round-back"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -17,8 +17,7 @@
       <ion-item lines="full"button (click)="pilih(penerima)">
         <ion-ripple-effect></ion-ripple-effect>
         <ion-label>
-          <h2><strong>{{ penerima.nama | uppercase }}</strong></h2>
-          <p>{{ penerima.hp }}</p>
+          <h2><strong>{{ penerima.nama | uppercase }}</strong> | {{ penerima.hp }}</h2>
           <p>{{ penerima.alamat }}</p>
           <p>{{ penerima.kec }}, {{ penerima.kab }}, {{ penerima.prov }}</p>
         </ion-label>
@@ -26,12 +25,12 @@
       </ion-item>
 
       <ion-item-options side="end">
-        <ion-item-option (click)="hapusAlamat(penerima.id)" color="danger">
-          <ion-icon size="large" slot="top" name="trash"></ion-icon>
+        <ion-item-option *ngIf="!penerima.primary" (click)="hapusAlamat(penerima.id)" color="danger">
+          <ion-icon slot="top" name="trash"></ion-icon>
           Hapus
         </ion-item-option>
-        <ion-item-option (click)="editAlamat(penerima.id)" color="medium">
-          <ion-icon size="large" slot="top" name="create"></ion-icon>
+        <ion-item-option (click)="editAlamat(penerima)" color="medium">
+          <ion-icon slot="top" name="create"></ion-icon>
           Edit
         </ion-item-option>
       </ion-item-options>
@@ -40,10 +39,10 @@
     <ion-item-sliding>
       <ion-item lines="full" button (click)="addAlamat()">
         <ion-ripple-effect></ion-ripple-effect>
-        <ion-label>
+        <ion-label color="beauty">
           Tambah alamat baru
         </ion-label>
-        <ion-icon name="add" slot="end"></ion-icon>
+        <ion-icon color="beauty" name="add" slot="end"></ion-icon>
       </ion-item>
     </ion-item-sliding>
   </ion-list>

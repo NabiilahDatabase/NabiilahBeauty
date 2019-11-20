@@ -3,6 +3,15 @@
   border-radius: 15px;
 }
 
+.cart-counter {
+  position: absolute;
+  top: 15px;
+  right: 37px;
+  border-radius: 0px 10px;
+  color: #9a1374;
+  padding: 2.5px 5px 3px;
+}
+
 .custom-nav {
   height: 48px;
   width: 20px;
@@ -24,15 +33,6 @@
   margin-left: -120px;
 }
 
-ion-badge {
-  position: absolute;
-  top: 15px;
-  right: 37px;
-  border-radius: 0px 10px;
-  color: #9a1374;
-  padding: 2.5px 5px 3px;
-}
-
 ion-button {
   margin: 0;
 }
@@ -48,6 +48,16 @@ ion-header {
   font-size: 14px;
 }
 
+.kosong {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%); /* IE 9 */
+  -webkit-transform: translate(-50%, -50%); /* Chrome, Safari, Opera */
+  text-align: center;
+}
+
 .status {
   padding: 5px;
   width: 25px;
@@ -61,6 +71,13 @@ ion-header {
   top: 10px;
   font-size: 14px;
   color: black;
+}
+.total-skeleton {
+  position: absolute;
+  right: -20px;
+  top: 10px;
+  width: 90px;
+  height: 10px;
 }
 
 // calendar theme block

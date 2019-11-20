@@ -10,7 +10,7 @@ import { UserService, User } from 'src/app/services/user.service';
 // import { DropshiperlistPage } from 'src/app/pages/dropshiperlist/dropshiperlist.page';
 import { EkspedisiPage } from 'src/app/pages/ekspedisi/ekspedisi.page';
 import { ToolService } from 'src/app/services/tool.service';
-import { Cart, Product } from 'src/app/services/interface.service';
+import { Cart, Product, Alamat } from 'src/app/services/interface.service';
 import { PilihAlamatPage } from 'src/app/pages/user/pilih-alamat/pilih-alamat.page';
 
 @Component({
@@ -23,7 +23,7 @@ export class CartPage implements OnInit {
   cart: any[];
   cartDetails: Cart[];
   userInfo: Observable<User>;
-  customerData;
+  customerData; task3;
   dropshiperData;
 
   adaSender = false;
@@ -63,7 +63,10 @@ export class CartPage implements OnInit {
       this.valid = (value: any, index: number, array: any[]): boolean => {
         return value === true;
       };
-      this.customerData = this.userService.user;
+      this.task3 = this.userService.getAlamat(this.userService.user.alamat_utama, true).subscribe((res: Alamat) => {
+        // console.log(res);
+        this.customerData = res;
+      });
     }
 
   ngOnInit() {
@@ -110,7 +113,8 @@ export class CartPage implements OnInit {
     modal.onDidDismiss()
       .then((prop) => {
         if (prop.data) {
-          this.customerData = prop.data;
+          console.log(prop.data);
+          this.customerData[0] = prop.data;
           this.ekspedisi = null;
           this.hitung();
         }
@@ -201,7 +205,7 @@ export class CartPage implements OnInit {
       };
     });
     this.cartService.checkout(
-      cart, sender, this.customerData, this.ekspedisi, this.total
+      cart, sender, this.customerData[0], this.ekspedisi, this.total
     );
     // console.log('Barang:');
     // console.log(cart);

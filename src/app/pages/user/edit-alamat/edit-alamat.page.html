@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>edit-alamat</ion-title>
+    <ion-title *ngIf="data">Edit Alamat</ion-title>
+    <ion-title *ngIf="!data">Tambah Alamat</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">
+        <ion-icon color="beauty" slot="icon-only" name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -8,32 +14,26 @@
   <form [formGroup]="dataForm">
     <ion-item>
       <ion-label position="fixed">
-        <ion-icon class="icon" size="large" name="contact" color="beauty"></ion-icon>&nbsp;
-        Nama Penerima:
+        Penerima:
       </ion-label>
-      <ion-input slot="end" autocapitalize="on" formControlName="nama" type="text"></ion-input>
+      <ion-input class="ion-text-end" autocapitalize="on" formControlName="nama" type="text" placeholder="Nama penerima"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="fixed">
-        <ion-icon class="icon" size="large" name="logo-whatsapp" color="beauty"></ion-icon>&nbsp;
-        Nomor Whatsapp:
+        Nomor HP:
       </ion-label>
-      <ion-input slot="end" formControlName="hp" (click)="prefix=true" (keyup)="prefix=true" type="number">
-        <span *ngIf="prefix" matPrefix>+&nbsp;</span>
+      <ion-input class="ion-text-end" formControlName="hp" (keyup)="prefix=true" type="tel">
       </ion-input>
     </ion-item>
-    <ion-item [color]="(dataForm.controls['alamat'].pristine&&!dataForm.controls['alamat'].value)?'tertiary':''">
-      <ion-label position="fixed">Alamat Lengkap:</ion-label>
-      <ion-textarea slot="end" rows="2" placeholder="Lengkapi alamat nama jalan / no. rumah / desa / kelurahan / Rt.Rw"
-        formControlName="alamat" type="text">
-      </ion-textarea>
+    <ion-item>
+      <ion-label position="fixed">Alamat:</ion-label>
+      <ion-input class="ion-text-end" formControlName="alamat" type="text" placeholder="Nama gedung, jalan, dsb..."></ion-input>
     </ion-item>
   <div *ngIf="!editKec">
     <ion-item>
       <ion-buttons slot="end">
         <ion-button (click)="editKec=true" fill="solid" color="beauty">
-          <ion-icon name="create"></ion-icon>&nbsp;
-          <ion-label color="light">Edit</ion-label>
+          <ion-icon name="create"></ion-icon>&nbsp;Edit
         </ion-button>
       </ion-buttons>
       <ion-label position="fixed">
@@ -55,10 +55,9 @@
     </ion-item>
   </div>
     <mat-accordion *ngIf="editKec">
-      <mat-expansion-panel [expanded]="expand" (click)="dataForm.controls['kec'].setValue(null)" style="margin-top:10px">
+      <mat-expansion-panel [expanded]="expand" style="margin-top:10px">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <mat-icon>my_location</mat-icon>&nbsp;
             <span *ngIf="!kecPilihan">Kecamatan</span>
             <span *ngIf="kecPilihan"><strong>{{ kecPilihan.subdistrict_name }}</strong> {{ kecPilihan.city }}</span>
           </mat-panel-title>
@@ -79,5 +78,18 @@
         </ion-list>
       </mat-expansion-panel>
     </mat-accordion>
+    
+    <ion-item-divider></ion-item-divider>
+    <ion-item (click)="hapusAlamat()" *ngIf="data" button lines="full">
+      <ion-ripple-effect></ion-ripple-effect>
+      <ion-label color="danger">Hapus Alamat</ion-label>
+      <ion-icon color="danger" name="trash" slot="end"></ion-icon>
+    </ion-item>
   </form>
 </ion-content>
+
+<ion-footer>
+  <ion-button [disabled]="dataForm.invalid"
+    expand="full" color="beauty" (click)="dismiss(true)">KIRIM
+  </ion-button>
+</ion-footer>

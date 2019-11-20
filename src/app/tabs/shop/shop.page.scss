@@ -64,6 +64,24 @@ ion-badge {
     margin: 0 auto;
     width: 100%;
 }
+.image-skeleton {
+    height: 190px;
+    width: 100%;
+    display: block;
+    position: absolute;
+    top:0;
+}
+.name-skeleton {
+    width: 80%;
+    height: 10px;
+    margin: 0;
+}
+.stock-skeleton {
+    position: absolute;
+    bottom: -5px;
+    right: 0px;
+    padding: 0px 10px;
+}
 .card {
     position: relative;
     box-sizing: border-box;

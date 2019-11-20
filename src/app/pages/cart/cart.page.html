@@ -117,15 +117,15 @@
       </div>
     </ion-item>
   </ion-list>
-  <ion-list *ngIf="customerData as customer" class="ion-no-padding">
+  <ion-list *ngIf="customerData[0] as customer" class="ion-no-padding">
     <ion-item button detail (click)="editCustomer()">
       <ion-ripple-effect></ion-ripple-effect>
       <ion-avatar slot="start">
         <ion-img src="../../../assets/user.svg"></ion-img>
       </ion-avatar>
       <ion-label>
-        <h2><strong>{{ customer.nama }}</strong></h2>
-        <p>{{ customer.hp }} | {{ customer.alamat }}</p>
+        <h2><strong>{{ customer.nama }}</strong> | {{ customer.hp }}</h2>
+        <p>{{ customer.alamat }}</p>
         <p>{{ customer.kec }}, {{ customer.kab }}, {{ customer.prov }}</p>
       </ion-label>
     </ion-item>
@@ -184,7 +184,7 @@
     <ion-icon name="airplane" color="beauty"></ion-icon>
     <strong>EKSPEDISI</strong>
   </ion-text>
-  <ion-list *ngIf="customerData as customer" class="ion-no-padding">
+  <ion-list *ngIf="customerData[0] as customer" class="ion-no-padding">
     <ion-item button (click)="editEkspedisi(customer)">
       <ion-ripple-effect></ion-ripple-effect>
       <ion-avatar slot="start">
@@ -215,6 +215,6 @@
     </ion-item>
   </ion-list>
   <ion-toolbar class="ion-no-padding">
-    <ion-button [disabled]="!(cart | pluck:'valid' | every: valid) || !customerData || !ekspedisi || (adaSender && (!senderName || (senderNumber?.length < 8)))" color="beauty" expand="full" (click)="checkout()">BUAT PESANAN</ion-button>
+    <ion-button [disabled]="!(cart | pluck:'valid' | every: valid) || !customerData[0] || !ekspedisi || (adaSender && (!senderName || (senderNumber?.length < 8)))" color="beauty" expand="full" (click)="checkout()">BUAT PESANAN</ion-button>
   </ion-toolbar>
 </ion-footer>

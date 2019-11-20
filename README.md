@@ -7,14 +7,14 @@
 + Add search product
 + Theming register page
 
-### v1.0.2:
-+ (!) Change UserID with phone number
-+ (!) Add Dropshiper feature
+### v1.1.0:
++ Change UserID with phone number
++ Add Dropshiper feature
 + Must login to view content
-
 + Skeleton Loading
-+ Ripple effect transaksi
 + Decrease font size item page
+
+### Next update
 + Grid style store page
-+ Crash upload bukti
++ Crash memory leak bug
 + Slow Internet Connection time out

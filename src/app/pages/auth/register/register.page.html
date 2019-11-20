@@ -21,8 +21,8 @@
             <ion-icon class="icon" size="large" name="logo-whatsapp" color="beauty"></ion-icon>&nbsp;
             Nomor Whatsapp
           </ion-label>
-          <ion-input formControlName="hp" (click)="prefix=true" (keyup)="prefix=true" type="number">
-            <span *ngIf="prefix" matPrefix>+&nbsp;</span>
+          <ion-input formControlName="hp" type="tel">
+            <!-- <span *ngIf="prefix" matPrefix>+&nbsp;</span> -->
           </ion-input>
         </ion-item>
         <ion-item>
@@ -93,7 +93,7 @@
       <div style="text-align:-webkit-center" id="recaptcha"></div>
 
       <div style="text-align:center">
-        <ion-label class="ion-text-center" style="font-size:12px;color:darkgrey">Dengan klik mendaftar dibawah ini, anda berarti telah menyetujui syarat & ketentuan yang telah kami tetapkan.</ion-label>
+        <ion-label class="ion-text-center" style="font-size:12px;color:darkgrey">Dengan klik daftar member dibawah ini, anda berarti telah menyetujui syarat & ketentuan yang telah kami tetapkan.</ion-label>
       </div>
   
       <ion-button [disabled]="onreg || registerForm.invalid || (registerForm.controls['upassword'].value!==registerForm.controls['upassword'].value)"
