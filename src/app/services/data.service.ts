@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { FirebaseAnalytics } from '@ionic-native/firebase-analytics/ngx';
+
 import { LoadingController } from '@ionic/angular';
 import { PopupService } from './popup.service';
 import { ToolService } from './tool.service';
@@ -21,6 +23,7 @@ export class DataService {
   products;
 
   constructor(
+    private fa: FirebaseAnalytics,
     public afs: AngularFirestore,
     private loadingCtrl: LoadingController,
     private tool: ToolService,
@@ -28,6 +31,14 @@ export class DataService {
     private userService: UserService,
   ) {
     this.productsCollections = this.afs.collection('produk');
+  }
+
+  async logEvent(eventName: string, data) {
+    try {
+      return this.fa.logEvent(eventName, data);
+    } catch (err) {
+      throw err;
+    }
   }
 
   getProducts(): Observable<Product[]> {
@@ -106,7 +117,10 @@ export class DataService {
               .doc(item.id).ref;
             jumlah += item.jumlah;
 
-            batch.update(produk, {keep: firebase.firestore.FieldValue.increment((item.jumlah * -1))});
+            batch.update(produk, {
+              keep: firebase.firestore.FieldValue.increment((item.jumlah * -1)),
+              stock: firebase.firestore.FieldValue.increment((item.jumlah))
+            });
             batch.update(olahdataBrgHarian, {keep: firebase.firestore.FieldValue.increment((item.jumlah * -1))});
             batch.update(olahdataBrgBulanan, {keep: firebase.firestore.FieldValue.increment((item.jumlah * -1))});
           });
@@ -127,7 +141,7 @@ export class DataService {
     const bulan = ('0' + (new Date().getMonth() + 1)).slice(-2);
     const hari = ('0' + (new Date().getDate())).slice(-2);
 
-    console.log('dataOrdr:', data);
+    console.log('dataOrder: ', data);
     const loader = await this.loadingCtrl.create({
       message: 'Masukkan Orderan...',
       spinner: 'dots'
@@ -187,7 +201,18 @@ export class DataService {
         // Add Order data
       batch.set(orderanRef, data);
 
-      batch.commit().then(val => console.log(val), error => console.log('Error Commit: ' + error));
+      batch.commit().then(
+        (success) => {
+          loader.dismiss();
+          this.popup.showToast('Berhasil masukkan orderan', 1000);
+          this.cleanCart(data.pesanan, data.owner_id);
+          this.popup.showToast('Checkout berhasil!', 2000);
+          this.tool.saveRoute('/tabs/transaksi');
+        }, (error) => {
+          loader.dismiss();
+          throw error;
+        }
+      );
 
 /*
       this.afs.firestore.runTransaction(async transaction => {
@@ -261,14 +286,8 @@ export class DataService {
         this.popup.showAlert('Error Stock!', error);
       });
 */
-      loader.dismiss();
-      this.popup.showToast('Berhasil masukkan orderan', 1000);
-      this.cleanCart(data.pesanan, data.owner_id);
-      this.popup.showToast('Checkout berhasil!', 2000);
-      this.tool.saveRoute('/tabs/transaksi');
     } catch (error) {
-      loader.dismiss();
-      console.log('Error Order!', error);
+      this.popup.showAlert('Error Checkout!', error);
     }
   }
 

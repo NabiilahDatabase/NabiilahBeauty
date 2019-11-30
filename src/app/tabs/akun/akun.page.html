@@ -14,34 +14,29 @@
 
 <ion-content *ngIf="userInfo | async as user" fullscreen>
   <div class="header ion-text-center">
-    <br><br>
+    <br>
     <ion-avatar class="avatar">
       <img src="../../../assets/user.svg">
     </ion-avatar>
     <ion-text>
       <h2>{{ user.nama | uppercase}}</h2>
     </ion-text>
-    <ion-text style="font-size: 18px; color: lightgrey;">{{ user.email }}</ion-text>
+    <ion-text style="font-size: 18px; color: #e8e8e8;">{{ user.email }}</ion-text><br>
+    <ion-text style="font-size: 16px; color: #e8e8e8;">{{ user.hp }}</ion-text>
   </div>
 
   <ion-grid>
     <ion-row>
-      <ion-col size="4" class="ion-text-center">
+      <ion-col size="6" class="ion-text-center">
         <ion-card class="card" color="medium">
-          <ion-label><span class="numbers"><strong>{{ user.keep }}</strong></span> pcs</ion-label><br>
-          <ion-label>Keep</ion-label>
+          <ion-label><span class="numbers"><strong>{{ user.keep }}</strong></span> pcs</ion-label>
+          <ion-label style="font-size: 18px">Keep</ion-label>
         </ion-card>
       </ion-col>
-      <ion-col size="4" class="ion-text-center">
+      <ion-col size="6" class="ion-text-center">
         <ion-card class="card" color="success">
-          <ion-label><span class="numbers"><strong>{{ user.success }}</strong></span> pcs</ion-label><br>
-          <ion-label>Sukses</ion-label>
-        </ion-card>
-      </ion-col>
-      <ion-col size="4" class="ion-text-center">
-        <ion-card class="card" color="danger">
-          <ion-label><span class="numbers"><strong>{{ user.cancel }}</strong></span> pcs</ion-label><br>
-          <ion-label>Cancel</ion-label>
+          <ion-label><span class="numbers"><strong>{{ user.success }}</strong></span> pcs</ion-label>
+          <ion-label style="font-size: 18px">Sukses</ion-label>
         </ion-card>
       </ion-col>
     </ion-row>

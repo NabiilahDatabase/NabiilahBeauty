@@ -30,6 +30,7 @@ export class UploadBuktiPage implements OnInit {
     private modal: ModalController,
     private afs: AngularFirestore, private popup: PopupService,
     private telegram: TelegramService, private tool: ToolService,
+    private loadingCtrl: LoadingController,
     // private camera: Camera,
     private webview: WebView,
     private actionSheetController: ActionSheetController,
@@ -89,7 +90,12 @@ export class UploadBuktiPage implements OnInit {
     // });
     // await actionSheet.present();
   }
-  uploadBukti() {
+  async uploadBukti() {
+    const loader = await this.loadingCtrl.create({
+      message: 'Sedang Mengirim...',
+      spinner: 'dots'
+    });
+    await loader.present();
     this.isUploading = true;
     let pesanan = '';
     this.data.pesanan.forEach((item) => {
@@ -122,10 +128,12 @@ export class UploadBuktiPage implements OnInit {
               }
           );
           this.isUploading = false;
+          loader.dismiss();
         }
       },
       (err) => {
         this.isUploading = false;
+        loader.dismiss();
         console.log(err);
         this.popup.showAlert('Error Upload', JSON.stringify(err.error));
       }

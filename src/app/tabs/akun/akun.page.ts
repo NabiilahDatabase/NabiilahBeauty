@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService, User } from 'src/app/services/user.service';
 import { EditProfilePage } from 'src/app/pages/user/edit-profile/edit-profile.page';
 import { Observable } from 'rxjs';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-akun',
@@ -17,6 +18,7 @@ export class AkunPage implements OnInit {
   constructor(
     public userService: UserService,
     private modal: ModalController,
+    private dataService: DataService,
   ) {
     this.userInfo = this.userService.getUserInfo();
     this.task = this.userInfo.subscribe(res => this.userData = res);
@@ -24,6 +26,12 @@ export class AkunPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  onViewDidEnter() {
+    this.dataService.logEvent('tab_profil', {main: 'value'}).then(
+      (res) => console.log(res)
+    );
   }
 
   async editProfil() {

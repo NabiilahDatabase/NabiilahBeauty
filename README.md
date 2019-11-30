@@ -7,7 +7,7 @@
 + Add search product
 + Theming register page
 
-### v1.1.0:
+### v1.0.2:
 + Change UserID with phone number
 + Add Dropshiper feature
 + Must login to view content
@@ -15,6 +15,11 @@
 + Decrease font size item page
 
 ### Next update
++ Bantuan Chat WA
++ fitur cek ongkir
++ Feed Page
+
++ Edit akun (nama & foto pp)
 + Grid style store page
 + Crash memory leak bug
 + Slow Internet Connection time out

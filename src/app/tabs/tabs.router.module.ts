@@ -19,12 +19,32 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'feed',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('./feed/feed.module').then(m => m.FeedPageModule), canActivate: [UserService]
+          }
+        ]
+      },
+      {
         path: 'shop',
         children: [
           {
             path: '',
             loadChildren: () =>
               import('./shop/shop.module').then(m => m.ShopPageModule), canActivate: [UserService]
+          }
+        ]
+      },
+      {
+        path: 'ongkir',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../pages/cek-ongkir/cek-ongkir.module').then(m => m.CekOngkirPageModule), canActivate: [UserService]
           }
         ]
       },

@@ -1,16 +1,30 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom">
+
+    <ion-tab-button tab="feed">
+      <ion-icon name="logo-rss"></ion-icon>
+      <ion-label>Feed</ion-label>
+    </ion-tab-button>
+
     <ion-tab-button tab="transaksi">
       <ion-icon name="wallet"></ion-icon>
       <ion-label>Transaksi</ion-label>
     </ion-tab-button>
+
     <ion-tab-button tab="shop">
       <ion-icon name="rose"></ion-icon>
     </ion-tab-button>
+
     <ion-tab-button tab="akun">
       <ion-icon name="contact"></ion-icon>
       <ion-label>Akun Saya</ion-label>
     </ion-tab-button>
+
+    <ion-tab-button tab="ongkir">
+      <ion-icon name="cube"></ion-icon>
+      <ion-label>Cek Ongkir</ion-label>
+    </ion-tab-button>
+
   </ion-tab-bar>
 </ion-tabs>
 
@@ -18,4 +32,18 @@
   <ion-fab-button (click)="route('shop')" color="primary">
       <ion-icon name="rose"></ion-icon>
   </ion-fab-button>
+</ion-fab>
+
+<ion-fab *ngIf="csLink | async as config" mode="ios" style="bottom:70px" vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button translucent="true" color="beauty">
+    <ion-icon name="help" size="large"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button href="{{ config.link }}" color="beauty" data-desc="Bantuan CS">
+      <ion-icon name="logo-whatsapp"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button color="beauty" data-desc="Penggunaan Aplikasi">
+      <ion-icon name="help-buoy"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
 </ion-fab>

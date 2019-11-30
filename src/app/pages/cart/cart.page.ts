@@ -64,7 +64,7 @@ export class CartPage implements OnInit {
         return value === true;
       };
       this.task3 = this.userService.getAlamat(this.userService.user.alamat_utama, true).subscribe((res: Alamat) => {
-        // console.log(res);
+        console.log(res);
         this.customerData = res;
       });
     }
@@ -114,7 +114,7 @@ export class CartPage implements OnInit {
       .then((prop) => {
         if (prop.data) {
           console.log(prop.data);
-          this.customerData[0] = prop.data;
+          this.customerData = prop.data;
           this.ekspedisi = null;
           this.hitung();
         }
@@ -205,18 +205,12 @@ export class CartPage implements OnInit {
       };
     });
     this.cartService.checkout(
-      cart, sender, this.customerData[0], this.ekspedisi, this.total
+      cart, sender, this.customerData, this.ekspedisi, this.total
     );
-    // console.log('Barang:');
-    // console.log(cart);
-    // console.log('Customer:');
-    // console.log(this.customerData);
-    // console.log('Sender:');
-    // console.log(sender);
-    // console.log('Dropshiper:');
-    // console.log(this.dropshiperData);
-    // console.log('Expedition:');
-    // console.log(this.ekspedisi);
+    // console.log('Barang: ', cart);
+    // console.log('Customer: ', this.customerData);
+    // console.log('Sender: ', sender);
+    // console.log('Expedition: ', this.ekspedisi);
   }
 
 }

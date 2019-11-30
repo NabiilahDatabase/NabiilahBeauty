@@ -65,7 +65,9 @@
 <ion-toolbar *ngIf="product">
   <ion-buttons slot="end">
     <ion-button color="beauty" shape="round" fill="solid" [disabled]="product.stock==0" (click)="keep()">
-      <ion-icon name="cart" slot="icon-only"></ion-icon>&nbsp;TAMBAH
+      <ion-icon name="cart" slot="icon-only"></ion-icon>&nbsp;
+      <span *ngIf="product.stock!=0">TAMBAH</span>
+      <span *ngIf="product.stock==0">HABIS</span>
     </ion-button>
   </ion-buttons>
   <ion-buttons slot="start">

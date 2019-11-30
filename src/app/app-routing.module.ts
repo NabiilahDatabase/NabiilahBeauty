@@ -19,6 +19,14 @@ const routes: Routes = [
   {
     path: 'edit-alamat',
     loadChildren: () => import('./pages/user/edit-alamat/edit-alamat.module').then( m => m.EditAlamatPageModule)
+  },
+  {
+    path: 'feed',
+    loadChildren: () => import('./tabs/feed/feed.module').then( m => m.FeedPageModule)
+  },
+  {
+    path: 'cek-ongkir',
+    loadChildren: () => import('./pages/cek-ongkir/cek-ongkir.module').then( m => m.CekOngkirPageModule)
   }
 
 ];

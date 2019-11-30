@@ -161,7 +161,7 @@ export class UserService {
         nama: data.nama,
         keep: 0, cancel: 0, success: 0, cart: 0,
         joinDate: data.joinDate,
-        alamat_utama: data.joinDate
+        alamat_utama: data.joinDate.toString()
       }).then(() => {
         this.setUser(data.hp);
         this.task = this.userObservable.subscribe(res => {

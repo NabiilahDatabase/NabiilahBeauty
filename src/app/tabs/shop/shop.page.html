@@ -35,7 +35,8 @@
                 <ion-label class="nama"><strong>{{ post.nama | ucwords }}</strong></ion-label>
                 <div class="harga">
                   <ion-label class="rp">RP</ion-label><ion-label>{{ post.hargaJual | number }}</ion-label>
-                  <span class="stock">{{ post.stock }}pcs</span>
+                  <span *ngIf="post.stock>0" class="stock">{{ post.stock }}pcs</span>
+                  <span *ngIf="post.stock<=0" class="stock habis">HABIS</span>
                 </div>
               </div>
             </div>

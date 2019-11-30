@@ -26,7 +26,6 @@
         </ion-button>
       </ion-buttons>
   </ion-toolbar>
-  <ion-progress-bar *ngIf="onload" type="indeterminate" color="beauty"></ion-progress-bar>
 </ion-header>
 
 <ion-content *ngIf="ongkirList && !onload">
@@ -49,5 +48,21 @@
         </ion-note>
         <ion-icon *ngIf="eksp?.code===ongkirPilihan?.kurir&&eksp?.service===ongkirPilihan?.service" slot="start" name="checkmark-circle-outline" color="beauty"></ion-icon>
       </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-content *ngIf="onload">
+  <ion-list *ngFor="let a of [a,a,a,a,a,a,a]" class="ion-no-padding">
+    <ion-item lines="full">
+      <ion-label>
+        <h2><ion-skeleton-text animated style="width: 60%;height: 18px"></ion-skeleton-text></h2>
+        <p><ion-skeleton-text animated style="width: 40%"></ion-skeleton-text></p>
+      </ion-label>
+      <ion-note>
+        <h5 style="color: tomato">
+          <strong><ion-skeleton-text animated style="width: 75px;height: 20px;"></ion-skeleton-text></strong>
+        </h5>
+      </ion-note>
+    </ion-item>
   </ion-list>
 </ion-content>

@@ -11,6 +11,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { FirebaseAnalytics } from '@ionic-native/firebase-analytics/ngx';
 // import { Camera } from '@ionic-native/Camera/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 
@@ -39,6 +40,7 @@ import { FunctionsRegionToken } from '@angular/fire/functions';
 // Angular Custom Modules
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GraphQLModule } from './modules/graphql.module';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 // Apollo Modules
 import { ApolloModule } from 'apollo-angular';
@@ -71,12 +73,14 @@ import { ApolloModule } from 'apollo-angular';
     HttpClientModule,
     ApolloModule,
     IonicStorageModule.forRoot(),
+    AccordionModule.forRoot(),
   ],
   providers: [
     StatusBar,
     SplashScreen,
     Clipboard,
     // Camera,
+    FirebaseAnalytics,
     WebView,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: StorageBucket, useValue: 'nabiilah-duit.appspot.com' },
