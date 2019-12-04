@@ -209,12 +209,12 @@
 <ion-footer *ngIf="cart" class="ion-no-padding">
   <ion-list class="line-input">
     <ion-item>
-      <ion-label *ngIf="ekspedisi" style="font-size: 18px;color: var(--ion-color-beauty);"><strong color="beauty">Rp{{ total | number }}</strong></ion-label>
+      <!-- <ion-label *ngIf="ekspedisi" style="font-size: 18px;color: var(--ion-color-beauty);"><strong color="beauty">Rp{{ total | number }}</strong></ion-label> -->
       <ion-toggle mode="ios" slot="end" name="banana" color="danger" [(ngModel)]="adaSender">Diskon</ion-toggle>
       <ion-note class="diskon" [color]="adaSender?'danger':'medium'">Kirim sebagai dropshiper</ion-note>
     </ion-item>
   </ion-list>
   <ion-toolbar class="ion-no-padding">
-    <ion-button class="checkout-btn" [disabled]="!(cart | pluck:'valid' | every: valid) || !customerData || !ekspedisi || (adaSender && (!senderName || (senderNumber?.length < 8)))" color="beauty" expand="full" (click)="checkout()">BUAT PESANAN</ion-button>
+    <ion-button class="checkout-btn" [disabled]="!(cart | pluck:'valid' | every: valid) || !customerData || !ekspedisi || (adaSender && (!senderName || (senderNumber?.length < 8)))" color="beauty" expand="full" (click)="checkout()">BUAT PESANAN<strong *ngIf="ekspedisi">&nbsp;[Rp{{ total | number }}]</strong></ion-button>
   </ion-toolbar>
 </ion-footer>

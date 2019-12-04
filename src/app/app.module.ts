@@ -12,7 +12,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { FirebaseAnalytics } from '@ionic-native/firebase-analytics/ngx';
-// import { Camera } from '@ionic-native/Camera/ngx';
+import { Camera } from '@ionic-native/Camera/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -79,7 +79,7 @@ import { ApolloModule } from 'apollo-angular';
     StatusBar,
     SplashScreen,
     Clipboard,
-    // Camera,
+    Camera,
     FirebaseAnalytics,
     WebView,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

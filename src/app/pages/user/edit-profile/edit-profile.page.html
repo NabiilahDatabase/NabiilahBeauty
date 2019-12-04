@@ -1,12 +1,11 @@
 <ion-header no-border>
-  <ion-toolbar mode="ios" no-border color="beauty">
-    <ion-buttons slot="secondary">
+  <ion-toolbar no-border color="beauty">
+    <ion-buttons slot="start">
       <ion-button (click)="dismiss()" color="light">
         <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title>
-      <ion-icon name="create" color="light"></ion-icon>
       <strong>Edit Profil</strong>
     </ion-title>
   </ion-toolbar>
@@ -14,6 +13,11 @@
 
 <ion-content>
   <div class="container">
+    <input class="filebtn" type="file" (change)="onFileSelect($event)" #fileButton/>  
+    <div class="ion-activatable" (click)="click()">
+      <img *ngIf="!image" src="../../../assets/add-image.svg" />
+      <img *ngIf="image" [src]="image" />
+    </div>
     <form [formGroup]="form">
       <ion-item>
         <ion-label position="floating">
@@ -27,8 +31,8 @@
           <ion-icon class="icon" size="large" name="logo-whatsapp" color="beauty"></ion-icon>&nbsp;
           Nomor Whatsapp
         </ion-label>
-        <ion-input formControlName="hp" (click)="prefix=true" (keyup)="prefix=true" type="number">
-          <span *ngIf="prefix" matPrefix>+&nbsp;</span>
+        <ion-input formControlName="hp" type="tel">
+          <!-- <span *ngIf="prefix" matPrefix>+&nbsp;</span> -->
         </ion-input>
       </ion-item>
       <ion-item>
@@ -38,7 +42,7 @@
         </ion-label>
         <ion-input formControlName="email" type="email"></ion-input>
       </ion-item>
-      <ion-item [color]="(form.controls['alamat'].pristine&&!form.controls['alamat'].value)?'tertiary':''">
+      <!-- <ion-item [color]="(form.controls['alamat'].pristine&&!form.controls['alamat'].value)?'tertiary':''">
         <ion-label position="stacked">Alamat Lengkap:</ion-label>
         <ion-textarea rows="2" placeholder="Lengkapi alamat nama jalan / no. rumah / desa / kelurahan / Rt.Rw"
           formControlName="alamat" type="text">
@@ -94,12 +98,12 @@
               </ion-item>
           </ion-list>
         </mat-expansion-panel>
-      </mat-accordion>
+      </mat-accordion> -->
     </form>
 
     <br>
 
-    <ion-button [disabled]="onupdate || form.invalid || !form.controls['alamat'].value || editKec"
+    <ion-button [disabled]="onupdate || form.invalid"
       expand="full" color="beauty" (click)="update()">UPDATE PROFIL
     </ion-button>
     <ion-progress-bar *ngIf="onupdate" type="indeterminate"></ion-progress-bar>

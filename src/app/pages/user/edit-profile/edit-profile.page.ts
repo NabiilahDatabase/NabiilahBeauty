@@ -1,10 +1,11 @@
 import { ModalController, NavParams, LoadingController } from '@ionic/angular';
 import { ToolService } from 'src/app/services/tool.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { User, UserService } from 'src/app/services/user.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { PopupService } from 'src/app/services/popup.service';
 import { EkspedisiService } from 'src/app/services/ekspedisi.service';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-edit-profile',
@@ -12,6 +13,10 @@ import { EkspedisiService } from 'src/app/services/ekspedisi.service';
   styleUrls: ['./edit-profile.page.scss'],
 })
 export class EditProfilePage implements OnInit {
+
+  image; file;
+  progressPercent;
+  @ViewChild('fileButton', {static: false }) fileButton;
 
   nama: string;
   email: string; hp: number; prefix = false;
@@ -35,6 +40,7 @@ export class EditProfilePage implements OnInit {
     private navParam: NavParams,
     private loading: LoadingController,
     private userService: UserService,
+    private afStorage: AngularFireStorage,
     private ekspedisi: EkspedisiService,
     private popup: PopupService,
   ) {
@@ -42,36 +48,62 @@ export class EditProfilePage implements OnInit {
     this.form = formBuilder.group({
       nama: [this.userInfo.nama, Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*')])],
       email: [{value: this.userInfo.email, disabled: true}, Validators.compose([Validators.maxLength(30), Validators.email])],
-      hp: [{value: this.userInfo.hp, disabled: true}],
-      alamat: [{value: (this.userInfo.alamat ? this.userInfo.alamat : ''), disabled: false}],
-      kec: [this.userInfo.kec],
-      kab: [this.userInfo.kab],
-      prov: [this.userInfo.prov],
-      kec_id: [this.userInfo.kec_id],
-      kab_id: [this.userInfo.kab_id],
-      prov_id: [this.userInfo.prov_id],
+      hp: [{value: this.userInfo.hp, disabled: true}]
     });
   }
 
   ngOnInit() {}
 
-  cari(teks: string) {
-    if (teks.length > 1) {
-      this.dataKecamatan = this.ekspedisi.cariKecamatan(teks).sort().slice(0, 10);
-    } else { this.dataKecamatan = []; }
+  click() { this.fileButton.nativeElement.click(); }
+  onFileSelect(event) {
+    const user = this.userInfo.hp;
+    this.progressPercent = null;
+    const mimeType = event.target.files[0].type;
+    this.file = event.target.files[0];
+    const reader = new FileReader();
+    if (mimeType.match(/image\/*/) == null) {
+      this.popup.showToast('File tidak didukung', 2000);
+    } else {
+      if (event.target.files.length > 0) {
+        reader.readAsDataURL(this.file);
+        reader.onload = () => { this.image = reader.result; };
+        // this.image = event.target.files[0];
+        // const filePath = `user/${user}/userpic.jpg`;
+        // const fileRef = this.afStorage.ref(filePath);
+        // const task = this.afStorage.upload(filePath, this.image);
+        // task.percentageChanges().subscribe(progress => this.progressPercent = Math.floor(progress));
+        // task.snapshotChanges().pipe(
+        //   finalize(() => {
+        //     fileRef.getDownloadURL().subscribe(url => {
+        //       this.image.push(url);
+        //       this.task = this.tService.sendPhoto(this.file, '').subscribe();
+        //     });
+        //     this.progressPercent = null;
+        //   })
+        // ).subscribe();
+      } else {
+        this.popup.showToast('Pilih Foto Dulu ya', 2000);
+      }
+    }
   }
-  pilihKecamatan(data) {
-    this.expand = false;
-    this.form.controls.kec.setValue(data.subdistrict_name);
-    this.form.controls.kab.setValue(data.city);
-    this.form.controls.prov.setValue(data.province);
-    this.form.controls.kec_id.setValue(data.subdistrict_id);
-    this.form.controls.kab_id.setValue(data.city_id);
-    this.form.controls.prov_id.setValue(data.province_id);
-    this.kecPilihan = data;
-    console.log(this.form.value);
-    this.editKec = false;
-  }
+
+  // cari(teks: string) {
+  //   if (teks.length > 1) {
+  //     this.dataKecamatan = this.ekspedisi.cariKecamatan(teks).sort().slice(0, 10);
+  //   } else { this.dataKecamatan = []; }
+  // }
+  // pilihKecamatan(data) {
+  //   this.expand = false;
+  //   this.form.controls.kec.setValue(data.subdistrict_name);
+  //   this.form.controls.kab.setValue(data.city);
+  //   this.form.controls.prov.setValue(data.province);
+  //   this.form.controls.kec_id.setValue(data.subdistrict_id);
+  //   this.form.controls.kab_id.setValue(data.city_id);
+  //   this.form.controls.prov_id.setValue(data.province_id);
+  //   this.kecPilihan = data;
+  //   console.log(this.form.value);
+  //   this.editKec = false;
+  // }
 
   async update() {
     this.onupdate = true;

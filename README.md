@@ -18,6 +18,7 @@
 + Bantuan Chat WA
 + fitur cek ongkir
 + Feed Page
++ Direct Checkout Button
 
 + Edit akun (nama & foto pp)
 + Grid style store page

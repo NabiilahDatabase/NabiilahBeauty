@@ -5,6 +5,8 @@ import { EditProfilePage } from 'src/app/pages/user/edit-profile/edit-profile.pa
 import { Observable } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 
+import { Crop } from '@ionic-native/crop/ngx';
+
 @Component({
   selector: 'app-akun',
   templateUrl: 'akun.page.html',

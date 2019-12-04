@@ -34,7 +34,7 @@ export class ItemPage {
     });
   }
 
-  keep() {
+  keep(checkout?: boolean) {
     if (this.userService.user) {
       this.cartService.addCart({
         id: this.navParam.get('data'),
@@ -43,6 +43,9 @@ export class ItemPage {
       });
     } else {
       this.tool.saveRoute('/login');
+    }
+    if (checkout) {
+      this.tool.saveRoute('/cart');
     }
     this.dismiss();
   }

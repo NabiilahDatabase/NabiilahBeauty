@@ -62,22 +62,26 @@
   </div>
   
 </ion-content>
-<ion-toolbar *ngIf="product">
-  <ion-buttons slot="end">
-    <ion-button color="beauty" shape="round" fill="solid" [disabled]="product.stock==0" (click)="keep()">
-      <ion-icon name="cart" slot="icon-only"></ion-icon>&nbsp;
-      <span *ngIf="product.stock!=0">TAMBAH</span>
-      <span *ngIf="product.stock==0">HABIS</span>
-    </ion-button>
-  </ion-buttons>
-  <ion-buttons slot="start">
-    <ion-label>&nbsp;<strong>JUMLAH:</strong>&nbsp;&nbsp;</ion-label>
-    <ion-chip style="margin-right:10px" (click)="c(-1)" outline color="beauty">
-      <ion-icon style="margin:0" name="remove-circle"></ion-icon>
-    </ion-chip>
-    <div class="count"><strong>{{ jumlah }}</strong></div>
-    <ion-chip style="margin-left:10px" (click)="c(1)" outline color="beauty">
-      <ion-icon style="margin:0" name="add-circle"></ion-icon>
-    </ion-chip>
-  </ion-buttons>
-</ion-toolbar>
+<ion-footer>
+  <ion-toolbar *ngIf="product">
+      <ion-button class="co-btn" color="danger" fill="solid" expand="full" *ngIf="product.stock>0" (click)="keep(true)">
+        <ion-icon name="cart"></ion-icon>
+        <span>&nbsp;BELI</span>
+      </ion-button>
+      <ion-button class="add-btn" color="beauty" fill="solid" expand="full" [disabled]="product.stock==0" (click)="keep()">
+        <ion-icon name="add" slot="icon-only"></ion-icon>
+        <span *ngIf="product.stock!=0">&nbsp;TAMBAH</span>
+        <span *ngIf="product.stock==0">&nbsp;HABIS</span>
+      </ion-button>
+    
+    <ion-buttons slot="start">
+      <ion-chip style="margin-right:10px" (click)="c(-1)" outline color="beauty">
+        <ion-icon style="margin:0" name="remove-circle"></ion-icon>
+      </ion-chip>
+      <div class="count"><strong>{{ jumlah }}</strong></div>
+      <ion-chip style="margin-left:10px" (click)="c(1)" outline color="beauty">
+        <ion-icon style="margin:0" name="add-circle"></ion-icon>
+      </ion-chip>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
