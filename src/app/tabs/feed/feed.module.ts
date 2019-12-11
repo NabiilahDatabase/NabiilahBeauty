@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { FeedPageRoutingModule } from './feed-routing.module';
 
 import { FeedPage } from './feed.page';
+import { NgPipesModule } from 'ngx-pipes';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FeedPageRoutingModule
+    FeedPageRoutingModule,
+    NgPipesModule,
   ],
   declarations: [FeedPage]
 })

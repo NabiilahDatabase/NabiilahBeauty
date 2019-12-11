@@ -83,7 +83,7 @@ import { ApolloModule } from 'apollo-angular';
     FirebaseAnalytics,
     WebView,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: StorageBucket, useValue: 'nabiilah-duit.appspot.com' },
+    { provide: StorageBucket, useValue: 'nabiilah-data.appspot.com' },
     { provide: FunctionsRegionToken, useValue: 'us-central1' },
   ],
   bootstrap: [AppComponent]

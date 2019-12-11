@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 
 import { Crop } from '@ionic-native/crop/ngx';
+import { ToolService } from 'src/app/services/tool.service';
 
 @Component({
   selector: 'app-akun',
@@ -21,6 +22,7 @@ export class AkunPage implements OnInit {
     public userService: UserService,
     private modal: ModalController,
     private dataService: DataService,
+    private tool: ToolService,
   ) {
     this.userInfo = this.userService.getUserInfo();
     this.task = this.userInfo.subscribe(res => this.userData = res);
@@ -44,6 +46,10 @@ export class AkunPage implements OnInit {
       }
     });
     await modal.present();
+  }
+
+  openCart() {
+    this.tool.saveRoute('/cart');
   }
 
   logOut() {

@@ -3,7 +3,13 @@
     <ion-title>
       Akun Anda
     </ion-title>
-    <ion-buttons slot="primary">
+    <ion-buttons *ngIf="userInfo | async as user" slot="end">
+      <ion-button (click)="openCart()" slot="end" color="light">
+        <ion-icon slot="icon-only" name="cart"></ion-icon>
+      </ion-button>
+      <ion-badge *ngIf="user.cart!==0" (click)="openCart()" color="light">{{ user.cart }}pc</ion-badge>
+    </ion-buttons>
+    <ion-buttons slot="start">
       <ion-button (click)="logOut()" color="light">
         <ion-icon slot="icon-only" name="exit"></ion-icon>
       </ion-button>

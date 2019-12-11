@@ -1,17 +1,23 @@
 <ion-header>
-  <ion-toolbar mode="ios">
+  <ion-toolbar mode="ios" color="beauty">
     <ion-title>Kabar Berita</ion-title>
+    <ion-buttons *ngIf="userInfo" slot="end">
+      <ion-button (click)="openCart()" slot="end" color="light">
+        <ion-icon slot="icon-only" name="cart"></ion-icon>
+      </ion-button>
+      <ion-badge *ngIf="userInfo.cart!==0" (click)="openCart()" color="light">{{ userInfo.cart }}pc</ion-badge>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="posting">
+<ion-content *ngIf="!onload">
+  <div class="posting" *ngFor="let post of [1,1,1,1,1,1,1,1,1,1]">
     <ion-item lines="none">
       <ion-avatar slot="start">
         <img src="https://via.placeholder.com/50">
       </ion-avatar>
       <ion-label>
-        <h3>NabiilahBeauty</h3>
+        <h3><strong style="color: var(--ion-color-beauty);">NabiilahBeauty</strong></h3>
         <p>Solo (Surakarta)</p>
       </ion-label>
     </ion-item>
@@ -22,5 +28,49 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+    <ion-buttons slot="start" class="like-btn">
+      <ion-button (click)="like=!like">
+        <ion-icon *ngIf="!like" slot="icon-only" name="heart-empty"></ion-icon>
+        <ion-icon *ngIf="like" slot="icon-only" name="heart" color="danger"></ion-icon>
+      </ion-button>
+      <ion-label style="margin-left:-5px">102</ion-label>
+    </ion-buttons>
+    <ion-item lines="none" style="padding-top: 7px">
+      <ion-text style="font-size: 14px">
+        <strong>NabiilahStore</strong>
+        <span *ngIf="!lengkap">&nbsp;{{status | shorten: 80: '...'}}</span>
+        <span *ngIf="lengkap">&nbsp;{{status}}</span>
+        <ion-button style="margin: -10px 0 0 -5px" *ngIf="!lengkap" fill="clear" color="beauty" (click)="lengkap=true">lainnya</ion-button>
+        <br>
+        <ion-label style="font-size:12px;color:grey;padding-top:3px">12 NOVEMBER 2019</ion-label>
+      </ion-text>
+    </ion-item>
+  </div>
+</ion-content>
+
+<ion-content *ngIf="onload">
+  <div class="posting" *ngFor="let post of [1,1]">
+    <ion-item lines="none">
+      <ion-avatar slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label>
+        <h3><ion-skeleton-text animated style="width: 30%;height: 14px;"></ion-skeleton-text></h3>
+        <p><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col size="12" class="ion-no-padding">
+          <ion-skeleton-text animated style="width: 450px; height: 410px;"></ion-skeleton-text>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div style="padding: 5px 16px">
+      <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 90%"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+    </div>
   </div>
 </ion-content>

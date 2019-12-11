@@ -26,6 +26,14 @@ ion-avatar {
     height: 100px;
     border: solid;
 }
+ion-badge {
+    position: absolute;
+    top: 15px;
+    right: 37px;
+    border-radius: 0px 10px;
+    color: var(--ion-color-primary);
+    padding: 2.5px 5px 3px;
+}
 .numbers {
     font-size: 22px;
 }

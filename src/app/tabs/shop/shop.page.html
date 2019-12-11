@@ -16,7 +16,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="data">
+<ion-content *ngIf="!onload">
   <div class="produk-terbaru">
     <span class='produk-terbaru-title'>PRODUK TERBARU</span>
     <span class='produk-terbaru-link'></span>
@@ -54,7 +54,7 @@
   </div>
 </ion-content>
 
-<ion-content *ngIf="!data">
+<ion-content *ngIf="onload">
   <div class="produk-terbaru">
     <ion-skeleton-text animated style="width:40%;height:15px;margin:0"></ion-skeleton-text>
     <ion-skeleton-text animated style="width:20%;display:block;position:absolute;right:10px"></ion-skeleton-text>
